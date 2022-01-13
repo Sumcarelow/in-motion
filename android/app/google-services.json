@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "291846642902",
+    "firebase_url": "https://in-motion2603.firebaseio.com",
+    "project_id": "in-motion2603",
+    "storage_bucket": "in-motion2603.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291846642902:android:07d07f39da3e910852bd77",
+        "android_client_info": {
+          "package_name": "com.nueng.inmotion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291846642902-egcoe5u7c9urlqq23nuohei93p9t9fjm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nueng.inmotion",
+            "certificate_hash": "da3da041da97d852add1b297830a481cc491df36"
+          }
+        },
+        {
+          "client_id": "291846642902-vc1cn2r1oiav095644c7npgh6t5l38q6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuF40hI2zwjQjBdn3ZftwQ57QhNo-M4FA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291846642902-vc1cn2r1oiav095644c7npgh6t5l38q6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
