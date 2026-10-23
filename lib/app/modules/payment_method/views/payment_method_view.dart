@@ -546,7 +546,7 @@ class PaymentMethodView extends StatelessWidget {
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.payFast != null && Constant.paymentModel!.payFast!.isActive == true,
+                              visible: false,
                               child: Column(
                                 children: [
                                   Container(

@@ -13,7 +13,28 @@
           "package_name": "com.inmotion.customer"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "911810101713-n2iofl3opcranrp3bu33779fhp1lpfd9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inmotion.customer",
+            "certificate_hash": "ea8bb356d6d6faaa1086c8e9f0462686eb027e5c"
+          }
+        },
+        {
+          "client_id": "911810101713-p132kgf65qavdo12f7v6t99o5nmom3g7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inmotion.customer",
+            "certificate_hash": "c6d83b5ed8ca0328cf0843f4735ecb1d60f597e2"
+          }
+        },
+        {
+          "client_id": "911810101713-hll7vrdi2jhrdji0jkrgs9r8l66260qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDKrkHFwsznmgyzjnscFlttRQhsLvlJ9yw"
@@ -21,7 +42,99 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911810101713-hll7vrdi2jhrdji0jkrgs9r8l66260qr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "911810101713-2ggnm2igqst5k4c7git6b4m5jc6bsff4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mytaxi.drivers"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911810101713:android:f066cc63dc55d70418e0f0",
+        "android_client_info": {
+          "package_name": "com.inmotione.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911810101713-3rqf093q2iflid4mcf2auepl5banqb2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inmotione.driver",
+            "certificate_hash": "1389e723aa6d23047e6894a4bd57dfb3b24e8748"
+          }
+        },
+        {
+          "client_id": "911810101713-hll7vrdi2jhrdji0jkrgs9r8l66260qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKrkHFwsznmgyzjnscFlttRQhsLvlJ9yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911810101713-hll7vrdi2jhrdji0jkrgs9r8l66260qr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "911810101713-2ggnm2igqst5k4c7git6b4m5jc6bsff4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mytaxi.drivers"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911810101713:android:62ee8988640059f518e0f0",
+        "android_client_info": {
+          "package_name": "com.mytaxi.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911810101713-hll7vrdi2jhrdji0jkrgs9r8l66260qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKrkHFwsznmgyzjnscFlttRQhsLvlJ9yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911810101713-hll7vrdi2jhrdji0jkrgs9r8l66260qr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "911810101713-2ggnm2igqst5k4c7git6b4m5jc6bsff4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mytaxi.drivers"
+              }
+            }
+          ]
         }
       }
     }

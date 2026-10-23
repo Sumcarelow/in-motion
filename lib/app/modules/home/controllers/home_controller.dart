@@ -7,6 +7,7 @@ import 'package:customer/app/models/location_lat_lng.dart';
 import 'package:customer/app/models/user_model.dart';
 import 'package:customer/constant/collection_name.dart';
 import 'package:customer/constant/constant.dart';
+import 'package:customer/services/secure_backend_service.dart';
 import 'package:customer/utils/fire_store_utils.dart';
 import 'package:customer/utils/notification_service.dart';
 import 'package:customer/utils/utils.dart';
@@ -52,7 +53,8 @@ class HomeController extends GetxController {
   getUserData() async {
     isLoading.value = true;
 
-    UserModel? userModel = await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid());
+    UserModel? userModel =
+        await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid());
     await checkActiveStatus();
     if (userModel != null) {
       profilePic.value = (userModel.profilePic ?? "").isNotEmpty
@@ -60,7 +62,8 @@ class HomeController extends GetxController {
               "https://firebasestorage.googleapis.com/v0/b/go-motion-56f36.firebasestorage.app/o/new_app_-removebg-preview%201.png?alt=media&token=f55b8cd3-ae20-471c-8f39-660e151b4503"
           : "https://firebasestorage.googleapis.com/v0/b/go-motion-56f36.firebasestorage.app/o/new_app_-removebg-preview%201.png?alt=media&token=f55b8cd3-ae20-471c-8f39-660e151b4503";
       name.value = userModel.fullName ?? '';
-      phoneNumber.value = (userModel.countryCode ?? '') + (userModel.phoneNumber ?? '');
+      phoneNumber.value =
+          (userModel.countryCode ?? '') + (userModel.phoneNumber ?? '');
       userModel.fcmToken = await NotificationService.getToken();
       await FireStoreUtils.updateUser(userModel);
       await FireStoreUtils.getBannerList().then((value) {
@@ -72,13 +75,16 @@ class HomeController extends GetxController {
   }
 
   checkActiveStatus() async {
-    UserModel? userModel = await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid());
+    UserModel? userModel =
+        await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid());
     if (userModel!.isActive == false) {
       Get.defaultDialog(
           titlePadding: const EdgeInsets.only(top: 16),
           title: "Account Disabled",
-          middleText: "Your account has been disabled. Please contact the administrator.",
-          titleStyle: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700),
+          middleText:
+              "Your account has been disabled. Please contact the administrator.",
+          titleStyle:
+              GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700),
           barrierDismissible: false,
           onWillPop: () async {
             SystemNavigator.pop();
@@ -94,11 +100,15 @@ class HomeController extends GetxController {
     if (permissionStatus == PermissionStatus.granted) {
       location.enableBackgroundMode(enable: true);
       location.changeSettings(
-          accuracy: LocationAccuracy.high, distanceFilter: double.parse(Constant.driverLocationUpdate.toString()), interval: 2000);
+          accuracy: LocationAccuracy.high,
+          distanceFilter:
+              double.parse(Constant.driverLocationUpdate.toString()),
+          interval: 2000);
       location.onLocationChanged.listen((locationData) {
         log("------>");
         log(locationData.toString());
-        Constant.currentLocation = LocationLatLng(latitude: locationData.latitude, longitude: locationData.longitude);
+        Constant.currentLocation = LocationLatLng(
+            latitude: locationData.latitude, longitude: locationData.longitude);
         // FireStoreUtils
         //     .getDriverUserProfile(FireStoreUtils.getCurrentUid())
         //     .then((value) {
@@ -120,9 +130,14 @@ class HomeController extends GetxController {
         if (permissionStatus == PermissionStatus.granted) {
           location.enableBackgroundMode(enable: true);
           location.changeSettings(
-              accuracy: LocationAccuracy.high, distanceFilter: double.parse(Constant.driverLocationUpdate.toString()), interval: 2000);
+              accuracy: LocationAccuracy.high,
+              distanceFilter:
+                  double.parse(Constant.driverLocationUpdate.toString()),
+              interval: 2000);
           location.onLocationChanged.listen((locationData) async {
-            Constant.currentLocation = LocationLatLng(latitude: locationData.latitude, longitude: locationData.longitude);
+            Constant.currentLocation = LocationLatLng(
+                latitude: locationData.latitude,
+                longitude: locationData.longitude);
             log("------>4");
 
             // FireStoreUtils.getDriverUserProfile(FireStoreUtils.getCurrentUid()).then((value) {
@@ -144,9 +159,12 @@ class HomeController extends GetxController {
       log("------>6");
     }
 
-    if (Constant.isInterCitySharingBid == true && Constant.isParcelBid == true && Constant.isInterCitySharingBid == true) {
+    if (Constant.isInterCitySharingBid == true &&
+        Constant.isParcelBid == true &&
+        Constant.isInterCitySharingBid == true) {
       suggestionView.value = 3;
-    } else if (Constant.isInterCitySharingBid == false && Constant.isInterCitySharingBid == false) {
+    } else if (Constant.isInterCitySharingBid == false &&
+        Constant.isInterCitySharingBid == false) {
       suggestionView.value = 2;
     } else {
       suggestionView.value = 1;
@@ -157,13 +175,10 @@ class HomeController extends GetxController {
 
   Future<void> deleteUserAccount() async {
     try {
-      await FirebaseFirestore.instance.collection(CollectionName.users).doc(FireStoreUtils.getCurrentUid()).delete();
-
-      await FirebaseAuth.instance.currentUser!.delete();
-    } on FirebaseAuthException catch (error) {
-      log("Firebase Auth Exception : $error");
+      await SecureBackendService.requestCustomerAccountDeletion();
     } catch (error) {
       log("Error : $error");
+      rethrow;
     }
   }
 }

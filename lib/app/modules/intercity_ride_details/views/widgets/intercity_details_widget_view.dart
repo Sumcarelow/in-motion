@@ -262,6 +262,8 @@ class InterCityDetailsView extends StatelessWidget {
                                       onTap: () {
                                         Get.to(ChatScreenView(
                                           receiverId: driverUserModel.id ?? '',
+                                          bookingId: controller.interCityModel.value.id ?? '',
+                                          rideCollection: 'intercity_ride',
                                         ));
                                       },
                                       child: SvgPicture.asset("assets/icon/ic_message.svg")),

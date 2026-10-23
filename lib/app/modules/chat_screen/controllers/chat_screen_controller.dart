@@ -19,6 +19,8 @@ class ChatScreenController extends GetxController {
   final messageTextEditorController = TextEditingController().obs;
   RxString message = "".obs;
   RxBool isLoading = true.obs;
+  String bookingId = '';
+  String rideCollection = '';
 
   @override
   void onInit() {
@@ -35,11 +37,14 @@ class ChatScreenController extends GetxController {
     super.onClose();
   }
 
-  getData(String receiverId) async {
+  getData(String receiverId, String bookingId, String rideCollection) async {
+    this.bookingId = bookingId;
+    this.rideCollection = rideCollection;
     await FireStoreUtils.getDriverUserProfile(receiverId).then((value) {
       receiverUserModel.value = value!;
     });
-    await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid()).then((value) {
+    await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid())
+        .then((value) {
       senderUserModel.value = value!;
     });
     isLoading.value = false;
@@ -56,19 +61,25 @@ class ChatScreenController extends GetxController {
         timestamp: Timestamp.now(),
         type: "text");
 
+    final Map<String, dynamic> inboxData = inboxModel.toJson()
+      ..addAll(<String, dynamic>{
+        'bookingId': bookingId,
+        'rideCollection': rideCollection,
+      });
+
     await FireStoreUtils.fireStore
         .collection(CollectionName.chat)
         .doc(senderUserModel.value.id.toString())
         .collection("inbox")
         .doc(receiverUserModel.value.id.toString())
-        .set(inboxModel.toJson());
+        .set(inboxData);
 
     await FireStoreUtils.fireStore
         .collection(CollectionName.chat)
         .doc(receiverUserModel.value.id.toString())
         .collection("inbox")
         .doc(senderUserModel.value.id.toString())
-        .set(inboxModel.toJson());
+        .set(inboxData);
 
     ChatModel chatModel = ChatModel(
         type: "text",
@@ -80,6 +91,12 @@ class ChatScreenController extends GetxController {
         chatID: Constant.getUuid(),
         message: messageTextEditorController.value.text.trim());
 
+    final Map<String, dynamic> chatData = chatModel.toJson()
+      ..addAll(<String, dynamic>{
+        'bookingId': bookingId,
+        'rideCollection': rideCollection,
+      });
+
     message.value = messageTextEditorController.value.text;
     messageTextEditorController.value.clear();
 
@@ -88,18 +105,19 @@ class ChatScreenController extends GetxController {
         .doc(senderUserModel.value.id.toString())
         .collection(receiverUserModel.value.id.toString())
         .doc(chatModel.chatID)
-        .set(chatModel.toJson());
+        .set(chatData);
     await FireStoreUtils.fireStore
         .collection(CollectionName.chat)
         .doc(receiverUserModel.value.id.toString())
         .collection(senderUserModel.value.id.toString())
         .doc(chatModel.chatID)
-        .set(chatModel.toJson());
+        .set(chatData);
 
     Map<String, dynamic> playLoad = <String, dynamic>{
       "type": "chat",
       "senderId": senderUserModel.value.id.toString(),
       "receiverId": receiverUserModel.value.id.toString(),
+      "bookingId": bookingId,
     };
 
     await SendNotification.sendOneNotification(
@@ -107,6 +125,10 @@ class ChatScreenController extends GetxController {
       token: receiverUserModel.value.fcmToken.toString(),
       title: senderUserModel.value.fullName.toString(),
       body: message.value,
+      bookingId: bookingId,
+      driverId: receiverUserModel.value.id.toString(),
+      customerId: senderUserModel.value.id.toString(),
+      senderId: senderUserModel.value.id.toString(),
       payload: playLoad,
     );
 

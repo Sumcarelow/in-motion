@@ -1,5 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await _activateAppCheck();
   configLoading();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -28,6 +31,28 @@ Future<void> main() async {
     ),
     home: const MyApp(),
   ));
+}
+
+Future<void> _activateAppCheck() async {
+  if (kIsWeb) {
+    const String siteKey = String.fromEnvironment(
+      'FIREBASE_RECAPTCHA_V3_SITE_KEY',
+    );
+    if (siteKey.isNotEmpty) {
+      await FirebaseAppCheck.instance.activate(
+        webProvider: ReCaptchaV3Provider(siteKey),
+      );
+    }
+    return;
+  }
+
+  await FirebaseAppCheck.instance.activate(
+    androidProvider:
+        kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
+    appleProvider: kDebugMode
+        ? AppleProvider.debug
+        : AppleProvider.appAttestWithDeviceCheckFallback,
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -54,7 +79,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   void getCurrentAppTheme() async {
-    themeChangeProvider.darkTheme = await themeChangeProvider.darkThemePreference.getTheme();
+    themeChangeProvider.darkTheme =
+        await themeChangeProvider.darkThemePreference.getTheme();
   }
 
   @override
@@ -68,7 +94,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           return Listener(
             onPointerUp: (_) {
               FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+              if (!currentFocus.hasPrimaryFocus &&
+                  currentFocus.focusedChild != null) {
                 currentFocus.focusedChild!.unfocus();
               }
             },
@@ -118,5 +145,3 @@ void configLoading() {
     ..userInteractions = true
     ..dismissOnTap = false;
 }
-
-

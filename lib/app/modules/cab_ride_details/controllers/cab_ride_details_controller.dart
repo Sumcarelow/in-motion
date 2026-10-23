@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 import 'dart:math' as maths;
 
 // ignore_for_file: depend_on_referenced_packages
@@ -27,8 +26,11 @@ import 'package:customer/payments/pay_stack/pay_stack_screen.dart';
 import 'package:customer/payments/pay_stack/pay_stack_url_model.dart';
 import 'package:customer/payments/pay_stack/paystack_url_generator.dart';
 import 'package:customer/payments/paypal/PaypalPayment.dart';
+import 'package:customer/services/secure_backend_service.dart';
 import 'package:customer/theme/app_them_data.dart';
 import 'package:customer/utils/fire_store_utils.dart';
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 // import 'package:flutter_paypal_native/flutter_paypal_native.dart';
 // import 'package:flutter_paypal_native/models/custom/currency_code.dart';
@@ -68,7 +70,10 @@ class CabRideDetailsController extends GetxController {
   }
 
   getReview() async {
-    await FirebaseFirestore.instance.collection(CollectionName.review).get().then((value) {
+    await FirebaseFirestore.instance
+        .collection(CollectionName.review)
+        .get()
+        .then((value) {
       for (var element in value.docs) {
         ReviewModel reviewModel = ReviewModel.fromJson(element.data());
         reviewList.add(reviewModel);
@@ -82,7 +87,8 @@ class CabRideDetailsController extends GetxController {
       if (value != null) {
         paymentModel.value = value;
         if (paymentModel.value.strip!.isActive == true) {
-          Stripe.publishableKey = paymentModel.value.strip!.clientPublishableKey.toString();
+          Stripe.publishableKey =
+              paymentModel.value.strip!.clientPublishableKey.toString();
           Stripe.merchantIdentifier = 'MyTaxi';
           Stripe.instance.applySettings();
         }
@@ -94,13 +100,16 @@ class CabRideDetailsController extends GetxController {
         }
       }
     });
-    bookingModel.value = (await FireStoreUtils.getRideDetails(bookingId.value)) ?? BookingModel();
+    bookingModel.value =
+        (await FireStoreUtils.getRideDetails(bookingId.value)) ??
+            BookingModel();
     selectedPaymentMethod.value = bookingModel.value.paymentType.toString();
     await getProfileData();
   }
 
   getProfileData() async {
-    await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid()).then((value) {
+    await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid())
+        .then((value) {
       if (value != null) {
         userModel.value = value;
       }
@@ -114,7 +123,10 @@ class CabRideDetailsController extends GetxController {
 
     bookingModel.value.paymentType = selectedPaymentMethod.value;
     if (bookingModel.value.paymentType == Constant.paymentModel!.cash!.name) {
-      bookingModel.value.paymentStatus = selectedPaymentMethod.value == Constant.paymentModel!.cash!.name ? false : true;
+      bookingModel.value.paymentStatus =
+          selectedPaymentMethod.value == Constant.paymentModel!.cash!.name
+              ? false
+              : true;
     }
 
     //if payment type cash -------->send notification to driver
@@ -129,10 +141,13 @@ class CabRideDetailsController extends GetxController {
         type: Constant.typeDriver,
         note: "Ride fee Credited ");
 
-    await FireStoreUtils.setWalletTransaction(transactionModel).then((value) async {
+    await FireStoreUtils.setWalletTransaction(transactionModel)
+        .then((value) async {
       if (value == true) {
         await FireStoreUtils.updateOtherUserWallet(
-            amount: Constant.calculateFinalAmount(bookingModel.value).toString(), id: bookingModel.value.driverId!);
+            amount:
+                Constant.calculateFinalAmount(bookingModel.value).toString(),
+            id: bookingModel.value.driverId!);
       }
     }).catchError((error) {
       log('========> error of set wallwtee $error');
@@ -151,7 +166,8 @@ class CabRideDetailsController extends GetxController {
         note: "Admin commission Debited",
         adminCommission: bookingModel.value.adminCommission);
 
-    await FireStoreUtils.setWalletTransaction(adminCommissionWallet).then((value) async {
+    await FireStoreUtils.setWalletTransaction(adminCommissionWallet)
+        .then((value) async {
       if (value == true) {
         await FireStoreUtils.updateOtherUserWallet(
             amount:
@@ -171,13 +187,18 @@ class CabRideDetailsController extends GetxController {
     });
     log('====---444--> selecte payment status ${bookingModel.value.paymentStatus}');
 
-    DriverUserModel? receiverUserModel = await FireStoreUtils.getDriverUserProfile(bookingModel.value.driverId.toString());
-    Map<String, dynamic> playLoad = <String, dynamic>{"bookingId": bookingModel.value.id};
+    DriverUserModel? receiverUserModel =
+        await FireStoreUtils.getDriverUserProfile(
+            bookingModel.value.driverId.toString());
+    Map<String, dynamic> playLoad = <String, dynamic>{
+      "bookingId": bookingModel.value.id
+    };
     await SendNotification.sendOneNotification(
         type: "order",
         token: receiverUserModel!.fcmToken.toString(),
         title: 'Payment Received'.tr,
-        body: 'Payment Received for Ride #${bookingModel.value.id.toString().substring(0, 5)}',
+        body:
+            'Payment Received for Ride #${bookingModel.value.id.toString().substring(0, 5)}',
         bookingId: bookingModel.value.id,
         driverId: bookingModel.value.driverId.toString(),
         senderId: FireStoreUtils.getCurrentUid(),
@@ -190,9 +211,14 @@ class CabRideDetailsController extends GetxController {
 
   Future<String> getDistanceInKm() async {
     String km = '';
-    LatLng departureLatLong = LatLng(bookingModel.value.pickUpLocation!.latitude ?? 0.0, bookingModel.value.pickUpLocation!.longitude ?? 0.0);
-    LatLng destinationLatLong = LatLng(bookingModel.value.dropLocation!.latitude ?? 0.0, bookingModel.value.dropLocation!.longitude ?? 0.0);
-    MapModel? mapModel = await Constant.getDurationDistance(departureLatLong, destinationLatLong);
+    LatLng departureLatLong = LatLng(
+        bookingModel.value.pickUpLocation!.latitude ?? 0.0,
+        bookingModel.value.pickUpLocation!.longitude ?? 0.0);
+    LatLng destinationLatLong = LatLng(
+        bookingModel.value.dropLocation!.latitude ?? 0.0,
+        bookingModel.value.dropLocation!.longitude ?? 0.0);
+    MapModel? mapModel = await Constant.getDurationDistance(
+        departureLatLong, destinationLatLong);
     if (mapModel != null) {
       km = mapModel.rows!.first.elements!.first.distance!.text!;
     }
@@ -202,32 +228,21 @@ class CabRideDetailsController extends GetxController {
   // ::::::::::::::::::::::::::::::::::::::::::::Wallet::::::::::::::::::::::::::::::::::::::::::::::::::::
   walletPaymentMethod() async {
     ShowToastDialog.showLoader("Please wait".tr);
-
-    // bookingModel.value.paymentStatus = true;
-    // ShowToastDialog.showToast("Payment successful");
-    WalletTransactionModel transactionModel = WalletTransactionModel(
-        id: Constant.getUuid(),
-        amount: Constant.calculateFinalAmount(bookingModel.value).toString(),
-        createdDate: Timestamp.now(),
-        paymentType: selectedPaymentMethod.value,
-        transactionId: DateTime.now().millisecondsSinceEpoch.toString(),
-        userId: FireStoreUtils.getCurrentUid(),
-        isCredit: false,
-        type: Constant.typeCustomer,
-        note: "Ride fee Debited");
-
-    await FireStoreUtils.setWalletTransaction(transactionModel).then((value) async {
-      if (value == true) {
-        await FireStoreUtils.updateUserWallet(amount: "-${Constant.calculateFinalAmount(bookingModel.value).toString()}").then((value) async {
-          await getProfileData();
-          bookingModel.value.paymentStatus = true;
-          await FireStoreUtils.setBooking(bookingModel.value);
-        });
-      }
-    });
-    ShowToastDialog.closeLoader();
-
-    completeOrder(DateTime.now().millisecondsSinceEpoch.toString());
+    try {
+      await SecureBackendService.payRideWithWallet(
+        collection: 'bookings',
+        rideId: bookingModel.value.id.toString(),
+      );
+      await getProfileData();
+      ShowToastDialog.showToast('Payment successful');
+      Get.back();
+    } catch (error, stackTrace) {
+      log('Secure wallet ride payment failed',
+          error: error, stackTrace: stackTrace);
+      ShowToastDialog.showToast('Payment could not be completed.');
+    } finally {
+      ShowToastDialog.closeLoader();
+    }
   }
 
   // ::::::::::::::::::::::::::::::::::::::::::::Stripe::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -237,10 +252,12 @@ class CabRideDetailsController extends GetxController {
       log(double.parse(amount).toStringAsFixed(0));
       log(double.parse(finalAmount.toString()).toStringAsFixed(0));
       try {
-        Map<String, dynamic>? paymentIntentData = await createStripeIntent(amount: finalAmount.toString());
+        Map<String, dynamic>? paymentIntentData =
+            await createStripeIntent(amount: finalAmount.toString());
         if (paymentIntentData!.containsKey("error")) {
           Get.back();
-          ShowToastDialog.showToast("Something went wrong, please contact admin.");
+          ShowToastDialog.showToast(
+              "Something went wrong, please contact admin.");
         } else {
           await Stripe.instance.initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
@@ -303,8 +320,13 @@ class CabRideDetailsController extends GetxController {
       };
       log(paymentModel.value.strip!.stripeSecret.toString());
       var stripeSecret = paymentModel.value.strip!.stripeSecret;
-      var response = await http.post(Uri.parse('https://api.stripe.com/v1/payment_intents'),
-          body: body, headers: {'Authorization': 'Bearer $stripeSecret', 'Content-Type': 'application/x-www-form-urlencoded'});
+      var response = await http.post(
+          Uri.parse('https://api.stripe.com/v1/payment_intents'),
+          body: body,
+          headers: {
+            'Authorization': 'Bearer $stripeSecret',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          });
 
       return jsonDecode(response.body);
     } catch (e) {
@@ -407,13 +429,19 @@ class CabRideDetailsController extends GetxController {
           'wallets': ['paytm']
         },
         'send_sms_hash': true,
-        'prefill': {'contact': userModel.value.phoneNumber, 'email': userModel.value.email},
+        'prefill': {
+          'contact': userModel.value.phoneNumber,
+          'email': userModel.value.email
+        },
       };
 
       _razorpay.open(options);
-      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_PAYMENT_SUCCESS,
+          _handlePaymentSuccess);
+      _razorpay.on(
+          razor_pay_flutter.Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_EXTERNAL_WALLET,
+          _handleExternalWallet);
     } catch (e) {
       log('Error in razorpayMakePayment: $e');
     }
@@ -424,7 +452,8 @@ class CabRideDetailsController extends GetxController {
 
     ShowToastDialog.showToast("Payment Successfully");
     bookingModel.value.paymentStatus = true;
-    completeOrder(response.paymentId ?? DateTime.now().millisecondsSinceEpoch.toString());
+    completeOrder(
+        response.paymentId ?? DateTime.now().millisecondsSinceEpoch.toString());
     log('Payment Success: ${response.paymentId}');
     _razorpay.clear();
     _razorpay = razor_pay_flutter.Razorpay();
@@ -447,7 +476,8 @@ class CabRideDetailsController extends GetxController {
   }
 
   // ::::::::::::::::::::::::::::::::::::::::::::FlutterWave::::::::::::::::::::::::::::::::::::::::::::::::::::
-  flutterWaveInitiatePayment({required BuildContext context, required String amount}) async {
+  flutterWaveInitiatePayment(
+      {required BuildContext context, required String amount}) async {
     int finalAmount = amount.toInt();
 
     final url = Uri.parse('https://api.flutterwave.com/v3/payments');
@@ -478,7 +508,8 @@ class CabRideDetailsController extends GetxController {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       ShowToastDialog.closeLoader();
-      await Get.to(FlutterWaveScreen(initialURl: data['data']['link']))!.then((value) {
+      await Get.to(FlutterWaveScreen(initialURl: data['data']['link']))!
+          .then((value) {
         if (value != null) {
           log(":::::::::::::::::::::::::::::::::::$value");
           if (value) {
@@ -528,11 +559,13 @@ class CabRideDetailsController extends GetxController {
     maths.Random numRef = maths.Random();
     int year = DateTime.now().year;
     int refNumber = numRef.nextInt(20000);
-    if (Platform.isAndroid) {
-      _ref = "AndroidRef$year$refNumber";
-    } else if (Platform.isIOS) {
-      _ref = "IOSRef$year$refNumber";
+    String platformPrefix = "WebRef";
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+      platformPrefix = "AndroidRef";
+    } else if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+      platformPrefix = "IOSRef";
     }
+    _ref = "$platformPrefix$year$refNumber";
   }
 
   // ::::::::::::::::::::::::::::::::::::::::::::PayStack::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -566,14 +599,16 @@ class CabRideDetailsController extends GetxController {
           }
         });
       } else {
-        ShowToastDialog.showToast("Something went wrong, please contact admin.");
+        ShowToastDialog.showToast(
+            "Something went wrong, please contact admin.");
       }
     });
   }
 
   // ::::::::::::::::::::::::::::::::::::::::::::Mercado Pago::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-  mercadoPagoMakePayment({required BuildContext context, required String amount}) {
+  mercadoPagoMakePayment(
+      {required BuildContext context, required String amount}) {
     int finalAmount = amount.toInt();
 
     makePreference(finalAmount.toString()).then((result) async {
@@ -584,7 +619,9 @@ class CabRideDetailsController extends GetxController {
             var preferenceId = result['response']['id'];
             log(preferenceId);
 
-            Get.to(MercadoPagoScreen(initialURl: result['response']['init_point']))!.then((value) {
+            Get.to(MercadoPagoScreen(
+                    initialURl: result['response']['init_point']))!
+                .then((value) {
               log(value);
 
               if (value) {
@@ -610,10 +647,15 @@ class CabRideDetailsController extends GetxController {
   }
 
   Future<Map<String, dynamic>> makePreference(String amount) async {
-    final mp = MP.fromAccessToken(paymentModel.value.mercadoPago!.mercadoPagoAccessToken);
+    final mp = MP.fromAccessToken(
+        paymentModel.value.mercadoPago!.mercadoPagoAccessToken);
     var pref = {
       "items": [
-        {"title": "Wallet TopUp", "quantity": 1, "unit_price": double.parse(amount)}
+        {
+          "title": "Wallet TopUp",
+          "quantity": 1,
+          "unit_price": double.parse(amount)
+        }
       ],
       "auto_return": "all",
       "back_urls": {
@@ -632,9 +674,13 @@ class CabRideDetailsController extends GetxController {
   payFastPayment({required BuildContext context, required String amount}) {
     int finalAmount = amount.toInt();
 
-    PayStackURLGen.getPayHTML(payFastSettingData: paymentModel.value.payFast!, amount: finalAmount.toString(), userModel: userModel.value)
+    PayStackURLGen.getPayHTML(
+            payFastSettingData: paymentModel.value.payFast!,
+            amount: finalAmount.toString(),
+            userModel: userModel.value)
         .then((String? value) async {
-      bool isDone = await Get.to(PayFastScreen(htmlData: value!, payFastSettingData: paymentModel.value.payFast!));
+      bool isDone = await Get.to(PayFastScreen(
+          htmlData: value!, payFastSettingData: paymentModel.value.payFast!));
       if (isDone) {
         Get.back();
         ShowToastDialog.showToast("Payment successfully");

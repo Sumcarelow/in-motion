@@ -7,26 +7,42 @@
   "dataconnect": {
     "source": "dataconnect"
   },
-  "firestore": {
-    "database": "(default)",
-    "location": "nam5",
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
-        "npm --prefix \"$RESOURCE_DIR\" run build"
-      ]
-    }
-  ],
-  "storage": {
-    "rules": "storage.rules"
-  },
   "database": {
     "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "go-motion-56f36",
+          "appId": "1:911810101713:android:a8f87d59cd25a0df18e0f0",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "go-motion-56f36",
+          "configurations": {
+            "android": "1:911810101713:android:a8f87d59cd25a0df18e0f0",
+            "ios": "1:911810101713:ios:91eff7438c9dc48b18e0f0",
+            "web": "1:911810101713:web:c968c1f08523c85018e0f0"
+          }
+        }
+      }
+    }
   }
 }

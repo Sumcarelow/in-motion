@@ -187,6 +187,8 @@ class AppPages {
       name: _Paths.CHAT_SCREEN,
       page: () => const ChatScreenView(
         receiverId: '',
+        bookingId: '',
+        rideCollection: '',
       ),
       binding: ChatScreenBinding(),
     ),

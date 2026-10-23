@@ -1,9 +1,10 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:customer/constant/constant.dart';
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:get/get.dart';
 import 'package:customer/app/modules/home/views/home_view.dart';
 import 'package:customer/constant_widgets/show_toast_dialog.dart';
@@ -11,6 +12,9 @@ import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart' as perm;
 
 class PermissionController extends GetxController {
+  bool get _isAndroid =>
+      !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+
   @override
   void onInit() {
     super.onInit();
@@ -37,7 +41,7 @@ class PermissionController extends GetxController {
       bool isBackgroundPermissionGranted = await requestBackgroundLocationPermission();
 
       if (isBackgroundPermissionGranted) {
-        if (Platform.isAndroid) {
+        if (_isAndroid) {
           location.enableBackgroundMode(enable: true).then((value) {
             if (value) {
               Get.to(const HomeView());
@@ -60,7 +64,7 @@ class PermissionController extends GetxController {
   }
 
   Future<bool> requestBackgroundLocationPermission() async {
-    if (Platform.isAndroid) {
+    if (_isAndroid) {
       perm.PermissionStatus backgroundPermissionStatus = await perm.Permission.locationAlways.status;
 
       if (backgroundPermissionStatus != perm.PermissionStatus.granted) {

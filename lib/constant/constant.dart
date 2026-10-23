@@ -24,6 +24,7 @@ import 'package:customer/theme/app_them_data.dart';
 import 'package:customer/utils/dark_theme_provider.dart';
 import 'package:customer/utils/fire_store_utils.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -345,7 +346,7 @@ class Constant {
       loc.PermissionStatus permissionStatus = await location.hasPermission();
 
       if (permissionStatus == loc.PermissionStatus.granted) {
-        if (Platform.isAndroid) {
+        if (!kIsWeb && Platform.isAndroid) {
           bool bgMode = await location.enableBackgroundMode(enable: true);
           return bgMode;
         } else {
@@ -359,7 +360,7 @@ class Constant {
         // If permission is denied, request it again.
         loc.PermissionStatus newStatus = await location.requestPermission();
         if (newStatus == loc.PermissionStatus.granted) {
-          if (Platform.isAndroid) {
+          if (!kIsWeb && Platform.isAndroid) {
             bool bgMode = await location.enableBackgroundMode(enable: true);
             return bgMode;
           } else {
@@ -410,7 +411,7 @@ class Constant {
 
   void launchCall(String? url) {
     if (url!.validate().isNotEmpty) {
-      if (Platform.isIOS) {
+      if (!kIsWeb && Platform.isIOS) {
         commonLaunchUrl('tel://$url', launchMode: LaunchMode.externalApplication);
       } else {
         commonLaunchUrl('tel:$url', launchMode: LaunchMode.externalApplication);

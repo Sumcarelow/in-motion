@@ -16,8 +16,15 @@ import '../controllers/chat_screen_controller.dart';
 
 class ChatScreenView extends StatelessWidget {
   final String receiverId;
+  final String bookingId;
+  final String rideCollection;
 
-  const ChatScreenView({super.key, required this.receiverId});
+  const ChatScreenView({
+    super.key,
+    required this.receiverId,
+    required this.bookingId,
+    required this.rideCollection,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +32,26 @@ class ChatScreenView extends StatelessWidget {
     return GetBuilder(
         init: ChatScreenController(),
         builder: (controller) {
-          controller.getData(receiverId);
+          controller.getData(receiverId, bookingId, rideCollection);
           return Obx(
             () => SafeArea(
               child: Scaffold(
-                backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+                backgroundColor: themeChange.isDarkTheme()
+                    ? AppThemData.black
+                    : AppThemData.white,
                 appBar: AppBar(
                   surfaceTintColor: Colors.transparent,
-                  backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+                  backgroundColor: themeChange.isDarkTheme()
+                      ? AppThemData.black
+                      : AppThemData.white,
                   titleSpacing: 0,
                   automaticallyImplyLeading: true,
-                  shape: Border(bottom: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100, width: 1)),
+                  shape: Border(
+                      bottom: BorderSide(
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey800
+                              : AppThemData.grey100,
+                          width: 1)),
                   title: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -46,16 +62,26 @@ class ChatScreenView extends StatelessWidget {
                             height: 36,
                             width: 36,
                             fit: BoxFit.cover,
-                            imageUrl: controller.receiverUserModel.value.profilePic == null || controller.receiverUserModel.value.profilePic == ""
+                            imageUrl: controller.receiverUserModel.value
+                                            .profilePic ==
+                                        null ||
+                                    controller.receiverUserModel.value
+                                            .profilePic ==
+                                        ""
                                 ? Constant.profileConstant
-                                : controller.receiverUserModel.value.profilePic.toString()),
+                                : controller.receiverUserModel.value.profilePic
+                                    .toString()),
                       ),
                       const SizedBox(
                         width: 12,
                       ),
-                      Text(controller.receiverUserModel.value.fullName.toString(),
+                      Text(
+                          controller.receiverUserModel.value.fullName
+                              .toString(),
                           style: GoogleFonts.inter(
-                            color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                            color: themeChange.isDarkTheme()
+                                ? AppThemData.white
+                                : AppThemData.black,
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                             height: 0.08,
@@ -65,7 +91,8 @@ class ChatScreenView extends StatelessWidget {
                   actions: [
                     InkWell(
                         onTap: () {
-                          Constant().launchCall("${controller.receiverUserModel.value.countryCode}${controller.receiverUserModel.value.phoneNumber}");
+                          Constant().launchCall(
+                              "${controller.receiverUserModel.value.countryCode}${controller.receiverUserModel.value.phoneNumber}");
                         },
                         child: SvgPicture.asset("assets/icon/ic_phone.svg")),
                     const SizedBox(width: 12),
@@ -81,22 +108,39 @@ class ChatScreenView extends StatelessWidget {
                               query: FireStoreUtils.fireStore
                                   .collection(CollectionName.chat)
                                   .doc(controller.senderUserModel.value.id)
-                                  .collection(controller.receiverUserModel.value.id.toString())
+                                  .collection(controller
+                                      .receiverUserModel.value.id
+                                      .toString())
                                   .orderBy("timestamp", descending: true),
                               itemBuilderType: PaginateBuilderType.listView,
                               isLive: true,
-                              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                              physics: const BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()),
                               shrinkWrap: true,
                               reverse: true,
-                              onEmpty: Constant.showEmptyView(message: "No conversion found".tr),
+                              onEmpty: Constant.showEmptyView(
+                                  message: "No conversion found".tr),
                               onError: (error) {
                                 return ErrorWidget(error);
                               },
                               itemBuilder: (context, documentSnapshots, index) {
-                                ChatModel chatModel = ChatModel.fromJson(documentSnapshots[index].data() as Map<String, dynamic>);
+                                ChatModel chatModel = ChatModel.fromJson(
+                                    documentSnapshots[index].data()
+                                        as Map<String, dynamic>);
                                 return Container(
-                                    padding: const EdgeInsets.only(left: 14, right: 14, top: 06, bottom: 06),
-                                    child: chatBubbles(chatModel.senderId == controller.senderUserModel.value.id ? true : false, chatModel, themeChange));
+                                    padding: const EdgeInsets.only(
+                                        left: 14,
+                                        right: 14,
+                                        top: 06,
+                                        bottom: 06),
+                                    child: chatBubbles(
+                                        chatModel.senderId ==
+                                                controller
+                                                    .senderUserModel.value.id
+                                            ? true
+                                            : false,
+                                        chatModel,
+                                        themeChange));
                               },
                             ),
                           ),
@@ -105,30 +149,38 @@ class ChatScreenView extends StatelessWidget {
                             child: TextFormField(
                               keyboardType: TextInputType.text,
                               textCapitalization: TextCapitalization.sentences,
-                              controller: controller.messageTextEditorController.value,
+                              controller:
+                                  controller.messageTextEditorController.value,
                               textAlign: TextAlign.start,
                               maxLines: null,
                               minLines: 1,
                               textInputAction: TextInputAction.done,
                               style: GoogleFonts.inter(
                                 fontSize: 16,
-                                color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey400
+                                    : AppThemData.grey500,
                                 fontWeight: FontWeight.w400,
                               ),
                               decoration: InputDecoration(
-                                  errorStyle: const TextStyle(color: Colors.red),
+                                  errorStyle:
+                                      const TextStyle(color: Colors.red),
                                   isDense: true,
-                                  fillColor: themeChange.isDarkTheme() ? AppThemData.grey900 : AppThemData.grey50,
+                                  fillColor: themeChange.isDarkTheme()
+                                      ? AppThemData.grey900
+                                      : AppThemData.grey50,
                                   filled: true,
                                   enabled: true,
                                   suffixIcon: InkWell(
                                     onTap: () {
-                                      if (controller.messageTextEditorController.value.text.isNotEmpty) {
+                                      if (controller.messageTextEditorController
+                                          .value.text.isNotEmpty) {
                                         controller.sendMessage();
                                       }
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(2, 2, 16, 2),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          2, 2, 16, 2),
                                       child: SvgPicture.asset(
                                         "assets/icon/ic_send.svg",
                                         height: 15,
@@ -136,16 +188,39 @@ class ChatScreenView extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                                  disabledBorder: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(100)), borderSide: BorderSide(color: Colors.transparent)),
-                                  focusedBorder: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(100)), borderSide: BorderSide(color: Colors.transparent)),
-                                  enabledBorder: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(100)), borderSide: BorderSide(color: Colors.transparent)),
-                                  errorBorder: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(100)), borderSide: BorderSide(color: Colors.transparent)),
-                                  border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(100)), borderSide: BorderSide(color: Colors.transparent)),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 20),
+                                  disabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(100)),
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent)),
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(100)),
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent)),
+                                  enabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(100)),
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent)),
+                                  errorBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(100)),
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent)),
+                                  border: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(100)),
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent)),
                                   hintText: "Type your message here...".tr,
                                   hintStyle: GoogleFonts.inter(
                                     fontSize: 16,
-                                    color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey400
+                                        : AppThemData.grey500,
                                   )),
                             ),
                           ),
@@ -159,7 +234,8 @@ class ChatScreenView extends StatelessWidget {
 
   chatBubbles(bool isMe, ChatModel chatModel, themeChange) {
     return Row(
-      mainAxisAlignment: isMe == false ? MainAxisAlignment.start : MainAxisAlignment.end,
+      mainAxisAlignment:
+          isMe == false ? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Flexible(
           child: Container(
@@ -182,7 +258,9 @@ class ChatScreenView extends StatelessWidget {
                         bottomRight: Radius.circular(12),
                       )),
             child: Column(
-              crossAxisAlignment: isMe == false ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+              crossAxisAlignment: isMe == false
+                  ? CrossAxisAlignment.start
+                  : CrossAxisAlignment.end,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,7 +270,9 @@ class ChatScreenView extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                        color: themeChange.isDarkTheme()
+                            ? AppThemData.white
+                            : AppThemData.black,
                       ),
                     ),
                   ],
@@ -204,11 +284,14 @@ class ChatScreenView extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.white
+                          : AppThemData.black,
                     ))
               ],
             ),
-          ).paddingOnly(left: isMe == false ? 0 : 70, right: isMe == false ? 70 : 0),
+          ).paddingOnly(
+              left: isMe == false ? 0 : 70, right: isMe == false ? 70 : 0),
         ),
       ],
     );

@@ -38,7 +38,9 @@ class InterCityPaymentDialogView extends StatelessWidget {
                   height: 5,
                   margin: const EdgeInsets.only(top: 10, bottom: 25),
                   decoration: ShapeDecoration(
-                    color: themeChange.isDarkTheme() ? AppThemData.grey700 : AppThemData.grey200,
+                    color: themeChange.isDarkTheme()
+                        ? AppThemData.grey700
+                        : AppThemData.grey200,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),
@@ -49,7 +51,9 @@ class InterCityPaymentDialogView extends StatelessWidget {
                   child: Text(
                     'Payment Methods'.tr,
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey25
+                          : AppThemData.grey950,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       height: 0.09,
@@ -62,15 +66,21 @@ class InterCityPaymentDialogView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Visibility(
-                        visible: controller.paymentModel.value.cash != null && controller.paymentModel.value.cash!.isActive == true,
+                        visible: controller.paymentModel.value.cash != null &&
+                            controller.paymentModel.value.cash!.isActive ==
+                                true,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.cash!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.cash!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -84,7 +94,9 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                     Text(
                                       Constant.paymentModel!.cash!.name ?? "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -92,28 +104,38 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.cash!.name.toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.cash!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible: controller.paymentModel.value.wallet != null && controller.paymentModel.value.wallet!.isActive == true,
+                        visible: controller.paymentModel.value.wallet != null &&
+                            controller.paymentModel.value.wallet!.isActive ==
+                                true,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.wallet!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.wallet!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -122,13 +144,17 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                       "assets/icon/ic_wallet.svg",
                                       height: 40,
                                       width: 40,
-                                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
                                       Constant.paymentModel!.wallet!.name ?? "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -136,28 +162,38 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.wallet!.name.toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.wallet!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible: controller.paymentModel.value.paypal != null && controller.paymentModel.value.paypal!.isActive == true,
+                        visible: controller.paymentModel.value.paypal != null &&
+                            controller.paymentModel.value.paypal!.isActive ==
+                                true,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.paypal!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.paypal!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -171,7 +207,9 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                     Text(
                                       Constant.paymentModel!.paypal!.name ?? "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -179,28 +217,38 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.paypal!.name.toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.paypal!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible: controller.paymentModel.value.strip != null && controller.paymentModel.value.strip!.isActive == true,
+                        visible: controller.paymentModel.value.strip != null &&
+                            controller.paymentModel.value.strip!.isActive ==
+                                true,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.strip!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.strip!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -214,7 +262,9 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                     Text(
                                       Constant.paymentModel!.strip!.name ?? "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -222,28 +272,39 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.strip!.name.toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.strip!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible: controller.paymentModel.value.razorpay != null && controller.paymentModel.value.razorpay!.isActive == true,
+                        visible: controller.paymentModel.value.razorpay !=
+                                null &&
+                            controller.paymentModel.value.razorpay!.isActive ==
+                                true,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.razorpay!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.razorpay!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -255,9 +316,12 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
-                                      Constant.paymentModel!.razorpay!.name ?? "",
+                                      Constant.paymentModel!.razorpay!.name ??
+                                          "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -265,30 +329,43 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.interCityModel.value.paymentType = Constant.paymentModel!.razorpay!.name.toString();
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.razorpay!.name.toString();
-
+                                  controller.interCityModel.value.paymentType =
+                                      Constant.paymentModel!.razorpay!.name
+                                          .toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.razorpay!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible: controller.paymentModel.value.flutterWave != null && controller.paymentModel.value.flutterWave!.isActive == true,
+                        visible:
+                            controller.paymentModel.value.flutterWave != null &&
+                                controller.paymentModel.value.flutterWave!
+                                        .isActive ==
+                                    true,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.flutterWave!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.flutterWave!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -300,9 +377,13 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
-                                      Constant.paymentModel!.flutterWave!.name ?? "",
+                                      Constant.paymentModel!.flutterWave!
+                                              .name ??
+                                          "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -310,28 +391,39 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.flutterWave!.name.toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.flutterWave!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible: controller.paymentModel.value.payStack != null && controller.paymentModel.value.payStack!.isActive == true,
+                        visible: controller.paymentModel.value.payStack !=
+                                null &&
+                            controller.paymentModel.value.payStack!.isActive ==
+                                true,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.payStack!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.payStack!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -343,9 +435,12 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
-                                      Constant.paymentModel!.payStack!.name ?? "",
+                                      Constant.paymentModel!.payStack!.name ??
+                                          "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -353,28 +448,40 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.payStack!.name.toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.payStack!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible: controller.paymentModel.value.mercadoPago != null && controller.paymentModel.value.mercadoPago!.isActive == true,
+                        visible:
+                            controller.paymentModel.value.mercadoPago != null &&
+                                controller.paymentModel.value.mercadoPago!
+                                        .isActive ==
+                                    true,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.mercadoPago!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.mercadoPago!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -386,9 +493,13 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
-                                      Constant.paymentModel!.mercadoPago!.name ?? "",
+                                      Constant.paymentModel!.mercadoPago!
+                                              .name ??
+                                          "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -396,28 +507,36 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.mercadoPago!.name.toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.mercadoPago!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
                         ),
                       ),
                       Visibility(
-                        visible: controller.paymentModel.value.payFast != null && controller.paymentModel.value.payFast!.isActive == true,
+                        visible: false,
                         child: Column(
                           children: [
                             Container(
-                              transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                              transform:
+                                  Matrix4.translationValues(0.0, -10.0, 0.0),
                               child: RadioListTile(
-                                value: Constant.paymentModel!.payFast!.name.toString(),
-                                groupValue: controller.selectedPaymentMethod.value,
-                                controlAffinity: ListTileControlAffinity.trailing,
+                                value: Constant.paymentModel!.payFast!.name
+                                    .toString(),
+                                groupValue:
+                                    controller.selectedPaymentMethod.value,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
                                 contentPadding: EdgeInsets.zero,
                                 activeColor: AppThemData.primary500,
                                 title: Row(
@@ -429,9 +548,12 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 12),
                                     Text(
-                                      Constant.paymentModel!.payFast!.name ?? "",
+                                      Constant.paymentModel!.payFast!.name ??
+                                          "",
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -439,13 +561,17 @@ class InterCityPaymentDialogView extends StatelessWidget {
                                   ],
                                 ),
                                 onChanged: (value) {
-                                  controller.selectedPaymentMethod.value = Constant.paymentModel!.payFast!.name.toString();
+                                  controller.selectedPaymentMethod.value =
+                                      Constant.paymentModel!.payFast!.name
+                                          .toString();
                                 },
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 40, right: 10),
-                              transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                              padding:
+                                  const EdgeInsets.only(left: 40, right: 10),
+                              transform:
+                                  Matrix4.translationValues(0.0, -20.0, 0.0),
                               child: const Divider(),
                             ),
                           ],
@@ -455,24 +581,36 @@ class InterCityPaymentDialogView extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 21, left: ((Responsive.width(100, context) - 208) / 2), right: ((Responsive.width(100, context) - 208) / 2)),
+                  padding: EdgeInsets.only(
+                      bottom: 21,
+                      left: ((Responsive.width(100, context) - 208) / 2),
+                      right: ((Responsive.width(100, context) - 208) / 2)),
                   child: RoundShapeButton(
                     title: "Confirm",
                     buttonColor: AppThemData.primary500,
                     buttonTextColor: AppThemData.black,
                     onTap: () async {
-                      if (controller.selectedPaymentMethod.value == Constant.paymentModel!.cash!.name) {
+                      if (controller.selectedPaymentMethod.value ==
+                          Constant.paymentModel!.cash!.name) {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return CustomDialogBox(
                                 themeChange: themeChange,
                                 title: "Confirm Cash Payment".tr,
-                                descriptions: "Are you sure you want to pay with cash payment?".tr,
+                                descriptions:
+                                    "Are you sure you want to pay with cash payment?"
+                                        .tr,
                                 positiveString: "Complete".tr,
                                 negativeString: "Cancel".tr,
                                 positiveClick: () async {
-                                  controller.completeOrder(DateTime.now().millisecondsSinceEpoch.toString());
+                                  await FireStoreUtils.selectRidePaymentMethod(
+                                    collection: 'intercity_ride',
+                                    rideId: controller.interCityModel.value.id
+                                        .toString(),
+                                    paymentType:
+                                        controller.selectedPaymentMethod.value,
+                                  );
                                   Navigator.pop(context);
                                 },
                                 negativeClick: () {
@@ -486,15 +624,27 @@ class InterCityPaymentDialogView extends StatelessWidget {
                               );
                             });
                       } else {
-                        DriverUserModel? receiverDriverModel = await FireStoreUtils.getDriverUserProfile(controller.interCityModel.value.driverId.toString());
-                        Map<String, dynamic> playLoad = <String, dynamic>{"bookingId": controller.interCityModel.value.id};
+                        await FireStoreUtils.selectRidePaymentMethod(
+                          collection: 'intercity_ride',
+                          rideId: controller.interCityModel.value.id.toString(),
+                          paymentType: controller.selectedPaymentMethod.value,
+                        );
+                        DriverUserModel? receiverDriverModel =
+                            await FireStoreUtils.getDriverUserProfile(controller
+                                .interCityModel.value.driverId
+                                .toString());
+                        Map<String, dynamic> playLoad = <String, dynamic>{
+                          "bookingId": controller.interCityModel.value.id
+                        };
                         await SendNotification.sendOneNotification(
                             type: "order",
                             token: receiverDriverModel!.fcmToken.toString(),
                             title: 'Payment Method Changed'.tr,
-                            body: 'Customer has opted to pay with ${controller.selectedPaymentMethod.value}',
+                            body:
+                                'Customer has opted to pay with ${controller.selectedPaymentMethod.value}',
                             bookingId: controller.interCityModel.value.id,
-                            driverId: controller.interCityModel.value.driverId.toString(),
+                            driverId: controller.interCityModel.value.driverId
+                                .toString(),
                             senderId: FireStoreUtils.getCurrentUid(),
                             payload: playLoad);
                         Navigator.pop(context);

@@ -1,10 +1,11 @@
-import 'dart:io';
 import 'package:customer/constant_widgets/country_code_selector_view.dart';
 import 'package:customer/constant_widgets/round_shape_button.dart';
 import 'package:customer/constant_widgets/show_toast_dialog.dart';
 import 'package:customer/theme/app_them_data.dart';
 import 'package:customer/utils/dark_theme_provider.dart';
 import 'package:customer/utils/validate_mobile.dart';
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -144,7 +145,8 @@ class LoginView extends StatelessWidget {
                         ),
                       ),
                       Visibility(
-                        visible: Platform.isIOS,
+                        visible: !kIsWeb &&
+                            defaultTargetPlatform == TargetPlatform.iOS,
                         child: Center(
                           child: InkWell(
                             onTap: () {

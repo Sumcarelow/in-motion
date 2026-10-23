@@ -94,7 +94,8 @@ class BookParcelController extends GetxController {
   updateData() async {
     if (destination != null && sourceLocation != null) {
       ShowToastDialog.showLoader("Please wait".tr);
-      mapModel.value = await Constant.getDurationDistance(sourceLocation!, destination!);
+      mapModel.value =
+          await Constant.getDurationDistance(sourceLocation!, destination!);
 
       distanceOfKm.value = DistanceModel(
         distance: distanceCalculate(mapModel.value),
@@ -119,15 +120,19 @@ class BookParcelController extends GetxController {
 
         // if(selectedRideType.value == 1) {
 
-        if (double.parse(distanceOfKm.value.distance!) < double.parse(intercityModel.fareMinimumChargesWithinKm)) {
+        if (double.parse(distanceOfKm.value.distance!) <
+            double.parse(intercityModel.fareMinimumChargesWithinKm)) {
           log("Distance is less than the minimum charge threshold");
           estimatePrice.value = double.parse(intercityModel.farMinimumCharges);
           isEstimatePriceVisible.value = true;
           log('================================> 11111111 =>${estimatePrice.value}');
         } else {
-          estimatePrice.value =
-              double.parse((double.parse(intercityModel.farePerKm) * double.parse(distanceOfKm.value.distance!)).toStringAsFixed(2));
-          addPriceController.value.text = double.parse(estimatePrice.value.toString()).toString();
+          estimatePrice.value = double.parse(
+              (double.parse(intercityModel.farePerKm) *
+                      double.parse(distanceOfKm.value.distance!))
+                  .toStringAsFixed(2));
+          addPriceController.value.text =
+              double.parse(estimatePrice.value.toString()).toString();
           isEstimatePriceVisible.value = true;
 
           log('================================> 2222222=> ${estimatePrice.value}');
@@ -173,7 +178,8 @@ class BookParcelController extends GetxController {
 
   bool isTimeInRange(DateTime selectedTime, String timeSlot) {
     log("Checking time slot: $timeSlot");
-    RegExp fullRangeRegEx = RegExp(r"(\d+)\s*(AM|PM)?\s*-\s*(\d+)\s*(AM|PM)", caseSensitive: false);
+    RegExp fullRangeRegEx =
+        RegExp(r"(\d+)\s*(AM|PM)?\s*-\s*(\d+)\s*(AM|PM)", caseSensitive: false);
     Match? match = fullRangeRegEx.firstMatch(timeSlot);
 
     if (match == null) {
@@ -186,7 +192,9 @@ class BookParcelController extends GetxController {
     int endHour = int.parse(match.group(3)!);
     String endPeriod = match.group(4)!.toUpperCase();
 
-    if (timeSlot.toLowerCase().contains("morning") && endHour == 12 && startPeriod == "AM") {
+    if (timeSlot.toLowerCase().contains("morning") &&
+        endHour == 12 &&
+        startPeriod == "AM") {
       endPeriod = "PM";
     }
 
@@ -196,9 +204,11 @@ class BookParcelController extends GetxController {
 
     bool inRange;
     if (startMinutes < endMinutes) {
-      inRange = (selectedMinutes >= startMinutes && selectedMinutes < endMinutes);
+      inRange =
+          (selectedMinutes >= startMinutes && selectedMinutes < endMinutes);
     } else {
-      inRange = (selectedMinutes >= startMinutes || selectedMinutes < endMinutes);
+      inRange =
+          (selectedMinutes >= startMinutes || selectedMinutes < endMinutes);
     }
 
     log("Extracted range: '$startHour $startPeriod - $endHour $endPeriod'");
@@ -246,16 +256,20 @@ class BookParcelController extends GetxController {
       ChargesModel? intercityModel = calculationOfEstimatePrice();
 
       if (intercityModel != null) {
-        if (double.parse(distanceOfKm.value.distance!) < double.parse(intercityModel.fareMinimumChargesWithinKm)) {
+        if (double.parse(distanceOfKm.value.distance!) <
+            double.parse(intercityModel.fareMinimumChargesWithinKm)) {
           log("Distance is less than the minimum charge threshold");
           estimatePrice.value = double.parse(intercityModel.farMinimumCharges);
           isEstimatePriceVisible.value = true;
 
           log('================================> 11111111 =>${estimatePrice.value}');
         } else {
-          estimatePrice.value =
-              double.parse((double.parse(intercityModel.farePerKm) * double.parse(distanceOfKm.value.distance!)).toStringAsFixed(2));
-          addPriceController.value.text = double.parse(estimatePrice.toString()).toString();
+          estimatePrice.value = double.parse(
+              (double.parse(intercityModel.farePerKm) *
+                      double.parse(distanceOfKm.value.distance!))
+                  .toStringAsFixed(2));
+          addPriceController.value.text =
+              double.parse(estimatePrice.toString()).toString();
           isEstimatePriceVisible.value = true;
 
           log('================================> 2222222=> ${estimatePrice.value}');
@@ -273,9 +287,13 @@ class BookParcelController extends GetxController {
 
   getData() async {
     currentLocationPosition = await Utils.getCurrentLocation();
-    Constant.country =
-        (await placemarkFromCoordinates(currentLocationPosition!.latitude, currentLocationPosition!.longitude))[0].country ?? 'Unknown';
-    sourceLocation = LatLng(currentLocationPosition!.latitude, currentLocationPosition!.longitude);
+    Constant.country = (await placemarkFromCoordinates(
+                currentLocationPosition!.latitude,
+                currentLocationPosition!.longitude))[0]
+            .country ??
+        'Unknown';
+    sourceLocation = LatLng(
+        currentLocationPosition!.latitude, currentLocationPosition!.longitude);
 
     isLoading.value = false;
   }
@@ -295,7 +313,12 @@ class BookParcelController extends GetxController {
       mimeType.value = 'image/png';
       String docId = parcelModel.value.id.toString();
 
-      String url = await Constant.uploadPic(PickedFile(selectedImage.value!.path), "parcelImage", docId, mimeType.value);
+      String url = await Constant.uploadPic(
+        PickedFile(selectedImage.value!.path),
+        "parcelImage/${FireStoreUtils.getCurrentUid()}",
+        docId,
+        mimeType.value,
+      );
       parcelModel.value.parcelImage = url;
       log('=================> image url in update  $url');
     }
@@ -318,10 +341,16 @@ class BookParcelController extends GetxController {
     parcelModel.value.updateAt = Timestamp.now();
     parcelModel.value.bookingTime = Timestamp.now();
     parcelModel.value.rideStartTime = selectedTime.value;
-    parcelModel.value.pickUpLocation = LocationLatLng(latitude: sourceLocation!.latitude, longitude: sourceLocation!.longitude);
-    parcelModel.value.dropLocation = LocationLatLng(latitude: destination!.latitude, longitude: destination!.longitude);
-    GeoFirePoint position = GeoFlutterFire().point(latitude: sourceLocation!.latitude, longitude: sourceLocation!.longitude);
-    parcelModel.value.position = Positions(geoPoint: position.geoPoint, geohash: position.hash);
+    parcelModel.value.pickUpLocation = LocationLatLng(
+        latitude: sourceLocation!.latitude,
+        longitude: sourceLocation!.longitude);
+    parcelModel.value.dropLocation = LocationLatLng(
+        latitude: destination!.latitude, longitude: destination!.longitude);
+    GeoFirePoint position = GeoFlutterFire().point(
+        latitude: sourceLocation!.latitude,
+        longitude: sourceLocation!.longitude);
+    parcelModel.value.position =
+        Positions(geoPoint: position.geoPoint, geohash: position.hash);
     parcelModel.value.distance = DistanceModel(
       distance: distanceCalculate(mapModel.value),
       distanceType: Constant.distanceType,
@@ -331,12 +360,14 @@ class BookParcelController extends GetxController {
     parcelModel.value.paymentStatus = false;
     parcelModel.value.taxList = taxList;
     parcelModel.value.adminCommission = Constant.adminCommission!;
-    parcelModel.value.startDate = DateFormat('yyyy-MM-dd').format(selectedDate.value!);
+    parcelModel.value.startDate =
+        DateFormat('yyyy-MM-dd').format(selectedDate.value!);
     parcelModel.value.subTotal = addPriceController.value.text;
     parcelModel.value.setPrice = addPriceController.value.text;
     parcelModel.value.weight = weightController.value.text;
     parcelModel.value.dimension = dimensionController.value.text;
-    parcelModel.value.recommendedPrice = double.parse(estimatePrice.value.toString()).toString();
+    parcelModel.value.recommendedPrice =
+        double.parse(estimatePrice.value.toString()).toString();
 
     parcelModel.value = ParcelModel.fromJson(parcelModel.value.toJson());
 
@@ -369,7 +400,8 @@ class BookParcelController extends GetxController {
 
   Future<void> pickFile({required ImageSource source}) async {
     try {
-      XFile? image = await imagePicker.pickImage(source: source, imageQuality: 100);
+      XFile? image =
+          await imagePicker.pickImage(source: source, imageQuality: 100);
       if (image == null) return;
       Get.back();
 
@@ -390,7 +422,8 @@ class BookParcelController extends GetxController {
       await compressedFile.writeAsBytes(compressedBytes);
 
       log('==========> compressedFile ${compressedFile.path}');
-      selectedImage.value = compressedFile; // Store the File object, not a string
+      selectedImage.value =
+          compressedFile; // Store the File object, not a string
     } on PlatformException catch (e) {
       Get.snackbar("Error", "Failed to pick image: $e");
     }
@@ -402,9 +435,13 @@ class BookParcelController extends GetxController {
 
   String distanceCalculate(MapModel? value) {
     if (Constant.distanceType == "Km") {
-      return (value!.rows!.first.elements!.first.distance!.value!.toInt() / 1000).toString();
+      return (value!.rows!.first.elements!.first.distance!.value!.toInt() /
+              1000)
+          .toString();
     } else {
-      return (value!.rows!.first.elements!.first.distance!.value!.toInt() / 1609.34).toString();
+      return (value!.rows!.first.elements!.first.distance!.value!.toInt() /
+              1609.34)
+          .toString();
     }
   }
 }

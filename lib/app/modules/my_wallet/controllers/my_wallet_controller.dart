@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 // ignore_for_file: depend_on_referenced_packages
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,28 +31,35 @@ import 'package:customer/app/models/wallet_transaction_model.dart';
 import 'package:customer/constant/constant.dart';
 import 'package:customer/constant_widgets/show_toast_dialog.dart';
 import 'package:customer/payments/marcado_pago/mercado_pago_screen.dart';
-import 'package:customer/payments/pay_fast/pay_fast_screen.dart';
 import 'package:customer/payments/pay_stack/pay_stack_screen.dart';
 import 'package:customer/payments/pay_stack/pay_stack_url_model.dart';
 import 'package:customer/payments/pay_stack/paystack_url_generator.dart';
 import 'package:customer/theme/app_them_data.dart';
+import 'package:customer/services/secure_backend_service.dart';
 import 'package:customer/utils/fire_store_utils.dart';
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:mp_integration/mp_integration.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart' as razor_pay_flutter;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class MyWalletController extends GetxController {
+class MyWalletController extends GetxController with WidgetsBindingObserver {
   TextEditingController amountController = TextEditingController(text: "100");
   Rx<PaymentModel> paymentModel = PaymentModel().obs;
   RxString selectedPaymentMethod = "".obs;
   razor_pay_flutter.Razorpay _razorpay = razor_pay_flutter.Razorpay();
   Rx<UserModel> userModel = UserModel().obs;
-  RxList<WalletTransactionModel> walletTransactionList = <WalletTransactionModel>[].obs;
+  RxList<WalletTransactionModel> walletTransactionList =
+      <WalletTransactionModel>[].obs;
 
   Rx<TransactionLogModel> transactionLogModel = TransactionLogModel().obs;
+  String? _pendingPayFastTopUpId;
+  bool _isPollingPayFast = false;
 
   @override
   void onInit() {
+    WidgetsBinding.instance.addObserver(this);
     getPayments();
     super.onInit();
   }
@@ -65,8 +71,16 @@ class MyWalletController extends GetxController {
 
   @override
   void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
     _razorpay.clear();
     super.onClose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _pendingPayFastTopUpId != null) {
+      unawaited(_pollPendingPayFastTopUp());
+    }
   }
 
   getPayments() async {
@@ -75,7 +89,8 @@ class MyWalletController extends GetxController {
       if (value != null) {
         paymentModel.value = value;
         if (paymentModel.value.strip!.isActive == true) {
-          Stripe.publishableKey = paymentModel.value.strip!.clientPublishableKey.toString();
+          Stripe.publishableKey =
+              paymentModel.value.strip!.clientPublishableKey.toString();
           Stripe.merchantIdentifier = 'In Motione';
           Stripe.instance.applySettings();
         }
@@ -99,7 +114,8 @@ class MyWalletController extends GetxController {
   }
 
   getProfileData() async {
-    await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid()).then((value) {
+    await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid())
+        .then((value) {
       if (value != null) {
         userModel.value = value;
       }
@@ -120,9 +136,12 @@ class MyWalletController extends GetxController {
         type: "customer",
         note: "Wallet Top up");
     ShowToastDialog.showLoader("Please wait".tr);
-    await FireStoreUtils.setWalletTransaction(transactionModel).then((value) async {
+    await FireStoreUtils.setWalletTransaction(transactionModel)
+        .then((value) async {
       if (value == true) {
-        await FireStoreUtils.updateUserWallet(amount: amountController.value.text).then((value) async {
+        await FireStoreUtils.updateUserWallet(
+                amount: amountController.value.text)
+            .then((value) async {
           await getProfileData();
           await getWalletTransactions();
         });
@@ -156,10 +175,12 @@ class MyWalletController extends GetxController {
     try {
       log(double.parse(amount).toStringAsFixed(0));
       try {
-        Map<String, dynamic>? paymentIntentData = await createStripeIntent(amount: amount);
+        Map<String, dynamic>? paymentIntentData =
+            await createStripeIntent(amount: amount);
         if (paymentIntentData!.containsKey("error")) {
           Get.back();
-          ShowToastDialog.showToast("Something went wrong, please contact admin.");
+          ShowToastDialog.showToast(
+              "Something went wrong, please contact admin.");
         } else {
           await Stripe.instance.initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
@@ -177,7 +198,9 @@ class MyWalletController extends GetxController {
                     ),
                   ),
                   merchantDisplayName: 'In Motione'));
-          displayStripePaymentSheet(amount: amount, client_secret: paymentIntentData['client_secret']);
+          displayStripePaymentSheet(
+              amount: amount,
+              client_secret: paymentIntentData['client_secret']);
         }
       } catch (e, s) {
         log("$e \n$s");
@@ -188,7 +211,8 @@ class MyWalletController extends GetxController {
     }
   }
 
-  displayStripePaymentSheet({required String amount, required String client_secret}) async {
+  displayStripePaymentSheet(
+      {required String amount, required String client_secret}) async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) async {
         ShowToastDialog.showToast("Payment successfully");
@@ -197,7 +221,8 @@ class MyWalletController extends GetxController {
           (value) {
             log('=================> Stripe  payment  ========> ${value.toJson()}');
             completeOrder(value.id);
-            setTransactionLog(isCredit: true, transactionId: value.id, transactionLog: value);
+            setTransactionLog(
+                isCredit: true, transactionId: value.id, transactionLog: value);
           },
         );
       });
@@ -228,8 +253,13 @@ class MyWalletController extends GetxController {
       };
       log(paymentModel.value.strip!.stripeSecret.toString());
       var stripeSecret = paymentModel.value.strip!.stripeSecret;
-      var response = await http.post(Uri.parse('https://api.stripe.com/v1/payment_intents'),
-          body: body, headers: {'Authorization': 'Bearer $stripeSecret', 'Content-Type': 'application/x-www-form-urlencoded'});
+      var response = await http.post(
+          Uri.parse('https://api.stripe.com/v1/payment_intents'),
+          body: body,
+          headers: {
+            'Authorization': 'Bearer $stripeSecret',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          });
 
       return jsonDecode(response.body);
     } catch (e) {
@@ -249,7 +279,10 @@ class MyWalletController extends GetxController {
               Get.back();
               ShowToastDialog.showToast("Payment Successful");
               completeOrder(result['orderId']);
-              setTransactionLog(isCredit: true, transactionId: result['orderId'], transactionLog: result);
+              setTransactionLog(
+                  isCredit: true,
+                  transactionId: result['orderId'],
+                  transactionLog: result);
             } else {
               ShowToastDialog.showToast("Payment canceled or failed.");
             }
@@ -326,16 +359,22 @@ class MyWalletController extends GetxController {
           'wallets': ['paytm']
         },
         'send_sms_hash': true,
-        'prefill': {'contact': userModel.value.phoneNumber, 'email': userModel.value.email},
+        'prefill': {
+          'contact': userModel.value.phoneNumber,
+          'email': userModel.value.email
+        },
       };
 
       _razorpay.open(options);
-      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_PAYMENT_SUCCESS, (response) {
+      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_PAYMENT_SUCCESS,
+          (response) {
         log("====> 1");
         _handlePaymentSuccess(response);
       });
-      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+      _razorpay.on(
+          razor_pay_flutter.Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      _razorpay.on(razor_pay_flutter.Razorpay.EVENT_EXTERNAL_WALLET,
+          _handleExternalWallet);
     } catch (e) {
       log('Error in razorpayMakePayment: $e');
     }
@@ -347,11 +386,18 @@ class MyWalletController extends GetxController {
     log('Payment Success: ${response.paymentId}');
     _razorpay.clear();
     _razorpay = razor_pay_flutter.Razorpay();
-    completeOrder(response.paymentId ?? DateTime.now().millisecondsSinceEpoch.toString());
+    completeOrder(
+        response.paymentId ?? DateTime.now().millisecondsSinceEpoch.toString());
     setTransactionLog(
         isCredit: true,
         transactionId: response.paymentId.toString(),
-        transactionLog: {response.paymentId, response.paymentId, response.data, response.orderId, response.signature});
+        transactionLog: {
+          response.paymentId,
+          response.paymentId,
+          response.data,
+          response.orderId,
+          response.signature
+        });
     ShowToastDialog.closeLoader();
   }
 
@@ -369,7 +415,8 @@ class MyWalletController extends GetxController {
   }
 
   // ::::::::::::::::::::::::::::::::::::::::::::FlutterWave::::::::::::::::::::::::::::::::::::::::::::::::::::
-  flutterWaveInitiatePayment({required BuildContext context, required String amount}) async {
+  flutterWaveInitiatePayment(
+      {required BuildContext context, required String amount}) async {
     final url = Uri.parse('https://api.flutterwave.com/v3/payments');
     final headers = {
       'Authorization': 'Bearer ${paymentModel.value.flutterWave!.secretKey}',
@@ -398,7 +445,8 @@ class MyWalletController extends GetxController {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       ShowToastDialog.closeLoader();
-      await Get.to(FlutterWaveScreen(initialURl: data['data']['link']))!.then((value) {
+      await Get.to(FlutterWaveScreen(initialURl: data['data']['link']))!
+          .then((value) {
         if (value != null && value is Map<String, dynamic>) {
           if (value["status"] == true) {
             log(":::::::::::::::::::::::::::::::::::$data");
@@ -406,7 +454,10 @@ class MyWalletController extends GetxController {
             log('=================> FlutterWaveScreen  payFastPayment ========> $value');
 
             completeOrder(value['transaction_id'] ?? '');
-            setTransactionLog(isCredit: true, transactionId: value['transaction_id'], transactionLog: value);
+            setTransactionLog(
+                isCredit: true,
+                transactionId: value['transaction_id'],
+                transactionLog: value);
           } else {
             ShowToastDialog.showToast("Payment UnSuccessful!!");
           }
@@ -450,10 +501,13 @@ class MyWalletController extends GetxController {
     maths.Random numRef = maths.Random();
     int year = DateTime.now().year;
     int refNumber = numRef.nextInt(20000);
-    if (Platform.isAndroid) {
-      _ref = "AndroidRef$year$refNumber";
-      _ref = "IOSRef$year$refNumber";
+    String platformPrefix = "WebRef";
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+      platformPrefix = "AndroidRef";
+    } else if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+      platformPrefix = "IOSRef";
     }
+    _ref = "$platformPrefix$year$refNumber";
   }
 
   // ::::::::::::::::::::::::::::::::::::::::::::PayStack::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -478,20 +532,25 @@ class MyWalletController extends GetxController {
           if (value) {
             ShowToastDialog.showToast("Payment Successful!!");
             completeOrder(value['transaction_id']);
-            setTransactionLog(isCredit: true, transactionId: value['transaction_id'], transactionLog: value);
+            setTransactionLog(
+                isCredit: true,
+                transactionId: value['transaction_id'],
+                transactionLog: value);
           } else {
             ShowToastDialog.showToast("Payment UnSuccessful!!");
           }
         });
       } else {
-        ShowToastDialog.showToast("Something went wrong, please contact admin.");
+        ShowToastDialog.showToast(
+            "Something went wrong, please contact admin.");
       }
     });
   }
 
   // ::::::::::::::::::::::::::::::::::::::::::::Mercado Pago::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-  mercadoPagoMakePayment({required BuildContext context, required String amount}) {
+  mercadoPagoMakePayment(
+      {required BuildContext context, required String amount}) {
     makePreference(amount).then((result) async {
       try {
         if (result.isNotEmpty) {
@@ -500,7 +559,9 @@ class MyWalletController extends GetxController {
             var preferenceId = result['response']['id'];
             log(preferenceId);
 
-            Get.to(MercadoPagoScreen(initialURl: result['response']['init_point']))!.then((value) {
+            Get.to(MercadoPagoScreen(
+                    initialURl: result['response']['init_point']))!
+                .then((value) {
               log(value);
 
               if (value) {
@@ -524,10 +585,15 @@ class MyWalletController extends GetxController {
   }
 
   Future<Map<String, dynamic>> makePreference(String amount) async {
-    final mp = MP.fromAccessToken(paymentModel.value.mercadoPago!.mercadoPagoAccessToken);
+    final mp = MP.fromAccessToken(
+        paymentModel.value.mercadoPago!.mercadoPagoAccessToken);
     var pref = {
       "items": [
-        {"title": "Wallet TopUp", "quantity": 1, "unit_price": double.parse(amount)}
+        {
+          "title": "Wallet TopUp",
+          "quantity": 1,
+          "unit_price": double.parse(amount)
+        }
       ],
       "auto_return": "all",
       "back_urls": {
@@ -543,18 +609,92 @@ class MyWalletController extends GetxController {
 
   // ::::::::::::::::::::::::::::::::::::::::::::Pay Fast::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-  payFastPayment({required BuildContext context, required String amount}) {
-    PayStackURLGen.getPayHTML(payFastSettingData: paymentModel.value.payFast!, amount: amount.toString(), userModel: userModel.value)
-        .then((String? value) async {
-      bool isDone = await Get.to(PayFastScreen(htmlData: value!, payFastSettingData: paymentModel.value.payFast!));
-      if (isDone) {
-        Get.back();
-        ShowToastDialog.showToast("Payment successfully");
-        completeOrder(DateTime.now().millisecondsSinceEpoch.toString());
-      } else {
-        Get.back();
-        ShowToastDialog.showToast("Payment Failed");
+  Future<void> payFastPayment({
+    required BuildContext context,
+    required String amount,
+  }) async {
+    ShowToastDialog.showLoader('Preparing secure PayFast payment');
+    try {
+      final Map<String, dynamic> topUp =
+          await SecureBackendService.createPayFastWalletTopUp(amount: amount);
+      final String topUpId = topUp['topUpId']?.toString() ?? '';
+      final Uri? checkoutUri = Uri.tryParse(
+        topUp['checkoutUrl']?.toString() ?? '',
+      );
+      if (topUpId.isEmpty ||
+          checkoutUri == null ||
+          checkoutUri.scheme != 'https') {
+        throw const FormatException('Payment service returned invalid data.');
       }
-    });
+      _pendingPayFastTopUpId = topUpId;
+      final bool opened = await launchUrl(
+        checkoutUri,
+        mode: LaunchMode.externalApplication,
+      );
+      if (!opened) {
+        throw StateError('Could not open the PayFast checkout.');
+      }
+      ShowToastDialog.showToast(
+        'Complete payment in PayFast. Your wallet updates after confirmation.',
+      );
+      unawaited(_pollPendingPayFastTopUp());
+    } catch (error, stackTrace) {
+      log('Secure PayFast payment failed',
+          error: error, stackTrace: stackTrace);
+      _pendingPayFastTopUpId = null;
+      ShowToastDialog.showToast('PayFast payment could not be started.');
+    } finally {
+      ShowToastDialog.closeLoader();
+    }
+  }
+
+  Future<void> _pollPendingPayFastTopUp() async {
+    if (_isPollingPayFast) {
+      return;
+    }
+    _isPollingPayFast = true;
+    try {
+      for (int attempt = 0;
+          attempt < 15 && _pendingPayFastTopUpId != null;
+          attempt++) {
+        if (await _refreshPendingPayFastTopUp()) {
+          return;
+        }
+        await Future<void>.delayed(const Duration(seconds: 2));
+      }
+    } finally {
+      _isPollingPayFast = false;
+    }
+  }
+
+  Future<bool> _refreshPendingPayFastTopUp() async {
+    final String? topUpId = _pendingPayFastTopUpId;
+    if (topUpId == null) {
+      return true;
+    }
+    try {
+      final Map<String, dynamic> topUp =
+          await SecureBackendService.getPayFastWalletTopUpStatus(topUpId);
+      final String status = topUp['status']?.toString() ?? 'pending';
+      if (status == 'complete') {
+        _pendingPayFastTopUpId = null;
+        await Future.wait(<Future<void>>[
+          getProfileData(),
+          getWalletTransactions(),
+        ]);
+        Constant.userModel = userModel.value;
+        ShowToastDialog.showToast('Amount added to your wallet.');
+        return true;
+      }
+      if (status == 'failed' || status == 'cancelled') {
+        _pendingPayFastTopUpId = null;
+        ShowToastDialog.showToast('The PayFast payment was not completed.');
+        return true;
+      }
+    } catch (error, stackTrace) {
+      log('PayFast status refresh failed',
+          error: error, stackTrace: stackTrace);
+    }
+    return false;
   }
 }

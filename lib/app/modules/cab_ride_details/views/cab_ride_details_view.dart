@@ -525,6 +525,8 @@ class CabRideDetailsView extends GetView<CabRideDetailsController> {
                                                   onTap: () {
                                                     Get.to(ChatScreenView(
                                                       receiverId: driverUserModel.id ?? '',
+                                                      bookingId: controller.bookingModel.value.id ?? '',
+                                                      rideCollection: 'bookings',
                                                     ));
                                                   },
                                                   child: SvgPicture.asset("assets/icon/ic_message.svg")),

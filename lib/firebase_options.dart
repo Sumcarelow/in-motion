@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -54,19 +51,31 @@ class DefaultFirebaseOptions {
     appId: '1:911810101713:android:a8f87d59cd25a0df18e0f0',
     messagingSenderId: '911810101713',
     projectId: 'go-motion-56f36',
+    databaseURL: 'https://go-motion-56f36.firebaseio.com',
     storageBucket: 'go-motion-56f36.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'YOUR_IOS_API_KEY',
-    appId: 'YOUR_IOS_APP_ID',
-    messagingSenderId: 'YOUR_IOS_MESSAGING_SENDER_ID',
-    projectId: 'YOUR_IOS_PROJECT_ID',
-    databaseURL: 'YOUR_IOS_DATABASE_URL',
-    storageBucket: 'YOUR_IOS_STORAGE_BUCKET',
-    androidClientId: 'YOUR_ANDROID_CLIENT_ID',
-    iosClientId: 'YOUR_IOS_CLIENT_ID',
-    iosBundleId: 'YOUR_IOS_BUNDLE_ID',
+    apiKey: 'AIzaSyCTL0TEKhvhEQ47x5xcD6bFzO-nG_p1t9Q',
+    appId: '1:911810101713:ios:91eff7438c9dc48b18e0f0',
+    messagingSenderId: '911810101713',
+    projectId: 'go-motion-56f36',
+    databaseURL: 'https://go-motion-56f36.firebaseio.com',
+    storageBucket: 'go-motion-56f36.firebasestorage.app',
+    androidClientId: '911810101713-3rqf093q2iflid4mcf2auepl5banqb2h.apps.googleusercontent.com',
+    iosClientId: '911810101713-6r4fr1of4cqqee7c5ph2vvdveij7l7fe.apps.googleusercontent.com',
+    iosBundleId: 'com.mytaxi.customers',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAZ7OCKal2_8GvyeWiuzaO2ap3C8K7Ry_o',
+    appId: '1:911810101713:web:c968c1f08523c85018e0f0',
+    messagingSenderId: '911810101713',
+    projectId: 'go-motion-56f36',
+    authDomain: 'go-motion-56f36.firebaseapp.com',
+    databaseURL: 'https://go-motion-56f36.firebaseio.com',
+    storageBucket: 'go-motion-56f36.firebasestorage.app',
+    measurementId: 'G-4EW6L6CZP0',
   );
 
 }
