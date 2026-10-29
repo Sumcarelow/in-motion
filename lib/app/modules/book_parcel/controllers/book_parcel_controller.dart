@@ -86,7 +86,9 @@ class BookParcelController extends GetxController {
 
   @override
   void onInit() {
-    vehicleTypeModel.value = vehicleTypeList[0];
+    if (vehicleTypeList.isNotEmpty) {
+      vehicleTypeModel.value = vehicleTypeList.first;
+    }
     getTax();
     super.onInit();
   }
@@ -161,6 +163,7 @@ class BookParcelController extends GetxController {
       //   intercitySharingList.value = Constant.intercityPersonalDocuments.first.timeSlots;
       //
       // }
+      if (Constant.parcelDocuments.isEmpty) return null;
       for (var model in Constant.parcelDocuments.first.timeSlots) {
         log('Checking time slot: ${model.timeSlot}');
 
@@ -268,8 +271,7 @@ class BookParcelController extends GetxController {
               (double.parse(intercityModel.farePerKm) *
                       double.parse(distanceOfKm.value.distance!))
                   .toStringAsFixed(2));
-          addPriceController.value.text =
-              double.parse(estimatePrice.toString()).toString();
+          addPriceController.value.text = estimatePrice.value.toString();
           isEstimatePriceVisible.value = true;
 
           log('================================> 2222222=> ${estimatePrice.value}');

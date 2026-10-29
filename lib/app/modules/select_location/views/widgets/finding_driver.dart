@@ -33,11 +33,15 @@ class FindingDriverBottomSheet extends StatelessWidget {
         builder: (controller) {
           return Container(
             height: Responsive.height(100, context),
-            decoration:  BoxDecoration(
-              color: themeChange.isDarkTheme() ? AppThemData.black :AppThemData.white,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            decoration: BoxDecoration(
+              color: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             ),
-            padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
             child: SingleChildScrollView(
               controller: scrollController,
               child: Column(
@@ -50,65 +54,85 @@ class FindingDriverBottomSheet extends StatelessWidget {
                     height: 5,
                     margin: const EdgeInsets.only(bottom: 10),
                     decoration: ShapeDecoration(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey700 : AppThemData.grey200,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey700
+                          : AppThemData.grey200,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
                     ),
                   ),
                   StreamBuilder<BookingModel>(
-                      stream: FireStoreUtils().getBookingStatusData(controller.bookingModel.value.id ?? ''),
+                      stream: FireStoreUtils().getBookingStatusData(
+                          controller.bookingModel.value.id ?? ''),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const LinearProgressIndicator();
                         }
                         if (!snapshot.hasData || (snapshot.data == null)) {
                           return const LinearProgressIndicator();
                         } else {
                           Rx<DriverUserModel> userModel = DriverUserModel().obs;
-                          if (snapshot.data!.bookingStatus == BookingStatus.bookingOngoing) {
-                            ShowToastDialog.showToast("Your ride started...");
+                          if (snapshot.data!.bookingStatus ==
+                              BookingStatus.bookingOngoing) {
+                            ShowToastDialog.showToast(
+                                "Your move has started...");
                             // Get.offAll(const HomeView());
                             Get.back();
                             // Get.to(const HomeView());
-                          } else if (snapshot.data!.bookingStatus == BookingStatus.bookingAccepted) {
-                            FireStoreUtils.getDriverUserProfile(snapshot.data!.driverId ?? '').then((value) {
+                          } else if (snapshot.data!.bookingStatus ==
+                              BookingStatus.bookingAccepted) {
+                            FireStoreUtils.getDriverUserProfile(
+                                    snapshot.data!.driverId ?? '')
+                                .then((value) {
                               userModel.value = value ?? DriverUserModel();
                             });
-                          } else if (snapshot.data!.bookingStatus == BookingStatus.bookingRejected) {
-                            ShowToastDialog.showToast("Your Ride Rejected...");
+                          } else if (snapshot.data!.bookingStatus ==
+                              BookingStatus.bookingRejected) {
+                            ShowToastDialog.showToast(
+                                "Your move was declined...");
                             Get.back();
                           }
-                          controller.bookingModel.value.driverId = snapshot.data!.driverId;
+                          controller.bookingModel.value.driverId =
+                              snapshot.data!.driverId;
                           return (snapshot.data!.driverId != null &&
                                   snapshot.data!.driverId!.isNotEmpty &&
-                                  snapshot.data!.bookingStatus != BookingStatus.bookingPlaced)
+                                  snapshot.data!.bookingStatus !=
+                                      BookingStatus.bookingPlaced)
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 0, 16, 0),
                                       child: Text(
-                                        'Driver is Arriving....'.tr,
+                                        'Your moving vehicle is arriving'.tr,
                                         style: GoogleFonts.inter(
-                                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey25
+                                              : AppThemData.grey950,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 16, 16, 0),
                                       child: SizedBox(
                                         width: Responsive.width(100, context),
                                         child: Wrap(
                                           alignment: WrapAlignment.start,
                                           children: [
                                             Text(
-                                              'Your OTP for this Ride is '.tr,
+                                              'Your move verification code is '
+                                                  .tr,
                                               style: GoogleFonts.inter(
-                                                color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.grey25
+                                                    : AppThemData.grey950,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -117,7 +141,9 @@ class FindingDriverBottomSheet extends StatelessWidget {
                                               snapshot.data!.otp ?? '',
                                               textAlign: TextAlign.right,
                                               style: GoogleFonts.inter(
-                                                color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.grey25
+                                                    : AppThemData.grey950,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -133,57 +159,89 @@ class FindingDriverBottomSheet extends StatelessWidget {
                                       decoration: ShapeDecoration(
                                         shape: RoundedRectangleBorder(
                                           side: BorderSide(
-                                              width: 1, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
-                                          borderRadius: BorderRadius.circular(12),
+                                              width: 1,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.grey800
+                                                  : AppThemData.grey100),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Container(
                                             width: 44,
                                             height: 44,
-                                            margin: const EdgeInsets.only(right: 10),
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
                                             clipBehavior: Clip.antiAlias,
                                             decoration: ShapeDecoration(
-                                              color: themeChange.isDarkTheme() ? AppThemData.grey950 : Colors.white,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.grey950
+                                                  : Colors.white,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(200),
+                                                borderRadius:
+                                                    BorderRadius.circular(200),
                                               ),
                                               image: const DecorationImage(
-                                                image: NetworkImage(Constant.profileConstant),
+                                                image: NetworkImage(
+                                                    Constant.profileConstant),
                                                 fit: BoxFit.fill,
                                               ),
                                             ),
                                           ),
                                           Expanded(
                                             child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Obx(
                                                   () => Text(
-                                                    userModel.value.fullName ?? '',
+                                                    userModel.value.fullName ??
+                                                        '',
                                                     style: GoogleFonts.inter(
-                                                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                      color: themeChange
+                                                              .isDarkTheme()
+                                                          ? AppThemData.grey25
+                                                          : AppThemData.grey950,
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
                                                 ),
                                                 Row(
                                                   children: [
-                                                    if ((userModel.value.reviewsSum ?? '').isNotEmpty) ...{
-                                                      const Icon(Icons.star_rate_rounded, color: AppThemData.warning500)
+                                                    if ((userModel.value
+                                                                .reviewsSum ??
+                                                            '')
+                                                        .isNotEmpty) ...{
+                                                      const Icon(
+                                                          Icons
+                                                              .star_rate_rounded,
+                                                          color: AppThemData
+                                                              .warning500)
                                                     },
                                                     Text(
-                                                      (userModel.value.reviewsSum ?? 'No reviews yet').toString(),
+                                                      (userModel.value
+                                                                  .reviewsSum ??
+                                                              'No reviews yet')
+                                                          .toString(),
                                                       style: GoogleFonts.inter(
-                                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                                        color: themeChange
+                                                                .isDarkTheme()
+                                                            ? AppThemData.white
+                                                            : AppThemData.black,
                                                         fontSize: 14,
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
                                                     ),
                                                   ],
@@ -191,29 +249,44 @@ class FindingDriverBottomSheet extends StatelessWidget {
                                               ],
                                             ),
                                           ),
-                                          InkWell(onTap: () {}, child: SvgPicture.asset("assets/icon/ic_message.svg")),
+                                          InkWell(
+                                              onTap: () {},
+                                              child: SvgPicture.asset(
+                                                  "assets/icon/ic_message.svg")),
                                           const SizedBox(width: 12),
                                           InkWell(
                                               onTap: () {
-                                                Constant().launchCall("${userModel.value.countryCode}${userModel.value.phoneNumber}");
+                                                Constant().launchCall(
+                                                    "${userModel.value.countryCode}${userModel.value.phoneNumber}");
                                               },
-                                              child: SvgPicture.asset("assets/icon/ic_phone.svg"))
+                                              child: SvgPicture.asset(
+                                                  "assets/icon/ic_phone.svg"))
                                         ],
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 0, 16, 24),
                                       child: PickDropPointView(
-                                          pickUpAddress: snapshot.data!.pickUpLocationAddress ?? '',
-                                          dropAddress: snapshot.data!.dropLocationAddress ?? ''),
+                                          pickUpAddress: snapshot.data!
+                                                  .pickUpLocationAddress ??
+                                              '',
+                                          dropAddress: snapshot
+                                                  .data!.dropLocationAddress ??
+                                              ''),
                                     ),
                                     RoundShapeButton(
-                                        size: Size(Responsive.width(100, context), 45),
+                                        size: Size(
+                                            Responsive.width(100, context), 45),
                                         title: "Cancel",
                                         buttonColor: AppThemData.danger500,
                                         buttonTextColor: AppThemData.white,
                                         onTap: () {
-                                          Get.to(const ReasonForCancelView(), arguments: {"bookingModel": controller.bookingModel.value});
+                                          Get.to(const ReasonForCancelView(),
+                                              arguments: {
+                                                "bookingModel": controller
+                                                    .bookingModel.value
+                                              });
                                         }),
                                   ],
                                 )
@@ -223,9 +296,11 @@ class FindingDriverBottomSheet extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Confirming your trip'.tr,
+                                      'Confirming your moving vehicle'.tr,
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.grey950,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                       ),

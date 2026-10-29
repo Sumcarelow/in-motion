@@ -1,6 +1,16 @@
-# customer
+# In Motione Moving — customer app
 
-A new Flutter project.
+In Motione Moving is a moving-only customer experience for booking mini trucks
+and vans. The visible service structure is:
+
+- Local Move — instant moving-vehicle dispatch
+- Schedule a Move — reserve a mini truck or van for later
+- Long-Distance Move — dedicated moves between cities
+- Small-Load Move — furniture, appliances, boxes, and similar loads
+
+Passenger taxi, ride-sharing, and seat-capacity experiences are intentionally
+hidden. Existing Firestore collection names remain unchanged for compatibility
+with current bookings, pricing, dispatch, and driver apps.
 
 ## Getting Started
 

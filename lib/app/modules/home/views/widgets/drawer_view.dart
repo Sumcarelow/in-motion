@@ -112,7 +112,7 @@ class DrawerView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          'Services'.tr,
+                          'Moving Services'.tr,
                           style: GoogleFonts.inter(
                               fontSize: 16,
                               color: themeChange.isDarkTheme()
@@ -152,10 +152,11 @@ class DrawerView extends StatelessWidget {
                         child: Divider(),
                       ),
                       ExpansionTileItem(
-                        title: 'My Rides'.tr,
+                        title: 'My Moves'.tr,
                         titleColor: (controller.drawerIndex.value == 1 ||
                                 controller.drawerIndex.value == 7 ||
-                                controller.drawerIndex.value == 8)
+                                controller.drawerIndex.value == 8 ||
+                                controller.drawerIndex.value == 9)
                             ? AppThemData.warning06
                             : themeChange.isDarkTheme()
                                 ? AppThemData.white
@@ -167,7 +168,8 @@ class DrawerView extends StatelessWidget {
                           height: 17,
                           color: (controller.drawerIndex.value == 1 ||
                                   controller.drawerIndex.value == 7 ||
-                                  controller.drawerIndex.value == 8)
+                                  controller.drawerIndex.value == 8 ||
+                                  controller.drawerIndex.value == 9)
                               ? AppThemData.warning06
                               : themeChange.isDarkTheme()
                                   ? AppThemData.white
@@ -175,7 +177,8 @@ class DrawerView extends StatelessWidget {
                         ),
                         iconColor: (controller.drawerIndex.value == 1 ||
                                 controller.drawerIndex.value == 7 ||
-                                controller.drawerIndex.value == 8)
+                                controller.drawerIndex.value == 8 ||
+                                controller.drawerIndex.value == 9)
                             ? AppThemData.warning06
                             : themeChange.isDarkTheme()
                                 ? AppThemData.white
@@ -183,7 +186,7 @@ class DrawerView extends StatelessWidget {
                         children: [
                           ListTile(
                             title: Text(
-                              'Cab Rides'.tr,
+                              'Local Moves'.tr,
                               style: GoogleFonts.inter(
                                   fontSize: 16,
                                   color: controller.drawerIndex.value == 1
@@ -199,23 +202,26 @@ class DrawerView extends StatelessWidget {
                               // Get.to(const MyRideView());
                             },
                           ),
-                          /*ListTile(
+                          ListTile(
                             title: Text(
-                              'Pre-Booking Rides'.tr,
+                              'Scheduled Moves'.tr,
                               style: GoogleFonts.inter(
                                   fontSize: 16,
-                                  color: controller.drawerIndex.value == 7 ? AppThemData.warning06 :themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                  color: controller.drawerIndex.value == 7
+                                      ? AppThemData.warning06
+                                      : themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
                                   fontWeight: FontWeight.w400),
                             ),
                             onTap: () {
                               Get.back();
                               controller.drawerIndex.value = 7;
-                              // Get.to(const MyRideView());
                             },
-                          ),*/
+                          ),
                           ListTile(
                             title: Text(
-                              'Parcel Rides'.tr,
+                              'Small-Load Moves'.tr,
                               style: GoogleFonts.inter(
                                   fontSize: 16,
                                   color: controller.drawerIndex.value == 8
@@ -228,7 +234,23 @@ class DrawerView extends StatelessWidget {
                             onTap: () {
                               Get.back();
                               controller.drawerIndex.value = 8;
-                              // Get.to(const MyRideView());
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              'Long-Distance Moves'.tr,
+                              style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  color: controller.drawerIndex.value == 9
+                                      ? AppThemData.warning06
+                                      : themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            onTap: () {
+                              Get.back();
+                              controller.drawerIndex.value = 9;
                             },
                           ),
                         ],
@@ -249,7 +271,7 @@ class DrawerView extends StatelessWidget {
                         trailing: const Icon(Icons.keyboard_arrow_right_rounded,
                             size: 30),
                         title: Text(
-                          'My Wallet'.tr,
+                          'Payments & Wallet'.tr,
                           style: GoogleFonts.inter(
                               fontSize: 16,
                               color: themeChange.isDarkTheme()
@@ -351,7 +373,7 @@ class DrawerView extends StatelessWidget {
                         trailing: const Icon(Icons.keyboard_arrow_right_rounded,
                             size: 30),
                         title: Text(
-                          'Ride Statement '.tr,
+                          'Move Statements'.tr,
                           style: GoogleFonts.inter(
                               fontSize: 16,
                               color: themeChange.isDarkTheme()
@@ -361,7 +383,7 @@ class DrawerView extends StatelessWidget {
                         ),
                         onTap: () {
                           Get.back();
-                          controller.drawerIndex.value = 9;
+                          controller.drawerIndex.value = 10;
                           // Get.to(const MyWalletView());
                         },
                       ),

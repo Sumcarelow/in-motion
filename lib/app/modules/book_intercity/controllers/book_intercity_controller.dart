@@ -77,7 +77,9 @@ class BookIntercityController extends GetxController {
 
   @override
   void onInit() {
-    vehicleTypeModel.value = vehicleTypeList[0];
+    if (vehicleTypeList.isNotEmpty) {
+      vehicleTypeModel.value = vehicleTypeList.first;
+    }
     getData();
     super.onInit();
   }
@@ -95,16 +97,20 @@ class BookIntercityController extends GetxController {
       ChargesModel? intercityModel = calculationOfEstimatePrice();
 
       if (intercityModel != null) {
-        if (double.parse(distanceOfKm.value.distance!) < double.parse(intercityModel.fareMinimumChargesWithinKm)) {
+        if (double.parse(distanceOfKm.value.distance!) <
+            double.parse(intercityModel.fareMinimumChargesWithinKm)) {
           log("Distance is less than the minimum charge threshold");
           estimatePrice.value = double.parse(intercityModel.farMinimumCharges);
           isEstimatePriceVisible.value = true;
 
           log('================================> 11111111 =>${estimatePrice.value}');
         } else {
-          estimatePrice.value =
-              double.parse((double.parse(intercityModel.farePerKm) * double.parse(distanceOfKm.value.distance!)).toStringAsFixed(2));
-          addPriceController.value.text = double.parse(estimatePrice.value.toString()).toString();
+          estimatePrice.value = double.parse(
+              (double.parse(intercityModel.farePerKm) *
+                      double.parse(distanceOfKm.value.distance!))
+                  .toStringAsFixed(2));
+          addPriceController.value.text =
+              double.parse(estimatePrice.value.toString()).toString();
           isEstimatePriceVisible.value = true;
 
           log('================================> 2222222=> ${estimatePrice.value}');
@@ -123,7 +129,8 @@ class BookIntercityController extends GetxController {
   updateData() async {
     if (destination != null && sourceLocation != null) {
       ShowToastDialog.showLoader("Please wait".tr);
-      mapModel.value = await Constant.getDurationDistance(sourceLocation!, destination!);
+      mapModel.value =
+          await Constant.getDurationDistance(sourceLocation!, destination!);
 
       distanceOfKm.value = DistanceModel(
         distance: distanceCalculate(mapModel.value),
@@ -148,15 +155,19 @@ class BookIntercityController extends GetxController {
 
         // if(selectedRideType.value == 1) {
 
-        if (double.parse(distanceOfKm.value.distance!) < double.parse(intercityModel.fareMinimumChargesWithinKm)) {
+        if (double.parse(distanceOfKm.value.distance!) <
+            double.parse(intercityModel.fareMinimumChargesWithinKm)) {
           log("Distance is less than the minimum charge threshold");
           estimatePrice.value = double.parse(intercityModel.farMinimumCharges);
           isEstimatePriceVisible.value = true;
           log('================================> 11111111 =>${estimatePrice.value}');
         } else {
-          estimatePrice.value =
-              double.parse((double.parse(intercityModel.farePerKm) * double.parse(distanceOfKm.value.distance!)).toStringAsFixed(2));
-          addPriceController.value.text = double.parse(estimatePrice.value.toString()).toString();
+          estimatePrice.value = double.parse(
+              (double.parse(intercityModel.farePerKm) *
+                      double.parse(distanceOfKm.value.distance!))
+                  .toStringAsFixed(2));
+          addPriceController.value.text =
+              double.parse(estimatePrice.value.toString()).toString();
           isEstimatePriceVisible.value = true;
 
           log('================================> 2222222=> ${estimatePrice.value}');
@@ -195,11 +206,9 @@ class BookIntercityController extends GetxController {
 
       DateTime selectedDateTime = convertToDateTime(selectedTime.value);
 
-      if (selectedRideType.value == 1) {
-        intercitySharingList.value = Constant.intercitySharingDocuments.first.timeSlots;
-      } else {
-        intercitySharingList.value = Constant.intercityPersonalDocuments.first.timeSlots;
-      }
+      if (Constant.intercityPersonalDocuments.isEmpty) return null;
+      intercitySharingList.value =
+          Constant.intercityPersonalDocuments.first.timeSlots;
       for (var model in intercitySharingList) {
         log('Checking time slot: ${model.timeSlot}');
 
@@ -217,7 +226,8 @@ class BookIntercityController extends GetxController {
 
   bool isTimeInRange(DateTime selectedTime, String timeSlot) {
     log("Checking time slot: $timeSlot");
-    RegExp fullRangeRegEx = RegExp(r"(\d+)\s*(AM|PM)?\s*-\s*(\d+)\s*(AM|PM)", caseSensitive: false);
+    RegExp fullRangeRegEx =
+        RegExp(r"(\d+)\s*(AM|PM)?\s*-\s*(\d+)\s*(AM|PM)", caseSensitive: false);
     Match? match = fullRangeRegEx.firstMatch(timeSlot);
 
     if (match == null) {
@@ -230,7 +240,9 @@ class BookIntercityController extends GetxController {
     int endHour = int.parse(match.group(3)!);
     String endPeriod = match.group(4)!.toUpperCase();
 
-    if (timeSlot.toLowerCase().contains("morning") && endHour == 12 && startPeriod == "AM") {
+    if (timeSlot.toLowerCase().contains("morning") &&
+        endHour == 12 &&
+        startPeriod == "AM") {
       endPeriod = "PM";
     }
 
@@ -240,9 +252,11 @@ class BookIntercityController extends GetxController {
 
     bool inRange;
     if (startMinutes < endMinutes) {
-      inRange = (selectedMinutes >= startMinutes && selectedMinutes < endMinutes);
+      inRange =
+          (selectedMinutes >= startMinutes && selectedMinutes < endMinutes);
     } else {
-      inRange = (selectedMinutes >= startMinutes || selectedMinutes < endMinutes);
+      inRange =
+          (selectedMinutes >= startMinutes || selectedMinutes < endMinutes);
     }
 
     log("Extracted range: '$startHour $startPeriod - $endHour $endPeriod'");
@@ -273,11 +287,7 @@ class BookIntercityController extends GetxController {
     // Constant.country =
     //     (await placemarkFromCoordinates(currentLocationPosition!.latitude, currentLocationPosition!.longitude))[0].country ?? 'Unknown';
     // sourceLocation = LatLng(currentLocationPosition!.latitude, currentLocationPosition!.longitude);
-    listenForLiveUpdates();
-
-    if (Constant.intercityPersonalDocuments.first.isAvailable == false) {
-      selectedRideType.value = 2;
-    }
+    selectedRideType.value = 1;
 
     isLoading.value = false;
   }
@@ -295,7 +305,8 @@ class BookIntercityController extends GetxController {
     } else {
       addInSharing.add(person);
     }
-    selectedPersons.value = 1 + addInSharing.length; // Default 1 + selected count
+    selectedPersons.value =
+        1 + addInSharing.length; // Default 1 + selected count
   }
 
   void deletePerson(String personId) async {
@@ -334,15 +345,21 @@ class BookIntercityController extends GetxController {
     interCityModel.value.createAt = Timestamp.now();
     interCityModel.value.updateAt = Timestamp.now();
     interCityModel.value.bookingTime = Timestamp.now();
-    interCityModel.value.type = 'Intercity Ride';
+    interCityModel.value.type = 'Long-Distance Move';
     interCityModel.value.rideStartTime = selectedTime.value;
     interCityModel.value.vehicleType = vehicleTypeModel.value;
     interCityModel.value.vehicleTypeID = vehicleTypeModel.value.id;
-    interCityModel.value.pickUpLocation = LocationLatLng(latitude: sourceLocation!.latitude, longitude: sourceLocation!.longitude);
-    interCityModel.value.dropLocation = LocationLatLng(latitude: destination!.latitude, longitude: destination!.longitude);
-    GeoFirePoint position = GeoFlutterFire().point(latitude: sourceLocation!.latitude, longitude: sourceLocation!.longitude);
-    interCityModel.value.sharingPersonList = addInSharing;
-    interCityModel.value.position = Positions(geoPoint: position.geoPoint, geohash: position.hash);
+    interCityModel.value.pickUpLocation = LocationLatLng(
+        latitude: sourceLocation!.latitude,
+        longitude: sourceLocation!.longitude);
+    interCityModel.value.dropLocation = LocationLatLng(
+        latitude: destination!.latitude, longitude: destination!.longitude);
+    GeoFirePoint position = GeoFlutterFire().point(
+        latitude: sourceLocation!.latitude,
+        longitude: sourceLocation!.longitude);
+    interCityModel.value.sharingPersonList = <PersonModel>[];
+    interCityModel.value.position =
+        Positions(geoPoint: position.geoPoint, geohash: position.hash);
 
     interCityModel.value.distance = DistanceModel(
       distance: distanceCalculate(mapModel.value),
@@ -353,15 +370,18 @@ class BookIntercityController extends GetxController {
     interCityModel.value.paymentType = selectedPaymentMethod.value;
     interCityModel.value.paymentStatus = false;
     // selectedPersons.value = 1 + addInSharing.length;
-    interCityModel.value.persons = selectedPersons.value.toString();
+    interCityModel.value.persons = '0';
     interCityModel.value.taxList = taxList;
-    interCityModel.value.isPersonalRide = selectedRideType.value == 1 ? true : false;
+    interCityModel.value.isPersonalRide = true;
     interCityModel.value.adminCommission = Constant.adminCommission!;
-    interCityModel.value.startDate = DateFormat('yyyy-MM-dd').format(selectedDate.value!);
+    interCityModel.value.startDate =
+        DateFormat('yyyy-MM-dd').format(selectedDate.value!);
     interCityModel.value.subTotal = addPriceController.value.text;
     interCityModel.value.setPrice = addPriceController.value.text;
-    interCityModel.value.recommendedPrice = double.parse(estimatePrice.value.toString()).toString();
-    interCityModel.value = IntercityModel.fromJson(interCityModel.value.toJson());
+    interCityModel.value.recommendedPrice =
+        double.parse(estimatePrice.value.toString()).toString();
+    interCityModel.value =
+        IntercityModel.fromJson(interCityModel.value.toJson());
 
     await FireStoreUtils.setInterCity(interCityModel.value);
     ShowToastDialog.closeLoader();
@@ -372,9 +392,13 @@ class BookIntercityController extends GetxController {
 
   String distanceCalculate(MapModel? value) {
     if (Constant.distanceType == "Km") {
-      return (value!.rows!.first.elements!.first.distance!.value!.toInt() / 1000).toString();
+      return (value!.rows!.first.elements!.first.distance!.value!.toInt() /
+              1000)
+          .toString();
     } else {
-      return (value!.rows!.first.elements!.first.distance!.value!.toInt() / 1609.34).toString();
+      return (value!.rows!.first.elements!.first.distance!.value!.toInt() /
+              1609.34)
+          .toString();
     }
   }
 

@@ -20,24 +20,33 @@ class StatementController extends GetxController {
   RxList<LanguageModel> languageList = <LanguageModel>[].obs;
   Rx<LanguageModel> selectedLanguage = LanguageModel().obs;
 
-  RxString selectedSearchType = "Cab".obs;
+  RxString selectedSearchType = "Local Move".obs;
   RxString selectedSearchTypeForData = "slug".obs;
   List<String> searchType = [
-    "Cab",
-    "Intercity",
-    "Parcel",
+    "Local Move",
+    "Long-Distance Move",
+    "Small-Load Move",
   ];
   RxString selectedDateOption = "All".obs;
-  List<String> dateOption = ["All", "Last Month", "Last 6 Months", "Last Year", "Custom"];
+  List<String> dateOption = [
+    "All",
+    "Last Month",
+    "Last 6 Months",
+    "Last Year",
+    "Custom"
+  ];
   RxBool isCustomVisible = false.obs;
   RxBool isHistoryDownload = false.obs;
 
   DateTime? startDateForPdf;
   DateTime? endDateForPdf;
 
-
   RxBool isDatePickerEnableForPdf = true.obs;
-  Rx<DateTimeRange> selectedDateRangeForPdf = (DateTimeRange(start: DateTime(DateTime.now().year, DateTime.january, 1), end: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 0, 0))).obs;
+  Rx<DateTimeRange> selectedDateRangeForPdf = (DateTimeRange(
+          start: DateTime(DateTime.now().year, DateTime.january, 1),
+          end: DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day, 23, 59, 0, 0)))
+      .obs;
 
   List<IntercityModel> interCityDataList = [];
   List<ParcelModel> parcelDataList = [];
@@ -45,130 +54,47 @@ class StatementController extends GetxController {
 
   dataGetForPdf() async {
     ShowToastDialog.showLoader("Please wait".tr);
-    if (selectedSearchType.value == 'Cab') {
-      bookingDataList = await FireStoreUtils.getDataForPdfCab(selectedDateRangeForPdf.value);
+    if (selectedSearchType.value == 'Local Move') {
+      bookingDataList =
+          await FireStoreUtils.getDataForPdfCab(selectedDateRangeForPdf.value);
       log('-==========================> booking data list of ride bookingDataList ${bookingDataList.length}');
-      await generateAndDownloadPdfMobileCab(bookingDataList, selectedDateRangeForPdf.value);
+      await generateAndDownloadPdfMobileCab(
+          bookingDataList, selectedDateRangeForPdf.value);
 
       ShowToastDialog.closeLoader();
-    } else if (selectedSearchType.value == 'InterCity') {
-      interCityDataList = await FireStoreUtils.getDataForPdfInterCity(selectedDateRangeForPdf.value);
+    } else if (selectedSearchType.value == 'Long-Distance Move') {
+      interCityDataList = await FireStoreUtils.getDataForPdfInterCity(
+          selectedDateRangeForPdf.value);
       log('=============================> select intercity data get interCityDataList ${interCityDataList.length}');
-      await generateAndDownloadPdfMobileInterCity(interCityDataList, selectedDateRangeForPdf.value);
+      await generateAndDownloadPdfMobileInterCity(
+          interCityDataList, selectedDateRangeForPdf.value);
       ShowToastDialog.closeLoader();
     } else {
-      parcelDataList = await FireStoreUtils.getDataForPdfParcel(selectedDateRangeForPdf.value);
+      parcelDataList = await FireStoreUtils.getDataForPdfParcel(
+          selectedDateRangeForPdf.value);
       log('=============================> select intercity data get parcelDataList ${parcelDataList.length}');
-      await generateAndDownloadPdfParcel(parcelDataList, selectedDateRangeForPdf.value);
+      await generateAndDownloadPdfParcel(
+          parcelDataList, selectedDateRangeForPdf.value);
       ShowToastDialog.closeLoader();
     }
     // await generateInterCityAndDownloadPdfWeb(currentPageBookingData , selectedDateRangeForPdf.value );
   }
 
-
-
-Future<void> generateAndDownloadPdfMobileInterCity(
-    List<IntercityModel> bookingList, DateTimeRange selectedRange) async {
-  if (bookingList.isEmpty) {
-    debugPrint("❌ No data found for the selected date range.");
-    return;
-  }
-
-  String formattedStartDate =
-  DateFormat('dd-MM-yyyy').format(selectedRange.start);
-  String formattedEndDate =
-  DateFormat('dd-MM-yyyy').format(selectedRange.end);
-
-  var excel = Excel.createExcel();
-  Sheet sheet = excel['CabBooking_History'];
-  excel.setDefaultSheet('CabBooking_History');
-
-  sheet.appendRow([
-    TextCellValue("ID"),
-    TextCellValue("Pickup"),
-    TextCellValue("Drop"),
-    TextCellValue("Distance"),
-    TextCellValue("Status"),
-    TextCellValue("Booking Date"),
-    TextCellValue("Price"),
-    TextCellValue("Drop Time"),
-    TextCellValue("Pickup Time"),
-    TextCellValue("Payment Type"),
-    TextCellValue("Reason For Cancel"),
-    TextCellValue("Cab Name"),
-  ]);
-
-  String getReadableBookingStatus(String? status) {
-    switch (status) {
-      case "booking_placed":
-        return "Placed";
-      case "booking_accepted":
-        return "Accepted";
-      case "booking_ongoing":
-        return "Ongoing";
-      case "booking_cancelled":
-        return "Cancelled";
-      case "booking_completed":
-        return "Completed";
-      case "booking_rejected":
-        return "Rejected";
-      default:
-        return "-";
-    }
-  }
-
-  for (var e in bookingList) {
-    sheet.appendRow([
-      TextCellValue(e.id?.substring(0, 5) ?? '-'),
-      TextCellValue(e.pickUpLocationAddress ?? '-'),
-      TextCellValue(e.dropLocationAddress ?? '-'),
-      TextCellValue(e.distance?.distance?.toString() ?? '-'),
-      TextCellValue(getReadableBookingStatus(e.bookingStatus)),
-      TextCellValue(e.createAt != null
-          ? DateFormat('yyyy-MM-dd HH:mm').format(e.createAt!.toDate())
-          : '-'),
-      TextCellValue(e.subTotal?.toString() ?? '-'),
-      TextCellValue(e.dropTime != null
-          ? DateFormat('yyyy-MM-dd HH:mm').format(e.dropTime!.toDate())
-          : '-'),
-      TextCellValue(e.pickupTime != null
-          ? DateFormat('yyyy-MM-dd HH:mm').format(e.pickupTime!.toDate())
-          : '-'),
-      TextCellValue(e.paymentType ?? '-'),
-      TextCellValue(e.cancelledReason?.toString() ?? '-'),
-      TextCellValue(e.vehicleType?.title ?? '-'),
-    ]);
-  }
-
-  // Save file to local storage
-  List<int>? fileBytes = excel.encode();
-  if (fileBytes != null) {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String filePath =
-        '${directory.path}/Cab_Bookings_${formattedStartDate}_to_$formattedEndDate.xlsx';
-
-    final File file = File(filePath);
-    await file.writeAsBytes(fileBytes, flush: true);
-
-    debugPrint("✅ Excel file saved at: $filePath");
-
-    // Open the file
-    await OpenFile.open(filePath);
-  }
-}
-
-Future<void> generateAndDownloadPdfMobileCab(List<BookingModel> bookingList, DateTimeRange selectedRange) async {
+  Future<void> generateAndDownloadPdfMobileInterCity(
+      List<IntercityModel> bookingList, DateTimeRange selectedRange) async {
     if (bookingList.isEmpty) {
       debugPrint("❌ No data found for the selected date range.");
       return;
     }
 
-    String formattedStartDate = DateFormat('dd-MM-yyyy').format(selectedRange.start);
-    String formattedEndDate = DateFormat('dd-MM-yyyy').format(selectedRange.end);
+    String formattedStartDate =
+        DateFormat('dd-MM-yyyy').format(selectedRange.start);
+    String formattedEndDate =
+        DateFormat('dd-MM-yyyy').format(selectedRange.end);
 
     var excel = Excel.createExcel();
-    Sheet sheet = excel['CabBooking_History'];
-    excel.setDefaultSheet('CabBooking_History');
+    Sheet sheet = excel['Long_Distance_Moves'];
+    excel.setDefaultSheet('Long_Distance_Moves');
 
     sheet.appendRow([
       TextCellValue("ID"),
@@ -182,7 +108,7 @@ Future<void> generateAndDownloadPdfMobileCab(List<BookingModel> bookingList, Dat
       TextCellValue("Pickup Time"),
       TextCellValue("Payment Type"),
       TextCellValue("Reason For Cancel"),
-      TextCellValue("Cab Name"),
+      TextCellValue("Moving Vehicle"),
     ]);
 
     String getReadableBookingStatus(String? status) {
@@ -211,10 +137,16 @@ Future<void> generateAndDownloadPdfMobileCab(List<BookingModel> bookingList, Dat
         TextCellValue(e.dropLocationAddress ?? '-'),
         TextCellValue(e.distance?.distance?.toString() ?? '-'),
         TextCellValue(getReadableBookingStatus(e.bookingStatus)),
-        TextCellValue(e.createAt != null ? DateFormat('yyyy-MM-dd HH:mm').format(e.createAt!.toDate()) : '-'),
+        TextCellValue(e.createAt != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.createAt!.toDate())
+            : '-'),
         TextCellValue(e.subTotal?.toString() ?? '-'),
-        TextCellValue(e.dropTime != null ? DateFormat('yyyy-MM-dd HH:mm').format(e.dropTime!.toDate()) : '-'),
-        TextCellValue(e.pickupTime != null ? DateFormat('yyyy-MM-dd HH:mm').format(e.pickupTime!.toDate()) : '-'),
+        TextCellValue(e.dropTime != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.dropTime!.toDate())
+            : '-'),
+        TextCellValue(e.pickupTime != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.pickupTime!.toDate())
+            : '-'),
         TextCellValue(e.paymentType ?? '-'),
         TextCellValue(e.cancelledReason?.toString() ?? '-'),
         TextCellValue(e.vehicleType?.title ?? '-'),
@@ -225,7 +157,8 @@ Future<void> generateAndDownloadPdfMobileCab(List<BookingModel> bookingList, Dat
     List<int>? fileBytes = excel.encode();
     if (fileBytes != null) {
       final Directory directory = await getApplicationDocumentsDirectory();
-      final String filePath = '${directory.path}/Cab_Bookings_${formattedStartDate}_to_$formattedEndDate.xlsx';
+      final String filePath =
+          '${directory.path}/Long_Distance_Moves_${formattedStartDate}_to_$formattedEndDate.xlsx';
 
       final File file = File(filePath);
       await file.writeAsBytes(fileBytes, flush: true);
@@ -236,18 +169,22 @@ Future<void> generateAndDownloadPdfMobileCab(List<BookingModel> bookingList, Dat
       await OpenFile.open(filePath);
     }
   }
-Future<void> generateAndDownloadPdfParcel(List<ParcelModel> bookingList, DateTimeRange selectedRange) async {
+
+  Future<void> generateAndDownloadPdfMobileCab(
+      List<BookingModel> bookingList, DateTimeRange selectedRange) async {
     if (bookingList.isEmpty) {
       debugPrint("❌ No data found for the selected date range.");
       return;
     }
 
-    String formattedStartDate = DateFormat('dd-MM-yyyy').format(selectedRange.start);
-    String formattedEndDate = DateFormat('dd-MM-yyyy').format(selectedRange.end);
+    String formattedStartDate =
+        DateFormat('dd-MM-yyyy').format(selectedRange.start);
+    String formattedEndDate =
+        DateFormat('dd-MM-yyyy').format(selectedRange.end);
 
     var excel = Excel.createExcel();
-    Sheet sheet = excel['CabBooking_History'];
-    excel.setDefaultSheet('CabBooking_History');
+    Sheet sheet = excel['Local_Moves'];
+    excel.setDefaultSheet('Local_Moves');
 
     sheet.appendRow([
       TextCellValue("ID"),
@@ -261,7 +198,7 @@ Future<void> generateAndDownloadPdfParcel(List<ParcelModel> bookingList, DateTim
       TextCellValue("Pickup Time"),
       TextCellValue("Payment Type"),
       TextCellValue("Reason For Cancel"),
-      TextCellValue("Cab Name"),
+      TextCellValue("Moving Vehicle"),
     ]);
 
     String getReadableBookingStatus(String? status) {
@@ -290,10 +227,16 @@ Future<void> generateAndDownloadPdfParcel(List<ParcelModel> bookingList, DateTim
         TextCellValue(e.dropLocationAddress ?? '-'),
         TextCellValue(e.distance?.distance?.toString() ?? '-'),
         TextCellValue(getReadableBookingStatus(e.bookingStatus)),
-        TextCellValue(e.createAt != null ? DateFormat('yyyy-MM-dd HH:mm').format(e.createAt!.toDate()) : '-'),
+        TextCellValue(e.createAt != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.createAt!.toDate())
+            : '-'),
         TextCellValue(e.subTotal?.toString() ?? '-'),
-        TextCellValue(e.dropTime != null ? DateFormat('yyyy-MM-dd HH:mm').format(e.dropTime!.toDate()) : '-'),
-        TextCellValue(e.pickupTime != null ? DateFormat('yyyy-MM-dd HH:mm').format(e.pickupTime!.toDate()) : '-'),
+        TextCellValue(e.dropTime != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.dropTime!.toDate())
+            : '-'),
+        TextCellValue(e.pickupTime != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.pickupTime!.toDate())
+            : '-'),
         TextCellValue(e.paymentType ?? '-'),
         TextCellValue(e.cancelledReason?.toString() ?? '-'),
         TextCellValue(e.vehicleType?.title ?? '-'),
@@ -304,7 +247,8 @@ Future<void> generateAndDownloadPdfParcel(List<ParcelModel> bookingList, DateTim
     List<int>? fileBytes = excel.encode();
     if (fileBytes != null) {
       final Directory directory = await getApplicationDocumentsDirectory();
-      final String filePath = '${directory.path}/Cab_Bookings_${formattedStartDate}_to_$formattedEndDate.xlsx';
+      final String filePath =
+          '${directory.path}/Local_Moves_${formattedStartDate}_to_$formattedEndDate.xlsx';
 
       final File file = File(filePath);
       await file.writeAsBytes(fileBytes, flush: true);
@@ -316,4 +260,93 @@ Future<void> generateAndDownloadPdfParcel(List<ParcelModel> bookingList, DateTim
     }
   }
 
+  Future<void> generateAndDownloadPdfParcel(
+      List<ParcelModel> bookingList, DateTimeRange selectedRange) async {
+    if (bookingList.isEmpty) {
+      debugPrint("❌ No data found for the selected date range.");
+      return;
+    }
+
+    String formattedStartDate =
+        DateFormat('dd-MM-yyyy').format(selectedRange.start);
+    String formattedEndDate =
+        DateFormat('dd-MM-yyyy').format(selectedRange.end);
+
+    var excel = Excel.createExcel();
+    Sheet sheet = excel['Small_Load_Moves'];
+    excel.setDefaultSheet('Small_Load_Moves');
+
+    sheet.appendRow([
+      TextCellValue("ID"),
+      TextCellValue("Pickup"),
+      TextCellValue("Drop"),
+      TextCellValue("Distance"),
+      TextCellValue("Status"),
+      TextCellValue("Booking Date"),
+      TextCellValue("Price"),
+      TextCellValue("Drop Time"),
+      TextCellValue("Pickup Time"),
+      TextCellValue("Payment Type"),
+      TextCellValue("Reason For Cancel"),
+      TextCellValue("Moving Vehicle"),
+    ]);
+
+    String getReadableBookingStatus(String? status) {
+      switch (status) {
+        case "booking_placed":
+          return "Placed";
+        case "booking_accepted":
+          return "Accepted";
+        case "booking_ongoing":
+          return "Ongoing";
+        case "booking_cancelled":
+          return "Cancelled";
+        case "booking_completed":
+          return "Completed";
+        case "booking_rejected":
+          return "Rejected";
+        default:
+          return "-";
+      }
+    }
+
+    for (var e in bookingList) {
+      sheet.appendRow([
+        TextCellValue(e.id?.substring(0, 5) ?? '-'),
+        TextCellValue(e.pickUpLocationAddress ?? '-'),
+        TextCellValue(e.dropLocationAddress ?? '-'),
+        TextCellValue(e.distance?.distance?.toString() ?? '-'),
+        TextCellValue(getReadableBookingStatus(e.bookingStatus)),
+        TextCellValue(e.createAt != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.createAt!.toDate())
+            : '-'),
+        TextCellValue(e.subTotal?.toString() ?? '-'),
+        TextCellValue(e.dropTime != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.dropTime!.toDate())
+            : '-'),
+        TextCellValue(e.pickupTime != null
+            ? DateFormat('yyyy-MM-dd HH:mm').format(e.pickupTime!.toDate())
+            : '-'),
+        TextCellValue(e.paymentType ?? '-'),
+        TextCellValue(e.cancelledReason?.toString() ?? '-'),
+        TextCellValue(e.vehicleType?.title ?? '-'),
+      ]);
+    }
+
+    // Save file to local storage
+    List<int>? fileBytes = excel.encode();
+    if (fileBytes != null) {
+      final Directory directory = await getApplicationDocumentsDirectory();
+      final String filePath =
+          '${directory.path}/Small_Load_Moves_${formattedStartDate}_to_$formattedEndDate.xlsx';
+
+      final File file = File(filePath);
+      await file.writeAsBytes(fileBytes, flush: true);
+
+      debugPrint("✅ Excel file saved at: $filePath");
+
+      // Open the file
+      await OpenFile.open(filePath);
+    }
+  }
 }

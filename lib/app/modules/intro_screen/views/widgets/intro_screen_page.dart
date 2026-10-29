@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:customer/theme/app_them_data.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class IntroScreenPage extends StatelessWidget {
   final String title;
   final String body;
-  final String image;
+  final IconData icon;
 
-  const IntroScreenPage({super.key, required this.title, required this.body, required this.image});
+  const IntroScreenPage({
+    super.key,
+    required this.title,
+    required this.body,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +21,36 @@ class IntroScreenPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            image,
-            height: 200,
-            width: 200,
+          Container(
+            height: 180,
+            width: 180,
+            decoration: BoxDecoration(
+              color: AppThemData.primary500.withValues(alpha: 0.16),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              size: 92,
+              color: AppThemData.primary500,
+            ),
           ),
           const SizedBox(height: 48),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(fontSize: 22, color: AppThemData.black, fontWeight: FontWeight.w700),
+            style: GoogleFonts.inter(
+                fontSize: 22,
+                color: AppThemData.black,
+                fontWeight: FontWeight.w700),
           ),
-           const SizedBox(height: 7),
+          const SizedBox(height: 7),
           Text(
             body,
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(fontSize: 14, color: AppThemData.black, fontWeight: FontWeight.w400),
+            style: GoogleFonts.inter(
+                fontSize: 14,
+                color: AppThemData.black,
+                fontWeight: FontWeight.w400),
           ),
         ],
       ),

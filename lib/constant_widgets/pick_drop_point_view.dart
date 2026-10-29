@@ -24,7 +24,9 @@ class PickDropPointView extends StatelessWidget {
       width: Responsive.width(100, context),
       padding: const EdgeInsets.all(16),
       decoration: ShapeDecoration(
-        color: themeChange.isDarkTheme() ? AppThemData.primary950 : AppThemData.primary50,
+        color: themeChange.isDarkTheme()
+            ? AppThemData.primary950
+            : AppThemData.primary50,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -39,11 +41,15 @@ class PickDropPointView extends StatelessWidget {
         builder: TimelineTileBuilder.connected(
           contentsAlign: ContentsAlign.basic,
           indicatorBuilder: (context, index) {
-            return index == 0 ? SvgPicture.asset("assets/icon/ic_pick_up.svg") : SvgPicture.asset("assets/icon/ic_drop_in.svg");
+            return index == 0
+                ? SvgPicture.asset("assets/icon/ic_pick_up.svg")
+                : SvgPicture.asset("assets/icon/ic_drop_in.svg");
           },
           connectorBuilder: (context, index, connectorType) {
             return DashedLineConnector(
-              color: themeChange.isDarkTheme() ? AppThemData.grey600 : AppThemData.grey300,
+              color: themeChange.isDarkTheme()
+                  ? AppThemData.grey600
+                  : AppThemData.grey300,
             );
           },
           contentsBuilder: (context, index) => index == 0
@@ -57,9 +63,11 @@ class PickDropPointView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Pickup Point',
+                        'Loading point',
                         style: GoogleFonts.inter(
-                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -69,7 +77,9 @@ class PickDropPointView extends StatelessWidget {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.inter(
-                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -87,9 +97,11 @@ class PickDropPointView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dropout Point',
+                        'Delivery point',
                         style: GoogleFonts.inter(
-                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
@@ -99,7 +111,9 @@ class PickDropPointView extends StatelessWidget {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.inter(
-                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),

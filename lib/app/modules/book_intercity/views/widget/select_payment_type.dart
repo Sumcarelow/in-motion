@@ -43,7 +43,9 @@ class SelectPaymentType extends StatelessWidget {
                     ? AppThemData.black
                     : AppThemData.white,
               ),
-              backgroundColor: themeChange.isDarkTheme() ? Color(0xff1D1D21) : AppThemData.grey50,
+              backgroundColor: themeChange.isDarkTheme()
+                  ? Color(0xff1D1D21)
+                  : AppThemData.grey50,
               bottomNavigationBar: Padding(
                 padding: EdgeInsets.fromLTRB(
                     (Responsive.width(100, context) - 200) / 2,
@@ -52,7 +54,7 @@ class SelectPaymentType extends StatelessWidget {
                     20),
                 child: RoundShapeButton(
                     size: const Size(200, 45),
-                    title: "Ride Placed".tr,
+                    title: "Confirm Move".tr,
                     buttonColor: AppThemData.primary500,
                     buttonTextColor: AppThemData.black,
                     onTap: () {
@@ -97,8 +99,8 @@ class SelectPaymentType extends StatelessWidget {
                                     child: RadioListTile(
                                       value: Constant.paymentModel!.cash!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -135,8 +137,10 @@ class SelectPaymentType extends StatelessWidget {
                                         left: 40, right: 10),
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
-                                    child:  Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    child: Divider(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],
@@ -144,7 +148,8 @@ class SelectPaymentType extends StatelessWidget {
                             ),
                             Visibility(
                               visible: Constant.paymentModel!.wallet != null &&
-                                  Constant.paymentModel!.wallet!.isActive == true,
+                                  Constant.paymentModel!.wallet!.isActive ==
+                                      true,
                               child: Column(
                                 children: [
                                   Container(
@@ -153,8 +158,8 @@ class SelectPaymentType extends StatelessWidget {
                                     child: RadioListTile(
                                       value: Constant.paymentModel!.wallet!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -165,11 +170,14 @@ class SelectPaymentType extends StatelessWidget {
                                             "assets/icon/ic_wallet.svg",
                                             height: 24,
                                             width: 24,
-                                            color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.white
+                                                : AppThemData.black,
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.wallet!.name ??
+                                            Constant.paymentModel!.wallet!
+                                                    .name ??
                                                 "",
                                             style: GoogleFonts.inter(
                                               color: themeChange.isDarkTheme()
@@ -196,8 +204,10 @@ class SelectPaymentType extends StatelessWidget {
                                         left: 40, right: 10),
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
-                                    child:  Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    child: Divider(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],
@@ -205,7 +215,8 @@ class SelectPaymentType extends StatelessWidget {
                             ),
                             Visibility(
                               visible: Constant.paymentModel!.paypal != null &&
-                                  Constant.paymentModel!.paypal!.isActive == true,
+                                  Constant.paymentModel!.paypal!.isActive ==
+                                      true,
                               child: Column(
                                 children: [
                                   Container(
@@ -214,8 +225,8 @@ class SelectPaymentType extends StatelessWidget {
                                     child: RadioListTile(
                                       value: Constant.paymentModel!.paypal!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -229,7 +240,8 @@ class SelectPaymentType extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.paypal!.name ??
+                                            Constant.paymentModel!.paypal!
+                                                    .name ??
                                                 "",
                                             style: GoogleFonts.inter(
                                               color: themeChange.isDarkTheme()
@@ -257,7 +269,9 @@ class SelectPaymentType extends StatelessWidget {
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
                                     child: Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],
@@ -265,7 +279,8 @@ class SelectPaymentType extends StatelessWidget {
                             ),
                             Visibility(
                               visible: Constant.paymentModel!.strip != null &&
-                                  Constant.paymentModel!.strip!.isActive == true,
+                                  Constant.paymentModel!.strip!.isActive ==
+                                      true,
                               child: Column(
                                 children: [
                                   Container(
@@ -274,8 +289,8 @@ class SelectPaymentType extends StatelessWidget {
                                     child: RadioListTile(
                                       value: Constant.paymentModel!.strip!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -289,7 +304,8 @@ class SelectPaymentType extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.strip!.name ??
+                                            Constant.paymentModel!.strip!
+                                                    .name ??
                                                 "",
                                             style: GoogleFonts.inter(
                                               color: themeChange.isDarkTheme()
@@ -316,15 +332,18 @@ class SelectPaymentType extends StatelessWidget {
                                         left: 40, right: 10),
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
-                                    child:  Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    child: Divider(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.razorpay != null &&
+                              visible: Constant.paymentModel!.razorpay !=
+                                      null &&
                                   Constant.paymentModel!.razorpay!.isActive ==
                                       true,
                               child: Column(
@@ -333,10 +352,11 @@ class SelectPaymentType extends StatelessWidget {
                                     transform: Matrix4.translationValues(
                                         0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.razorpay!.name
+                                      value: Constant
+                                          .paymentModel!.razorpay!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -365,11 +385,13 @@ class SelectPaymentType extends StatelessWidget {
                                       ),
                                       onChanged: (value) {
                                         controller.selectedPaymentMethod.value =
-                                            Constant.paymentModel!.razorpay!.name
+                                            Constant
+                                                .paymentModel!.razorpay!.name
                                                 .toString();
                                         controller.interCityModel.value
                                                 .paymentType =
-                                            Constant.paymentModel!.razorpay!.name;
+                                            Constant
+                                                .paymentModel!.razorpay!.name;
                                       },
                                     ),
                                   ),
@@ -378,15 +400,18 @@ class SelectPaymentType extends StatelessWidget {
                                         left: 40, right: 10),
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
-                                    child:  Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    child: Divider(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.payStack != null &&
+                              visible: Constant.paymentModel!.payStack !=
+                                      null &&
                                   Constant.paymentModel!.payStack!.isActive ==
                                       true,
                               child: Column(
@@ -395,10 +420,11 @@ class SelectPaymentType extends StatelessWidget {
                                     transform: Matrix4.translationValues(
                                         0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.payStack!.name
+                                      value: Constant
+                                          .paymentModel!.payStack!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -427,11 +453,13 @@ class SelectPaymentType extends StatelessWidget {
                                       ),
                                       onChanged: (value) {
                                         controller.selectedPaymentMethod.value =
-                                            Constant.paymentModel!.payStack!.name
+                                            Constant
+                                                .paymentModel!.payStack!.name
                                                 .toString();
                                         controller.interCityModel.value
                                                 .paymentType =
-                                            Constant.paymentModel!.payStack!.name;
+                                            Constant
+                                                .paymentModel!.payStack!.name;
                                       },
                                     ),
                                   ),
@@ -440,18 +468,21 @@ class SelectPaymentType extends StatelessWidget {
                                         left: 40, right: 10),
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
-                                    child:  Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    child: Divider(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.mercadoPago !=
-                                      null &&
-                                  Constant.paymentModel!.mercadoPago!.isActive ==
-                                      true,
+                              visible:
+                                  Constant.paymentModel!.mercadoPago != null &&
+                                      Constant.paymentModel!.mercadoPago!
+                                              .isActive ==
+                                          true,
                               child: Column(
                                 children: [
                                   Container(
@@ -461,8 +492,8 @@ class SelectPaymentType extends StatelessWidget {
                                       value: Constant
                                           .paymentModel!.mercadoPago!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -496,8 +527,8 @@ class SelectPaymentType extends StatelessWidget {
                                                 .toString();
                                         controller.interCityModel.value
                                                 .paymentType =
-                                            Constant
-                                                .paymentModel!.mercadoPago!.name;
+                                            Constant.paymentModel!.mercadoPago!
+                                                .name;
                                       },
                                     ),
                                   ),
@@ -506,8 +537,10 @@ class SelectPaymentType extends StatelessWidget {
                                         left: 40, right: 10),
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
-                                    child:  Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    child: Divider(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],
@@ -521,10 +554,11 @@ class SelectPaymentType extends StatelessWidget {
                                     transform: Matrix4.translationValues(
                                         0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.payFast!.name
+                                      value: Constant
+                                          .paymentModel!.payFast!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -557,7 +591,8 @@ class SelectPaymentType extends StatelessWidget {
                                                 .toString();
                                         controller.interCityModel.value
                                                 .paymentType =
-                                            Constant.paymentModel!.payFast!.name;
+                                            Constant
+                                                .paymentModel!.payFast!.name;
                                       },
                                     ),
                                   ),
@@ -566,18 +601,21 @@ class SelectPaymentType extends StatelessWidget {
                                         left: 40, right: 10),
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
-                                    child:  Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    child: Divider(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.flutterWave !=
-                                      null &&
-                                  Constant.paymentModel!.flutterWave!.isActive ==
-                                      true,
+                              visible:
+                                  Constant.paymentModel!.flutterWave != null &&
+                                      Constant.paymentModel!.flutterWave!
+                                              .isActive ==
+                                          true,
                               child: Column(
                                 children: [
                                   Container(
@@ -587,8 +625,8 @@ class SelectPaymentType extends StatelessWidget {
                                       value: Constant
                                           .paymentModel!.flutterWave!.name
                                           .toString(),
-                                      groupValue:
-                                          controller.selectedPaymentMethod.value,
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
                                       controlAffinity:
                                           ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
@@ -622,8 +660,8 @@ class SelectPaymentType extends StatelessWidget {
                                                 .toString();
                                         controller.interCityModel.value
                                                 .paymentType =
-                                            Constant
-                                                .paymentModel!.flutterWave!.name;
+                                            Constant.paymentModel!.flutterWave!
+                                                .name;
                                       },
                                     ),
                                   ),
@@ -632,8 +670,10 @@ class SelectPaymentType extends StatelessWidget {
                                         left: 40, right: 10),
                                     transform: Matrix4.translationValues(
                                         0.0, -20.0, 0.0),
-                                    child:  Divider(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    child: Divider(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
                                     ),
                                   ),
                                 ],

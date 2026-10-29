@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:customer/app/models/vehicle_type_model.dart';
 import 'package:customer/app/modules/book_intercity/views/widget/select_payment_type.dart';
 import 'package:customer/constant/constant.dart';
@@ -28,17 +27,18 @@ class BookIntercityView extends StatelessWidget {
     return GetBuilder(
         init: BookIntercityController(),
         builder: (controller) {
-          bool isPersonalAvailable = Constant.intercityPersonalDocuments.first.isAvailable;
-          bool isSharingAvailable = Constant.intercitySharingDocuments.first.isAvailable;
-
           return SafeArea(
             child: Scaffold(
               appBar: AppBar(
-                title: const Text(''),
+                title: Text('Long-Distance Move'.tr),
                 centerTitle: true,
-                backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+                backgroundColor: themeChange.isDarkTheme()
+                    ? AppThemData.black
+                    : AppThemData.white,
               ),
-              backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.grey50,
+              backgroundColor: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.grey50,
               // bottomNavigationBar: Padding(
               //   padding: EdgeInsets.fromLTRB((Responsive.width(100, context) - 200) / 2, 0, (Responsive.width(100, context) - 200) / 2, 20),
               //   child: RoundShapeButton(
@@ -75,127 +75,33 @@ class BookIntercityView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // if(Constant.intercityPersonalDocuments.first.isAvailable || Constant.intercitySharingDocuments.first.isAvailable)
-                              if (isPersonalAvailable ^ isSharingAvailable)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Ride Type'.tr,
-                                    // style: GoogleFonts.inter(
-                                    //   color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
-                                    //   fontSize: 16,
-                                    //   fontWeight: FontWeight.w500,
-                                    // ),
-                                    style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(14),
+                                decoration: BoxDecoration(
+                                  color: AppThemData.primary500
+                                      .withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  'A dedicated moving vehicle is reserved for your load.'
+                                      .tr,
+                                  style: GoogleFonts.inter(
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.white
+                                        : AppThemData.grey950,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  Text(
-                                    Constant.intercityPersonalDocuments.first.isAvailable ?'Personal Ride'.tr : 'Ride Sharing'.tr,
-                                    style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],),
-                              // if(Constant.intercityPersonalDocuments.first.isAvailable && Constant.intercitySharingDocuments.first.isAvailable)
-                              if (isPersonalAvailable && isSharingAvailable)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Select Ride Type'.tr,
-                                    style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Visibility(
-                                        visible: Constant.intercityPersonalDocuments.first.isAvailable,
-                                        child: Row(
-                                          children: [
-                                            Radio(
-                                              value: 1,
-                                              groupValue: controller.selectedRideType.value,
-                                              activeColor: AppThemData.primary500,
-                                              onChanged: (value) {
-                                                controller.selectedRideType.value = value ?? 1;
-                                                controller.updateCalculation();
-                                                // _radioVal = 'male';
-                                              },
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                controller.selectedRideType.value = 1;
-                                                controller.updateCalculation();
-                                                log('------------------------> personal ride selected ');
-                                              },
-                                              child: Text(
-                                                'Personal Ride'.tr,
-                                                style: GoogleFonts.inter(
-                                                    fontSize: 14,
-                                                    color: controller.selectedRideType.value == 1
-                                                        ? themeChange.isDarkTheme()
-                                                            ? AppThemData.white
-                                                            : AppThemData.grey950
-                                                        : AppThemData.grey500,
-                                                    fontWeight: FontWeight.w500),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Visibility(
-                                        visible: Constant.intercitySharingDocuments.first.isAvailable,
-                                        child: Row(
-                                          children: [
-                                            Radio(
-                                              value: 2,
-                                              groupValue: controller.selectedRideType.value,
-                                              activeColor: AppThemData.primary500,
-                                              onChanged: (value) {
-                                                controller.selectedRideType.value = value ?? 2;
-                                                controller.updateCalculation();
-                                                // _radioVal = 'female';
-                                              },
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                controller.selectedRideType.value = 2;
-                                                controller.updateCalculation();
-                                              },
-                                              child: Text(
-                                                'Ride Sharing'.tr,
-                                                style: GoogleFonts.inter(
-                                                    fontSize: 14,
-                                                    color: controller.selectedRideType.value == 2
-                                                        ? themeChange.isDarkTheme()
-                                                            ? AppThemData.white
-                                                            : AppThemData.grey950
-                                                        : AppThemData.grey500,
-                                                    fontWeight: FontWeight.w500),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                ),
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                'Select Location'.tr,
+                                'Moving route'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -210,24 +116,39 @@ class BookIntercityView extends StatelessWidget {
                                 builder: TimelineTileBuilder.connected(
                                   contentsAlign: ContentsAlign.basic,
                                   indicatorBuilder: (context, index) {
-                                    return index == 0 ? SvgPicture.asset("assets/icon/ic_pick_up.svg") : SvgPicture.asset("assets/icon/ic_drop_in.svg");
+                                    return index == 0
+                                        ? SvgPicture.asset(
+                                            "assets/icon/ic_pick_up.svg")
+                                        : SvgPicture.asset(
+                                            "assets/icon/ic_drop_in.svg");
                                   },
-                                  connectorBuilder: (context, index, connectorType) {
+                                  connectorBuilder:
+                                      (context, index, connectorType) {
                                     return DashedLineConnector(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey600 : AppThemData.grey300,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey600
+                                          : AppThemData.grey300,
                                     );
                                   },
                                   contentsBuilder: (context, index) => Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: GooglePlaceAutoCompleteTextFieldOnlyCity(
-                                      textEditingController: index == 0 ? controller.pickupLocationController : controller.dropLocationController,
+                                    child:
+                                        GooglePlaceAutoCompleteTextFieldOnlyCity(
+                                      textEditingController: index == 0
+                                          ? controller.pickupLocationController
+                                          : controller.dropLocationController,
                                       googleAPIKey: Constant.mapAPIKey,
                                       boxDecoration: BoxDecoration(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
-                                        borderRadius: BorderRadius.circular(100),
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey950
+                                            : AppThemData.grey25,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
                                       ),
                                       inputDecoration: InputDecoration(
-                                        hintText: index == 0 ? "Pick up Location".tr : "Destination Location".tr,
+                                        hintText: index == 0
+                                            ? "Moving from".tr
+                                            : "Moving to".tr,
                                         border: InputBorder.none,
                                         disabledBorder: InputBorder.none,
                                         enabledBorder: InputBorder.none,
@@ -235,13 +156,17 @@ class BookIntercityView extends StatelessWidget {
                                         focusedBorder: InputBorder.none,
                                         focusedErrorBorder: InputBorder.none,
                                         hintStyle: GoogleFonts.inter(
-                                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey25
+                                              : AppThemData.grey950,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                       textStyle: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey25
+                                            : AppThemData.grey950,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -258,34 +183,58 @@ class BookIntercityView extends StatelessWidget {
                                       },
                                       debounceTime: 800,
                                       isLatLngRequired: true,
-                                      focusNode: index == 0 ? controller.pickUpFocusNode : controller.dropFocusNode,
-                                      getPlaceDetailWithLatLng: (Prediction prediction) {
+                                      focusNode: index == 0
+                                          ? controller.pickUpFocusNode
+                                          : controller.dropFocusNode,
+                                      getPlaceDetailWithLatLng:
+                                          (Prediction prediction) {
                                         if (index == 0) {
-                                          controller.sourceLocation = LatLng(double.parse(prediction.lat ?? '0.00'), double.parse(prediction.lng ?? '0.00'));
-                                          controller.pikUpAddress.value = prediction.description!;
+                                          controller.sourceLocation = LatLng(
+                                              double.parse(
+                                                  prediction.lat ?? '0.00'),
+                                              double.parse(
+                                                  prediction.lng ?? '0.00'));
+                                          controller.pikUpAddress.value =
+                                              prediction.description!;
                                           controller.updateData();
                                         } else {
-                                          controller.destination = LatLng(double.parse(prediction.lat ?? '0.00'), double.parse(prediction.lng ?? '0.00'));
-                                          controller.dropAddress.value = prediction.description!;
+                                          controller.destination = LatLng(
+                                              double.parse(
+                                                  prediction.lat ?? '0.00'),
+                                              double.parse(
+                                                  prediction.lng ?? '0.00'));
+                                          controller.dropAddress.value =
+                                              prediction.description!;
                                           controller.updateData();
                                         }
                                       },
                                       itemClick: (postalCodeResponse) {
                                         if (index == 0) {
-                                          controller.pickupLocationController.text = postalCodeResponse.description ?? '';
+                                          controller.pickupLocationController
+                                                  .text =
+                                              postalCodeResponse.description ??
+                                                  '';
                                         } else {
-                                          controller.dropLocationController.text = postalCodeResponse.description ?? '';
+                                          controller
+                                                  .dropLocationController.text =
+                                              postalCodeResponse.description ??
+                                                  '';
                                         }
                                       },
-                                      itemBuilder: (context, index, Prediction prediction) {
+                                      itemBuilder: (context, index,
+                                          Prediction prediction) {
                                         return Container(
                                           padding: const EdgeInsets.all(10),
-                                          color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25,
                                           child: Row(
                                             children: [
                                               Icon(
                                                 Icons.location_on,
-                                                color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.grey25
+                                                    : AppThemData.grey950,
                                               ),
                                               const SizedBox(
                                                 width: 7,
@@ -294,7 +243,10 @@ class BookIntercityView extends StatelessWidget {
                                                   child: Text(
                                                 prediction.description ?? "",
                                                 style: GoogleFonts.inter(
-                                                  color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                  color:
+                                                      themeChange.isDarkTheme()
+                                                          ? AppThemData.grey25
+                                                          : AppThemData.grey950,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w500,
                                                 ),
@@ -316,7 +268,9 @@ class BookIntercityView extends StatelessWidget {
                                 Text(
                                   'Select Date'.tr,
                                   style: GoogleFonts.inter(
-                                    color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.white
+                                        : AppThemData.grey950,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -324,15 +278,18 @@ class BookIntercityView extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 InkWell(
                                   onTap: () async {
-                                    final DateTime? selectedDate = await showDatePicker(
+                                    final DateTime? selectedDate =
+                                        await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime.now(),
-                                      lastDate: DateTime.now().add(const Duration(days: 1000)),
+                                      lastDate: DateTime.now()
+                                          .add(const Duration(days: 1000)),
                                     );
 
                                     if (selectedDate != null) {
-                                      controller.selectedDate.value = selectedDate;
+                                      controller.selectedDate.value =
+                                          selectedDate;
                                     }
                                   },
                                   child: Container(
@@ -340,20 +297,31 @@ class BookIntercityView extends StatelessWidget {
                                     margin: const EdgeInsets.only(top: 4),
                                     clipBehavior: Clip.antiAlias,
                                     decoration: ShapeDecoration(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey950
+                                          : AppThemData.grey25,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(100),
+                                        borderRadius:
+                                            BorderRadius.circular(100),
                                       ),
                                     ),
                                     child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Obx(
                                           () => Text(
-                                            controller.selectedDate.value == null ? "Select Date".tr : controller.selectedDate.value!.dateMonthYear(),
+                                            controller.selectedDate.value ==
+                                                    null
+                                                ? "Select Date".tr
+                                                : controller.selectedDate.value!
+                                                    .dateMonthYear(),
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.grey50 : AppThemData.grey500,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.grey50
+                                                  : AppThemData.grey500,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400,
                                             ),
@@ -372,18 +340,23 @@ class BookIntercityView extends StatelessWidget {
                               if (controller.selectedRideType.value == 2) ...{
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       flex: 2,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Select Date'.tr,
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.grey950,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -391,43 +364,67 @@ class BookIntercityView extends StatelessWidget {
                                           const SizedBox(height: 4),
                                           InkWell(
                                             onTap: () async {
-                                              final DateTime? selectedDate = await showDatePicker(
+                                              final DateTime? selectedDate =
+                                                  await showDatePicker(
                                                 context: context,
                                                 initialDate: DateTime.now(),
                                                 firstDate: DateTime.now(),
-                                                lastDate: DateTime.now().add(const Duration(days: 1000)),
+                                                lastDate: DateTime.now().add(
+                                                    const Duration(days: 1000)),
                                               );
 
                                               if (selectedDate != null) {
-                                                controller.selectedDate.value = selectedDate;
+                                                controller.selectedDate.value =
+                                                    selectedDate;
                                               }
                                             },
                                             child: Container(
                                               padding: const EdgeInsets.all(16),
-                                              margin: const EdgeInsets.only(top: 4),
+                                              margin:
+                                                  const EdgeInsets.only(top: 4),
                                               clipBehavior: Clip.antiAlias,
                                               decoration: ShapeDecoration(
-                                                color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.grey950
+                                                    : AppThemData.grey25,
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(100),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
                                                 ),
                                               ),
                                               child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Obx(
                                                     () => Text(
-                                                      controller.selectedDate.value == null ? "Select Date".tr : controller.selectedDate.value!.dateMonthYear(),
+                                                      controller.selectedDate
+                                                                  .value ==
+                                                              null
+                                                          ? "Select Date".tr
+                                                          : controller
+                                                              .selectedDate
+                                                              .value!
+                                                              .dateMonthYear(),
                                                       style: GoogleFonts.inter(
-                                                        color: themeChange.isDarkTheme() ? AppThemData.grey50 : AppThemData.grey500,
+                                                        color: themeChange
+                                                                .isDarkTheme()
+                                                            ? AppThemData.grey50
+                                                            : AppThemData
+                                                                .grey500,
                                                         fontSize: 16,
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
                                                     ),
                                                   ),
                                                   const Icon(
-                                                    Icons.calendar_month_outlined,
+                                                    Icons
+                                                        .calendar_month_outlined,
                                                     color: AppThemData.grey500,
                                                     size: 24,
                                                   )
@@ -442,13 +439,17 @@ class BookIntercityView extends StatelessWidget {
                                     Expanded(
                                       flex: 1,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Persons'.tr,
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.grey950,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -460,39 +461,64 @@ class BookIntercityView extends StatelessWidget {
                                             padding: const EdgeInsets.all(16),
                                             clipBehavior: Clip.antiAlias,
                                             decoration: ShapeDecoration(
-                                              color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.grey950
+                                                  : AppThemData.grey25,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(100),
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
                                               ),
                                             ),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 InkWell(
                                                     onTap: () {
-                                                      if (controller.selectedPersons.value != 1) {
-                                                        controller.selectedPersons.value = controller.selectedPersons.value - 1;
+                                                      if (controller
+                                                              .selectedPersons
+                                                              .value !=
+                                                          1) {
+                                                        controller
+                                                            .selectedPersons
+                                                            .value = controller
+                                                                .selectedPersons
+                                                                .value -
+                                                            1;
                                                       }
                                                     },
-                                                    child: const Icon(Icons.remove)),
+                                                    child: const Icon(
+                                                        Icons.remove)),
                                                 Expanded(
                                                   child: Text(
-                                                    controller.selectedPersons.value.toString(),
+                                                    controller
+                                                        .selectedPersons.value
+                                                        .toString(),
                                                     textAlign: TextAlign.center,
                                                     style: GoogleFonts.inter(
-                                                      color: themeChange.isDarkTheme() ? AppThemData.grey50 : AppThemData.grey500,
+                                                      color: themeChange
+                                                              .isDarkTheme()
+                                                          ? AppThemData.grey50
+                                                          : AppThemData.grey500,
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
                                                 ),
                                                 InkWell(
                                                     onTap: () {
-                                                      controller.selectedPersons.value = controller.selectedPersons.value + 1;
+                                                      controller.selectedPersons
+                                                          .value = controller
+                                                              .selectedPersons
+                                                              .value +
+                                                          1;
                                                     },
-                                                    child: const Icon(Icons.add)),
+                                                    child:
+                                                        const Icon(Icons.add)),
                                               ],
                                             ),
                                           ),
@@ -506,7 +532,9 @@ class BookIntercityView extends StatelessWidget {
                               Text(
                                 'Select Time'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -516,20 +544,32 @@ class BookIntercityView extends StatelessWidget {
                                 onTap: () => controller.pickTime(context),
                                 child: Obx(() => Container(
                                       width: MediaQuery.of(context).size.width,
-                                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 15, horizontal: 20),
                                       decoration: BoxDecoration(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
-                                        borderRadius: BorderRadius.circular(100),
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey950
+                                            : AppThemData.grey25,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
-                                          Icon(Icons.watch_later_outlined, color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950),
-                                          SizedBox(width: 10), // Spacing between icon and text
+                                          Icon(Icons.watch_later_outlined,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.grey950),
+                                          SizedBox(
+                                              width:
+                                                  10), // Spacing between icon and text
                                           Text(
                                             controller.selectedTime.value,
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.grey950,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -542,7 +582,9 @@ class BookIntercityView extends StatelessWidget {
                               Text(
                                 'Set Price'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -552,7 +594,9 @@ class BookIntercityView extends StatelessWidget {
                                 controller: controller.addPriceController.value,
                                 decoration: InputDecoration(
                                   hintText: "Add your price".tr,
-                                  fillColor: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                  fillColor: themeChange.isDarkTheme()
+                                      ? AppThemData.grey950
+                                      : AppThemData.grey25,
                                   focusColor: Colors.white,
                                   filled: true,
                                   suffixIcon: Padding(
@@ -561,41 +605,80 @@ class BookIntercityView extends StatelessWidget {
                                       "assets/icon/ic_currency_usd.svg",
                                     ),
                                   ),
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  disabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
                                   hintStyle: GoogleFonts.inter(
-                                    color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey25
+                                        : AppThemData.grey950,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Visibility(
-                                visible: controller.isEstimatePriceVisible.value,
+                                visible:
+                                    controller.isEstimatePriceVisible.value,
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 4),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: themeChange.isDarkTheme() ? AppThemData.secondary900 : AppThemData.secondary100
-                                  ),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.secondary900
+                                          : AppThemData.secondary100),
                                   child: Text(
-                                    'Recommended Price For this Ride ${Constant.amountToShow(amount: double.parse(controller.estimatePrice.value.toString()).toString())}',
+                                    '${'Recommended move price'.tr}: ${Constant.amountToShow(amount: double.parse(controller.estimatePrice.value.toString()).toString())}',
                                     style: GoogleFonts.inter(
                                       textStyle: TextStyle(
-                                          color: AppThemData.secondary500,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
+                                        color: AppThemData.secondary500,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
@@ -603,68 +686,79 @@ class BookIntercityView extends StatelessWidget {
                               ),
                               const SizedBox(height: 20),
                               Text(
-                                'Select Vehicle'.tr,
+                                'Select a moving vehicle'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               const SizedBox(height: 0),
-                              Container(
-                                height: 58.0,
-                                width: Responsive.width(100, context),
-                                margin: const EdgeInsets.only(top: 6, bottom: 0),
-                                decoration: BoxDecoration(
-                                  // border: Border.all(
-                                  //   color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
-                                  // ),
-                                  color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
-                                  borderRadius: BorderRadius.circular(2000.0),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: Obx(
-                                    () => DropdownButton<VehicleTypeModel>(
-                                      style: GoogleFonts.inter(
-                                        fontSize: 16,
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
-                                      ),
-                                      hint: Text(
-                                        "Select Vehicle Type".tr,
+                              if (controller.vehicleTypeList.isEmpty)
+                                Container(
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.only(top: 6),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey950
+                                        : AppThemData.grey25,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    'No moving vehicles are available right now.'
+                                        .tr,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              else
+                                Container(
+                                  height: 58.0,
+                                  width: Responsive.width(100, context),
+                                  margin:
+                                      const EdgeInsets.only(top: 6, bottom: 0),
+                                  decoration: BoxDecoration(
+                                    // border: Border.all(
+                                    //   color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    // ),
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey950
+                                        : AppThemData.grey25,
+                                    borderRadius: BorderRadius.circular(2000.0),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: Obx(
+                                      () => DropdownButton<VehicleTypeModel>(
                                         style: GoogleFonts.inter(
-                                          color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
                                           fontSize: 16,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.white
+                                              : AppThemData.grey950,
                                         ),
-                                      ),
-                                      itemHeight: 70,
-                                      dropdownColor: themeChange.isDarkTheme() ? AppThemData.grey600 : AppThemData.grey25,
-                                      padding: const EdgeInsets.only(right: 12),
-                                      selectedItemBuilder: (context) {
-                                        return controller.vehicleTypeList.map((VehicleTypeModel value) {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(left: 12, right: 12),
-                                            child: Row(
-                                              children: [
-                                                Image.network(
-                                                  value.image,
-                                                  height: 42,
-                                                  width: 42,
-                                                ),
-                                                const SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Text(value.title),
-                                              ],
-                                            ),
-                                          );
-                                        }).toList();
-                                      },
-                                      items: controller.vehicleTypeList.map<DropdownMenuItem<VehicleTypeModel>>((VehicleTypeModel value) {
-                                        return DropdownMenuItem(
-                                          value: value,
-                                          child: Column(
-                                            children: [
-                                              Row(
+                                        hint: Text(
+                                          "Select Vehicle Type".tr,
+                                          style: GoogleFonts.inter(
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.white
+                                                : AppThemData.grey950,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        itemHeight: 70,
+                                        dropdownColor: themeChange.isDarkTheme()
+                                            ? AppThemData.grey600
+                                            : AppThemData.grey25,
+                                        padding:
+                                            const EdgeInsets.only(right: 12),
+                                        selectedItemBuilder: (context) {
+                                          return controller.vehicleTypeList
+                                              .map((VehicleTypeModel value) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 12, right: 12),
+                                              child: Row(
                                                 children: [
                                                   Image.network(
                                                     value.image,
@@ -677,29 +771,64 @@ class BookIntercityView extends StatelessWidget {
                                                   Text(value.title),
                                                 ],
                                               ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              Visibility(visible: controller.vehicleTypeList.indexOf(value) != (controller.vehicleTypeList.length - 1), child: const Divider())
-                                            ],
-                                          ),
-                                        );
-                                      }).toList(),
-                                      borderRadius: BorderRadius.circular(12),
-                                      isExpanded: false,
-                                      isDense: false,
-                                      onChanged:
-                                          // isUploaded
-                                          //     ? null
-                                          //     :
-                                          (VehicleTypeModel? newSelectedBank) {
-                                        controller.vehicleTypeModel.value = newSelectedBank!;
-                                      },
-                                      value: controller.vehicleTypeModel.value,
+                                            );
+                                          }).toList();
+                                        },
+                                        items: controller.vehicleTypeList.map<
+                                                DropdownMenuItem<
+                                                    VehicleTypeModel>>(
+                                            (VehicleTypeModel value) {
+                                          return DropdownMenuItem(
+                                            value: value,
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Image.network(
+                                                      value.image,
+                                                      height: 42,
+                                                      width: 42,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(value.title),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Visibility(
+                                                    visible: controller
+                                                            .vehicleTypeList
+                                                            .indexOf(value) !=
+                                                        (controller
+                                                                .vehicleTypeList
+                                                                .length -
+                                                            1),
+                                                    child: const Divider())
+                                              ],
+                                            ),
+                                          );
+                                        }).toList(),
+                                        borderRadius: BorderRadius.circular(12),
+                                        isExpanded: false,
+                                        isDense: false,
+                                        onChanged:
+                                            // isUploaded
+                                            //     ? null
+                                            //     :
+                                            (VehicleTypeModel?
+                                                newSelectedBank) {
+                                          controller.vehicleTypeModel.value =
+                                              newSelectedBank!;
+                                        },
+                                        value:
+                                            controller.vehicleTypeModel.value,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
                               const SizedBox(height: 20),
                               if (controller.selectedRideType.value == 2) ...{
                                 Column(
@@ -708,7 +837,9 @@ class BookIntercityView extends StatelessWidget {
                                     Text(
                                       'Add person'.tr,
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.grey950,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -718,7 +849,10 @@ class BookIntercityView extends StatelessWidget {
                                       onTap: () {
                                         showModalBottomSheet(
                                             shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(
+                                                          24.0)),
                                             ),
                                             // backgroundColor: AppThemData.grey50,
                                             context: context,
@@ -737,30 +871,41 @@ class BookIntercityView extends StatelessWidget {
                                         height: 60,
                                         padding: const EdgeInsets.all(8),
                                         decoration: ShapeDecoration(
-                                          color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(200),
+                                            borderRadius:
+                                                BorderRadius.circular(200),
                                           ),
                                         ),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Container(
-                                                padding: const EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 decoration: ShapeDecoration(
                                                   color: AppThemData.primary50,
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(200),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            200),
                                                   ),
                                                 ),
-                                                child: SvgPicture.asset("assets/icon/ic_user_add.svg")),
+                                                child: SvgPicture.asset(
+                                                    "assets/icon/ic_user_add.svg")),
                                             const SizedBox(width: 12),
                                             Text(
                                               'Add Person'.tr,
                                               style: GoogleFonts.inter(
-                                                color: themeChange.isDarkTheme() ? Colors.white : Colors.black,
+                                                color: themeChange.isDarkTheme()
+                                                    ? Colors.white
+                                                    : Colors.black,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
                                               ),
@@ -776,29 +921,46 @@ class BookIntercityView extends StatelessWidget {
                               Center(
                                 child: RoundShapeButton(
                                     size: const Size(200, 45),
-                                    title: "Next".tr,
+                                    title: "Review Move".tr,
                                     buttonColor: AppThemData.primary500,
                                     buttonTextColor: AppThemData.black,
                                     onTap: () {
-                                      if (controller.pickupLocationController.value.text.isEmpty || controller.pickupLocationController.value.text == '') {
-                                        return ShowToastDialog.toast('Please Enter pickUp Location'.tr);
+                                      if (controller.pickupLocationController
+                                              .value.text.isEmpty ||
+                                          controller.pickupLocationController
+                                                  .value.text ==
+                                              '') {
+                                        return ShowToastDialog.toast(
+                                            'Please Enter pickUp Location'.tr);
                                       }
-                                      if (controller.dropLocationController.value.text.isEmpty || controller.dropLocationController.value.text == '') {
-                                        return ShowToastDialog.toast('Please Enter Destination Location'.tr);
-                                      } else if (controller.addPriceController.value.text.isEmpty || controller.addPriceController.value.text == '') {
-                                        controller.addPriceController.value.text = controller.estimatePrice.value.toString();
-                                      } else if (controller.selectedRideType.value == 2) {
-                                        log('=-------------------->');
-                                        if (controller.selectedPersons.value != controller.addInSharing.length + 1) {
-                                          log('=--------------------> 2222222');
-                                          return ShowToastDialog.toast('Please Add person'.tr);
-                                        } else if (controller.selectedTime.value == 'Select Time') {
-                                          return ShowToastDialog.toast('Please Select Start Time'.tr);
-                                        } else {
-                                          Get.to(SelectPaymentType());
-                                        }
-                                      } else if (controller.selectedTime.value == 'Select Time') {
-                                        return ShowToastDialog.toast('Please Select Start Time'.tr);
+                                      if (controller.dropLocationController
+                                              .value.text.isEmpty ||
+                                          controller.dropLocationController
+                                                  .value.text ==
+                                              '') {
+                                        return ShowToastDialog.toast(
+                                            'Please Enter Destination Location'
+                                                .tr);
+                                      } else if (controller.addPriceController
+                                              .value.text.isEmpty ||
+                                          controller.addPriceController.value
+                                                  .text ==
+                                              '') {
+                                        controller
+                                                .addPriceController.value.text =
+                                            controller.estimatePrice.value
+                                                .toString();
+                                      } else if (controller
+                                              .selectedTime.value ==
+                                          'Select Time') {
+                                        return ShowToastDialog.toast(
+                                            'Please Select Start Time'.tr);
+                                      } else if (controller
+                                          .vehicleTypeList.isEmpty) {
+                                        return ShowToastDialog.toast(
+                                          'No moving vehicles are available right now.'
+                                              .tr,
+                                        );
                                       } else {
                                         Get.to(SelectPaymentType());
                                       }
@@ -850,7 +1012,9 @@ class AddPersonPopup extends StatelessWidget {
                   Text(
                     'Add Sharing Persons',
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey25
+                          : AppThemData.grey950,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
@@ -860,7 +1024,9 @@ class AddPersonPopup extends StatelessWidget {
                     margin: const EdgeInsets.only(top: 12),
                     clipBehavior: Clip.antiAlias,
                     decoration: ShapeDecoration(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey950
+                          : AppThemData.grey25,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -875,10 +1041,13 @@ class AddPersonPopup extends StatelessWidget {
                             children: [
                               ...controller.totalAddPersonShare.map((person) {
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
                                   margin: const EdgeInsets.only(top: 0),
                                   decoration: ShapeDecoration(
-                                    color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey950
+                                        : AppThemData.grey25,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -889,12 +1058,16 @@ class AddPersonPopup extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   person.name ?? '',
                                                   style: GoogleFonts.inter(
-                                                    color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey25
+                                                        : AppThemData.grey950,
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w500,
                                                   ),
@@ -902,7 +1075,10 @@ class AddPersonPopup extends StatelessWidget {
                                                 Text(
                                                   person.mobileNumber ?? '',
                                                   style: GoogleFonts.inter(
-                                                    color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey25
+                                                        : AppThemData.grey950,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -911,10 +1087,12 @@ class AddPersonPopup extends StatelessWidget {
                                             ),
                                           ),
                                           Checkbox(
-                                            value: controller.addInSharing.any((p) => p.id == person.id),
+                                            value: controller.addInSharing
+                                                .any((p) => p.id == person.id),
                                             activeColor: AppThemData.warning06,
                                             onChanged: (value) {
-                                              controller.toggleSelection(person);
+                                              controller
+                                                  .toggleSelection(person);
                                             },
                                           ),
                                           SizedBox(
@@ -922,7 +1100,8 @@ class AddPersonPopup extends StatelessWidget {
                                           ),
                                           GestureDetector(
                                               onTap: () {
-                                                controller.deletePerson(person.id!);
+                                                controller
+                                                    .deletePerson(person.id!);
                                               },
                                               child: Icon(
                                                 Icons.delete,
@@ -932,10 +1111,13 @@ class AddPersonPopup extends StatelessWidget {
                                         ],
                                       ),
                                       Container(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey25
+                                            : AppThemData.grey950,
                                         height: 1,
                                         width: Responsive.width(100, context),
-                                        margin: const EdgeInsets.only(bottom: 8),
+                                        margin:
+                                            const EdgeInsets.only(bottom: 8),
                                       ),
                                     ],
                                   ),
@@ -951,7 +1133,9 @@ class AddPersonPopup extends StatelessWidget {
                   Text(
                     'Name'.tr,
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey25
+                          : AppThemData.grey950,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -961,7 +1145,9 @@ class AddPersonPopup extends StatelessWidget {
                     controller: controller.enterNameController.value,
                     decoration: InputDecoration(
                       hintText: "Enter Name".tr,
-                      fillColor: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50,
+                      fillColor: themeChange.isDarkTheme()
+                          ? AppThemData.grey950
+                          : AppThemData.grey50,
                       focusColor: Colors.white,
                       filled: true,
                       suffixIcon: Padding(
@@ -970,20 +1156,54 @@ class AddPersonPopup extends StatelessWidget {
                           "assets/icon/ic_user_round.svg",
                         ),
                       ),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
                       hintStyle: GoogleFonts.inter(
-                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                        color: themeChange.isDarkTheme()
+                            ? AppThemData.grey25
+                            : AppThemData.grey950,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey25
+                          : AppThemData.grey950,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -992,7 +1212,9 @@ class AddPersonPopup extends StatelessWidget {
                   Text(
                     'Number'.tr,
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.white
+                          : AppThemData.grey950,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -1003,7 +1225,9 @@ class AddPersonPopup extends StatelessWidget {
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       hintText: "Enter Number".tr,
-                      fillColor: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50,
+                      fillColor: themeChange.isDarkTheme()
+                          ? AppThemData.grey950
+                          : AppThemData.grey50,
                       focusColor: Colors.white,
                       filled: true,
                       suffixIcon: Padding(
@@ -1012,20 +1236,54 @@ class AddPersonPopup extends StatelessWidget {
                           "assets/icon/ic_phone_ring.svg",
                         ),
                       ),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
-                      focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey50)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide(
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey950
+                                  : AppThemData.grey50)),
                       hintStyle: GoogleFonts.inter(
-                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                        color: themeChange.isDarkTheme()
+                            ? AppThemData.grey25
+                            : AppThemData.grey950,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey25
+                          : AppThemData.grey950,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -1036,10 +1294,16 @@ class AddPersonPopup extends StatelessWidget {
                       Spacer(),
                       GestureDetector(
                         onTap: () {
-                          if (controller.enterNameController.value.text.isEmpty || controller.enterNameController.value.text == '') {
+                          if (controller
+                                  .enterNameController.value.text.isEmpty ||
+                              controller.enterNameController.value.text == '') {
                             return ShowToastDialog.toast('Please Enter Name');
-                          } else if (controller.enterNumberController.value.text.isEmpty || controller.enterNumberController.value.text == '') {
-                            return ShowToastDialog.toast('Please Enter Mobile Number');
+                          } else if (controller
+                                  .enterNumberController.value.text.isEmpty ||
+                              controller.enterNumberController.value.text ==
+                                  '') {
+                            return ShowToastDialog.toast(
+                                'Please Enter Mobile Number');
                           } else {
                             controller.addPerson();
                           }
@@ -1052,12 +1316,15 @@ class AddPersonPopup extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: ShapeDecoration(
-                                color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey950
+                                    : AppThemData.grey25,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(200),
                                 ),
                               ),
-                              child: SvgPicture.asset("assets/icon/ic_user_add.svg"),
+                              child: SvgPicture.asset(
+                                  "assets/icon/ic_user_add.svg"),
                             ),
                             const SizedBox(width: 12),
                             Text(

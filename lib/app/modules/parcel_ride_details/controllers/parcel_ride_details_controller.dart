@@ -101,7 +101,7 @@ class ParcelRideDetailsController extends GetxController {
         if (paymentModel.value.strip!.isActive == true) {
           Stripe.publishableKey =
               paymentModel.value.strip!.clientPublishableKey.toString();
-          Stripe.merchantIdentifier = 'MyTaxi';
+          Stripe.merchantIdentifier = 'InMotioneMoving';
           Stripe.instance.applySettings();
         }
         if (paymentModel.value.paypal!.isActive == true) {
@@ -160,7 +160,7 @@ class ParcelRideDetailsController extends GetxController {
         userId: parcelModel.value.driverId,
         isCredit: true,
         type: Constant.typeDriver,
-        note: "Ride fee Credited ");
+        note: "Move fee credited");
 
     await FireStoreUtils.setWalletTransaction(transactionModel)
         .then((value) async {
@@ -219,7 +219,7 @@ class ParcelRideDetailsController extends GetxController {
         token: receiverUserModel!.fcmToken.toString(),
         title: 'Payment Received'.tr,
         body:
-            'Payment Received for Ride #${parcelModel.value.id.toString().substring(0, 5)}',
+            'Payment received for move #${parcelModel.value.id.toString().substring(0, 5)}',
         bookingId: parcelModel.value.id,
         driverId: parcelModel.value.driverId.toString(),
         senderId: FireStoreUtils.getCurrentUid(),
@@ -281,7 +281,7 @@ class ParcelRideDetailsController extends GetxController {
                       primary: AppThemData.primary500,
                     ),
                   ),
-                  merchantDisplayName: 'MyTaxi'));
+                  merchantDisplayName: 'In Motione Moving'));
           displayStripePaymentSheet(
               amount: finalAmount.toString(),
               client_secret: paymentIntentData['client_secret']);
@@ -377,7 +377,7 @@ class ParcelRideDetailsController extends GetxController {
           price: finalAmount.toString(),
           currencyCode: "USD",
           title: "Payment for services",
-          description: "Payment for Ride booking services",
+          description: "Payment for moving services",
         ));
   }
   // final _flutterPaypalNativePlugin = FlutterPaypalNative.instance;
@@ -540,7 +540,7 @@ class ParcelRideDetailsController extends GetxController {
       },
       "customizations": {
         "title": "Payment for Services",
-        "description": "Payment for Ride booking services",
+        "description": "Payment for moving services",
       }
     });
 

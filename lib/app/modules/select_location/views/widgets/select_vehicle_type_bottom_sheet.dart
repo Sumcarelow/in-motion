@@ -33,10 +33,14 @@ class SelectVehicleTypeBottomSheet extends StatelessWidget {
           return Container(
             height: Responsive.height(100, context),
             decoration: BoxDecoration(
-              color: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              color: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.white,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             ),
-            padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
+            padding:
+                const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -54,7 +58,9 @@ class SelectVehicleTypeBottomSheet extends StatelessWidget {
                           height: 5,
                           margin: const EdgeInsets.only(bottom: 10),
                           decoration: ShapeDecoration(
-                            color: themeChange.isDarkTheme() ? AppThemData.grey700 : AppThemData.grey200,
+                            color: themeChange.isDarkTheme()
+                                ? AppThemData.grey700
+                                : AppThemData.grey200,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100),
                             ),
@@ -67,9 +73,11 @@ class SelectVehicleTypeBottomSheet extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Gathering options'.tr,
+                                    'Finding moving vehicles'.tr,
                                     style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.grey950,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -84,32 +92,73 @@ class SelectVehicleTypeBottomSheet extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                     Text(
-                                      'Choose a trip'.tr,
+                                      'Choose a moving vehicle'.tr,
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.white
+                                            : AppThemData.grey950,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: Constant.vehicleTypeList!.length,
-                                      padding: const EdgeInsets.only(bottom: 80),
-                                      itemBuilder: (context, index) {
-                                        bool isCabAvailable = Constant.cabTimeSlotList.any(
-                                              (cab) => cab.id == Constant.vehicleTypeList![index].id,
-                                        );
-                                        double finalPrice = controller.updateCalculation(Constant.vehicleTypeList![index].id);
-                                        return CategoryView(
-                                          vehicleType: Constant.vehicleTypeList![index],
-                                          index: index,
-                                          isForPayment: false,
-                                          price: finalPrice.toString(),
-                                          isCabAvailableInTimeSlot: isCabAvailable,
-                                        );
-                                      },
-                                    )
+                                    if ((Constant.vehicleTypeList ?? [])
+                                        .isEmpty)
+                                      Padding(
+                                        padding: const EdgeInsets.all(24),
+                                        child: Column(
+                                          children: [
+                                            const Icon(
+                                              Icons.local_shipping_outlined,
+                                              size: 44,
+                                              color: AppThemData.grey500,
+                                            ),
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              'No moving vehicles are available right now.'
+                                                  .tr,
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.inter(
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.white
+                                                    : AppThemData.grey950,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    else
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount:
+                                            Constant.vehicleTypeList!.length,
+                                        padding:
+                                            const EdgeInsets.only(bottom: 80),
+                                        itemBuilder: (context, index) {
+                                          bool isCabAvailable =
+                                              Constant.cabTimeSlotList.any(
+                                            (cab) =>
+                                                cab.id ==
+                                                Constant
+                                                    .vehicleTypeList![index].id,
+                                          );
+                                          double finalPrice = controller
+                                              .updateCalculation(Constant
+                                                  .vehicleTypeList![index].id);
+                                          return CategoryView(
+                                            vehicleType: Constant
+                                                .vehicleTypeList![index],
+                                            index: index,
+                                            isForPayment: false,
+                                            price: finalPrice.toString(),
+                                            isCabAvailableInTimeSlot:
+                                                isCabAvailable,
+                                          );
+                                        },
+                                      )
                                   ]))
                       ],
                     ),
@@ -117,15 +166,23 @@ class SelectVehicleTypeBottomSheet extends StatelessWidget {
                 ),
                 Obx(
                   () => Visibility(
-                      visible: controller.mapModel.value != null,
+                      visible: controller.mapModel.value != null &&
+                          (Constant.vehicleTypeList?.isNotEmpty ?? false),
                       child: Container(
                         width: Responsive.width(100, context),
                         decoration: BoxDecoration(
-                            color: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+                            color: themeChange.isDarkTheme()
+                                ? AppThemData.black
+                                : AppThemData.white,
                             border: Border(
-                              top: BorderSide(width: 1.0, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
+                              top: BorderSide(
+                                  width: 1.0,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.grey800
+                                      : AppThemData.grey100),
                             )),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -140,27 +197,37 @@ class SelectVehicleTypeBottomSheet extends StatelessWidget {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Total'.tr,
+                                        'Estimated move total'.tr,
                                         style: GoogleFonts.inter(
-                                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey25
+                                              : AppThemData.grey950,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                          //
-                                          // CabTimeSlotModel? selectedCab = Constant.cabTimeList.firstWhere(
-                                          //       (cab) => cab.vehicleTypeId == controller.bookingModel.value.vehicleType.id,
-                                          //   orElse: () => null, // Returns null if no match is found
-                                          // );
+                                        //
+                                        // CabTimeSlotModel? selectedCab = Constant.cabTimeList.firstWhere(
+                                        //       (cab) => cab.vehicleTypeId == controller.bookingModel.value.vehicleType.id,
+                                        //   orElse: () => null, // Returns null if no match is found
+                                        // );
 
-                                        Constant.amountToShow(amount: Constant.calculateFinalAmount(controller.bookingModel.value).toString()),
+                                        Constant.amountToShow(
+                                            amount:
+                                                Constant.calculateFinalAmount(
+                                                        controller
+                                                            .bookingModel.value)
+                                                    .toString()),
                                         style: GoogleFonts.inter(
-                                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey25
+                                              : AppThemData.grey950,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700,
                                         ),
@@ -171,33 +238,66 @@ class SelectVehicleTypeBottomSheet extends StatelessWidget {
                                     onTap: () {
                                       log('=================> selected index ${controller.selectVehicleTypeIndex.value}');
                                       Get.to(PaymentMethodView(
-                                        index: controller.selectVehicleTypeIndex.value,
+                                        index: controller
+                                            .selectVehicleTypeIndex.value,
                                       ));
                                     },
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                           width: 32,
                                           height: 32,
                                           padding: const EdgeInsets.all(5),
                                           decoration: ShapeDecoration(
-                                            color: themeChange.isDarkTheme() ? AppThemData.grey900 : AppThemData.grey50,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.grey900
+                                                : AppThemData.grey50,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(100),
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
                                             ),
                                           ),
-                                          child: (controller.selectedPaymentMethod.value == Constant.paymentModel!.cash!.name)
-                                              ? SvgPicture.asset("assets/icon/ic_cash.svg")
-                                              : (controller.selectedPaymentMethod.value == Constant.paymentModel!.wallet!.name)
-                                                  ? SvgPicture.asset("assets/icon/ic_wallet.svg",color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,)
-                                                  : (controller.selectedPaymentMethod.value == Constant.paymentModel!.paypal!.name)
-                                                      ? Image.asset("assets/images/ig_paypal.png", height: 24, width: 24)
-                                                      : (controller.selectedPaymentMethod.value == Constant.paymentModel!.strip!.name)
-                                                          ? Image.asset("assets/images/ig_stripe.png", height: 24, width: 24)
-                                                          : (controller.selectedPaymentMethod.value == Constant.paymentModel!.razorpay!.name)
+                                          child: (controller.selectedPaymentMethod.value ==
+                                                  Constant
+                                                      .paymentModel!.cash!.name)
+                                              ? SvgPicture.asset(
+                                                  "assets/icon/ic_cash.svg")
+                                              : (controller.selectedPaymentMethod.value ==
+                                                      Constant.paymentModel!
+                                                          .wallet!.name)
+                                                  ? SvgPicture.asset(
+                                                      "assets/icon/ic_wallet.svg",
+                                                      color: themeChange
+                                                              .isDarkTheme()
+                                                          ? AppThemData.white
+                                                          : AppThemData.black,
+                                                    )
+                                                  : (controller.selectedPaymentMethod.value ==
+                                                          Constant.paymentModel!
+                                                              .paypal!.name)
+                                                      ? Image.asset(
+                                                          "assets/images/ig_paypal.png",
+                                                          height: 24,
+                                                          width: 24)
+                                                      : (controller.selectedPaymentMethod.value ==
+                                                              Constant
+                                                                  .paymentModel!
+                                                                  .strip!
+                                                                  .name)
+                                                          ? Image.asset(
+                                                              "assets/images/ig_stripe.png",
+                                                              height: 24,
+                                                              width: 24)
+                                                          : (controller.selectedPaymentMethod.value ==
+                                                                  Constant
+                                                                      .paymentModel!
+                                                                      .razorpay!
+                                                                      .name)
                                                               ? Image.asset("assets/images/ig_razorpay.png", height: 24, width: 24)
                                                               : (controller.selectedPaymentMethod.value == Constant.paymentModel!.payStack!.name)
                                                                   ? Image.asset("assets/images/ig_paystack.png", height: 24, width: 24)
@@ -211,19 +311,24 @@ class SelectVehicleTypeBottomSheet extends StatelessWidget {
                                         ),
                                         const SizedBox(width: 8),
                                         SizedBox(
-                                          width:80 ,
+                                          width: 80,
                                           child: Text(
-                                            controller.selectedPaymentMethod.value.toString(),
+                                            controller
+                                                .selectedPaymentMethod.value
+                                                .toString(),
                                             overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.grey25
+                                                  : AppThemData.grey950,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
                                         ),
                                         const SizedBox(width: 2),
-                                        const Icon(Icons.keyboard_arrow_right_rounded)
+                                        const Icon(
+                                            Icons.keyboard_arrow_right_rounded)
                                       ],
                                     ),
                                   ),

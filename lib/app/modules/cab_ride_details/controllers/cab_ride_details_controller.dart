@@ -89,7 +89,7 @@ class CabRideDetailsController extends GetxController {
         if (paymentModel.value.strip!.isActive == true) {
           Stripe.publishableKey =
               paymentModel.value.strip!.clientPublishableKey.toString();
-          Stripe.merchantIdentifier = 'MyTaxi';
+          Stripe.merchantIdentifier = 'InMotioneMoving';
           Stripe.instance.applySettings();
         }
         if (paymentModel.value.paypal!.isActive == true) {
@@ -139,7 +139,7 @@ class CabRideDetailsController extends GetxController {
         userId: bookingModel.value.driverId,
         isCredit: true,
         type: Constant.typeDriver,
-        note: "Ride fee Credited ");
+        note: "Move fee credited");
 
     await FireStoreUtils.setWalletTransaction(transactionModel)
         .then((value) async {
@@ -198,7 +198,7 @@ class CabRideDetailsController extends GetxController {
         token: receiverUserModel!.fcmToken.toString(),
         title: 'Payment Received'.tr,
         body:
-            'Payment Received for Ride #${bookingModel.value.id.toString().substring(0, 5)}',
+            'Payment received for move #${bookingModel.value.id.toString().substring(0, 5)}',
         bookingId: bookingModel.value.id,
         driverId: bookingModel.value.driverId.toString(),
         senderId: FireStoreUtils.getCurrentUid(),
@@ -274,7 +274,7 @@ class CabRideDetailsController extends GetxController {
                       primary: AppThemData.primary500,
                     ),
                   ),
-                  merchantDisplayName: 'MyTaxi'));
+                  merchantDisplayName: 'In Motione Moving'));
           displayStripePaymentSheet(amount: finalAmount.toString());
         }
       } catch (e, s) {
@@ -353,7 +353,7 @@ class CabRideDetailsController extends GetxController {
           price: finalAmount.toString(),
           currencyCode: "USD",
           title: "Payment for services",
-          description: "Payment for Ride booking services",
+          description: "Payment for moving services",
         ));
   }
   // final _flutterPaypalNativePlugin = FlutterPaypalNative.instance;
@@ -499,7 +499,7 @@ class CabRideDetailsController extends GetxController {
       },
       "customizations": {
         "title": "Payment for Services",
-        "description": "Payment for Ride booking services",
+        "description": "Payment for moving services",
       }
     });
 

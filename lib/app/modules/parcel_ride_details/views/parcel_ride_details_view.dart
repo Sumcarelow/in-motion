@@ -938,7 +938,7 @@ class ParcelRideDetailsView extends GetView<ParcelRideDetailsController> {
                                                                                                         "bookingId": controller.parcelModel.value.id
                                                                                                       };
                                                                                                       if (value == true) {
-                                                                                                        SendNotification.sendOneNotification(type: "order", token: driverUserModel.fcmToken.toString(), title: 'Your Bid is close', customerId: FireStoreUtils.getCurrentUid(), senderId: FireStoreUtils.getCurrentUid(), bookingId: controller.parcelModel.value.id, driverId: driverUserModel.id, body: 'Your ride #${controller.parcelModel.value.id.toString().substring(0, 5)} bid has been close.', payload: playLoad);
+                                                                                                        SendNotification.sendOneNotification(type: "order", token: driverUserModel.fcmToken.toString(), title: 'Moving bid closed', customerId: FireStoreUtils.getCurrentUid(), senderId: FireStoreUtils.getCurrentUid(), bookingId: controller.parcelModel.value.id, driverId: driverUserModel.id, body: 'Your move #${controller.parcelModel.value.id.toString().substring(0, 5)} bid was closed.', payload: playLoad);
                                                                                                         ShowToastDialog.closeLoader();
                                                                                                       }
 
@@ -975,7 +975,7 @@ class ParcelRideDetailsView extends GetView<ParcelRideDetailsController> {
                                                                                           builder: (context) {
                                                                                             return CustomDialogBox(
                                                                                                 title: "Confirm Ride Request".tr,
-                                                                                                descriptions: "Are you sure you want to accept this ride request? Once confirmed, you will be directed to the next step to proceed with the ride.",
+                                                                                                descriptions: "Confirm this moving request to continue with the booking.".tr,
                                                                                                 img: Image.asset(
                                                                                                   "assets/icon/ic_green_right.png",
                                                                                                   height: 58,
@@ -999,7 +999,7 @@ class ParcelRideDetailsView extends GetView<ParcelRideDetailsController> {
                                                                                                         "bookingId": controller.parcelModel.value.id
                                                                                                       };
 
-                                                                                                      await SendNotification.sendOneNotification(type: "order", token: driverUserModel.fcmToken.toString(), title: 'Your Ride is Accepted', customerId: FireStoreUtils.getCurrentUid(), senderId: FireStoreUtils.getCurrentUid(), bookingId: controller.parcelModel.value.id, driverId: driverUserModel.id, body: 'Your ride #${controller.parcelModel.value.id.toString().substring(0, 5)} has been confirmed.', payload: playLoad);
+                                                                                                      await SendNotification.sendOneNotification(type: "order", token: driverUserModel.fcmToken.toString(), title: 'Your move is accepted', customerId: FireStoreUtils.getCurrentUid(), senderId: FireStoreUtils.getCurrentUid(), bookingId: controller.parcelModel.value.id, driverId: driverUserModel.id, body: 'Your move #${controller.parcelModel.value.id.toString().substring(0, 5)} has been confirmed.', payload: playLoad);
                                                                                                       Navigator.pop(context);
                                                                                                       controller.update();
                                                                                                     } else {
@@ -1336,27 +1336,13 @@ class ParcelRideDetailsView extends GetView<ParcelRideDetailsController> {
                                                 ),
                                               ),
                                               const SizedBox(height: 2),
-                                              Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                      "assets/icon/ic_multi_person.svg"),
-                                                  const SizedBox(width: 6),
-                                                  Text(
-                                                    'No'.tr,
-                                                    style: GoogleFonts.inter(
-                                                      color: AppThemData
-                                                          .primary500,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ],
+                                              Text(
+                                                'Moving vehicle'.tr,
+                                                style: GoogleFonts.inter(
+                                                  color: AppThemData.primary500,
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
                                               ),
                                             ],
                                           ),

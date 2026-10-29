@@ -82,7 +82,7 @@ class InterCityRideDetailsController extends GetxController {
         if (paymentModel.value.strip!.isActive == true) {
           Stripe.publishableKey =
               paymentModel.value.strip!.clientPublishableKey.toString();
-          Stripe.merchantIdentifier = 'MyTaxi';
+          Stripe.merchantIdentifier = 'InMotioneMoving';
           Stripe.instance.applySettings();
         }
         if (paymentModel.value.paypal!.isActive == true) {
@@ -141,7 +141,7 @@ class InterCityRideDetailsController extends GetxController {
         userId: interCityModel.value.driverId,
         isCredit: true,
         type: Constant.typeDriver,
-        note: "Ride fee Credited ");
+        note: "Move fee credited");
 
     await FireStoreUtils.setWalletTransaction(transactionModel)
         .then((value) async {
@@ -201,7 +201,7 @@ class InterCityRideDetailsController extends GetxController {
         token: receiverUserModel!.fcmToken.toString(),
         title: 'Payment Received'.tr,
         body:
-            'Payment Received for Ride #${interCityModel.value.id.toString().substring(0, 5)}',
+            'Payment received for move #${interCityModel.value.id.toString().substring(0, 5)}',
         bookingId: interCityModel.value.id,
         driverId: interCityModel.value.driverId.toString(),
         senderId: FireStoreUtils.getCurrentUid(),
@@ -285,7 +285,7 @@ class InterCityRideDetailsController extends GetxController {
                       primary: AppThemData.primary500,
                     ),
                   ),
-                  merchantDisplayName: 'MyTaxi'));
+                  merchantDisplayName: 'In Motione Moving'));
           displayStripePaymentSheet(
               amount: finalAmount.toString(),
               client_secret: paymentIntentData['client_secret']);
@@ -385,7 +385,7 @@ class InterCityRideDetailsController extends GetxController {
           price: amount,
           currencyCode: "USD",
           title: "Payment for services",
-          description: "Payment for Ride booking services",
+          description: "Payment for moving services",
         ));
   }
 
@@ -490,7 +490,7 @@ class InterCityRideDetailsController extends GetxController {
       },
       "customizations": {
         "title": "Payment for Services",
-        "description": "Payment for Ride booking services",
+        "description": "Payment for moving services",
       }
     });
 

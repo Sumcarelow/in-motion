@@ -7,13 +7,13 @@ import 'package:customer/app/models/currencies_model.dart';
 import 'package:customer/app/models/language_model.dart';
 import 'package:customer/app/models/user_model.dart';
 import 'package:customer/constant/constant.dart';
+import 'package:customer/constant/moving_experience.dart';
 import 'package:customer/extension/hax_color_extension.dart';
 import 'package:customer/services/localization_service.dart';
 import 'package:customer/theme/app_them_data.dart';
 import 'package:customer/utils/Preferences.dart';
 import 'package:customer/utils/fire_store_utils.dart';
 import 'package:customer/utils/notification_service.dart';
-
 
 class GlobalSettingController extends GetxController {
   @override
@@ -32,7 +32,14 @@ class GlobalSettingController extends GetxController {
       if (value != null) {
         Constant.currencyModel = value;
       } else {
-        Constant.currencyModel = CurrencyModel(id: "", code: "USD", decimalDigits: 2, active: true, name: "US Dollar", symbol: "\$", symbolAtRight: false);
+        Constant.currencyModel = CurrencyModel(
+            id: "",
+            code: "USD",
+            decimalDigits: 2,
+            active: true,
+            name: "US Dollar",
+            symbol: "\$",
+            symbolAtRight: false);
       }
     });
     await FireStoreUtils().getSettings();
@@ -43,16 +50,21 @@ class GlobalSettingController extends GetxController {
   getVehicleTypeList() async {
     await FireStoreUtils.getVehicleType().then((value) {
       if (value != null) {
-        Constant.vehicleTypeList = value;
+        Constant.vehicleTypeList = MovingExperience.movingVehiclesOnly(value);
       }
     });
+    update();
   }
 
   getInterCityService() async {
-    await  FireStoreUtils.fetchIntercityService();
-    List<VehicleTypeModel> allCabs = await  FireStoreUtils.fetchAllCabServices();
-      Constant.cabTimeSlotList.addAll(allCabs);
-      log('===================> all get cab fetch intercity services ${allCabs.length}');
+    await FireStoreUtils.fetchIntercityService();
+    List<VehicleTypeModel> allCabs = await FireStoreUtils.fetchAllCabServices();
+    Constant.cabTimeSlotList.clear();
+    Constant.cabTimeSlotList.addAll(
+      MovingExperience.movingVehiclesOnly(allCabs),
+    );
+    log('===================> moving vehicle services ${Constant.cabTimeSlotList.length}');
+    update();
   }
 
   NotificationService notificationService = NotificationService();
@@ -62,7 +74,8 @@ class GlobalSettingController extends GetxController {
       String token = await NotificationService.getToken();
       log(":::::::TOKEN:::::: $token");
       if (FirebaseAuth.instance.currentUser != null) {
-        await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid()).then((value) {
+        await FireStoreUtils.getUserProfile(FireStoreUtils.getCurrentUid())
+            .then((value) {
           if (value != null) {
             UserModel userModel = value;
             userModel.fcmToken = token;
@@ -75,7 +88,9 @@ class GlobalSettingController extends GetxController {
   }
 
   getLanguage() async {
-    if (Preferences.getString(Preferences.languageCodeKey).toString().isNotEmpty) {
+    if (Preferences.getString(Preferences.languageCodeKey)
+        .toString()
+        .isNotEmpty) {
       LanguageModel languageModel = await Constant.getLanguage();
       LocalizationService().changeLocale(languageModel.code.toString());
     } else {

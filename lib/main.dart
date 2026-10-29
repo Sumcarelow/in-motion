@@ -14,6 +14,7 @@ import 'package:customer/utils/dark_theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'app/routes/app_pages.dart';
+import 'constant/moving_experience.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ Future<void> main() async {
   configLoading();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'In Motione',
+    title: MovingExperience.brandName,
     theme: ThemeData(
       primarySwatch: Colors.amber,
       textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1),
@@ -100,7 +101,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               }
             },
             child: GetMaterialApp(
-                title: 'In Motione'.tr,
+                title: MovingExperience.brandName,
                 debugShowCheckedModeBanner: false,
                 theme: Styles.themeData(
                     themeChangeProvider.darkTheme == 0

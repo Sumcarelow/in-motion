@@ -25,7 +25,9 @@ class StatementView extends StatelessWidget {
         init: StatementController(),
         builder: (controller) {
           return Scaffold(
-            backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.bgScreen,
+            backgroundColor: themeChange.isDarkTheme()
+                ? AppThemData.black
+                : AppThemData.bgScreen,
             body: Padding(
               padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
@@ -43,9 +45,11 @@ class StatementView extends StatelessWidget {
                     const SizedBox(height: 16),
                     Center(
                       child: Text(
-                        'Download Ride Statement'.tr,
+                        'Download Move Statement'.tr,
                         style: GoogleFonts.inter(
-                          color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.white
+                              : AppThemData.grey950,
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                         ),
@@ -55,7 +59,8 @@ class StatementView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        'Select your preferred cab type, choose a date range and download your ride statement'.tr,
+                        'Choose a move type and date range to download your statement.'
+                            .tr,
                         style: GoogleFonts.inter(
                           color: AppThemData.grey500,
                           fontSize: 14,
@@ -68,16 +73,20 @@ class StatementView extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                        color: themeChange.isDarkTheme()
+                            ? AppThemData.grey950
+                            : AppThemData.grey25,
                       ),
                       padding: EdgeInsets.all(24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Select Ride Type'.tr,
+                            'Select Move Type'.tr,
                             style: GoogleFonts.inter(
-                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.white
+                                  : AppThemData.grey950,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -88,34 +97,44 @@ class StatementView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15),
                               isExpanded: true,
                               style: TextStyle(
-                                color: themeChange.isDarkTheme() ? AppThemData.grey50 : AppThemData.grey950,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey50
+                                    : AppThemData.grey950,
                                 fontSize: 16,
                               ),
                               onChanged: (String? searchType) {
-                                controller.selectedSearchType.value = searchType ?? "Name";
+                                controller.selectedSearchType.value =
+                                    searchType ?? "Name";
                               },
                               value: controller.selectedSearchType.value,
-                              items: controller.searchType.map<DropdownMenuItem<String>>((String value) {
+                              items: controller.searchType
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
                                 return DropdownMenuItem(
                                   value: value,
                                   child: Text(
                                     value,
                                     style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey800,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey25
+                                          : AppThemData.grey800,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                 );
                               }).toList(),
-                              decoration: Constant.defaultInputDecoration(context),
+                              decoration:
+                                  Constant.defaultInputDecoration(context),
                             );
                           }),
                           const SizedBox(height: 8),
                           Text(
                             'Select Time '.tr,
                             style: GoogleFonts.inter(
-                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.white
+                                  : AppThemData.grey950,
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -126,30 +145,42 @@ class StatementView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15),
                               isExpanded: true,
                               style: TextStyle(
-                                color: themeChange.isDarkTheme() ? AppThemData.grey50 : AppThemData.grey950,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey50
+                                    : AppThemData.grey950,
                                 fontSize: 16,
                               ),
                               onChanged: (String? statusType) {
                                 final now = DateTime.now();
-                                controller.selectedDateOption.value = statusType ?? "All";
+                                controller.selectedDateOption.value =
+                                    statusType ?? "All";
 
                                 switch (statusType) {
                                   case 'Last Month':
-                                    controller.selectedDateRangeForPdf.value = DateTimeRange(
-                                      start: now.subtract(const Duration(days: 30)),
-                                      end: DateTime(now.year, now.month, now.day, 23, 59, 0, 0),
+                                    controller.selectedDateRangeForPdf.value =
+                                        DateTimeRange(
+                                      start: now
+                                          .subtract(const Duration(days: 30)),
+                                      end: DateTime(now.year, now.month,
+                                          now.day, 23, 59, 0, 0),
                                     );
                                     break;
                                   case 'Last 6 Months':
-                                    controller.selectedDateRangeForPdf.value = DateTimeRange(
-                                      start: DateTime(now.year, now.month - 6, now.day),
-                                      end: DateTime(now.year, now.month, now.day, 23, 59, 0, 0),
+                                    controller.selectedDateRangeForPdf.value =
+                                        DateTimeRange(
+                                      start: DateTime(
+                                          now.year, now.month - 6, now.day),
+                                      end: DateTime(now.year, now.month,
+                                          now.day, 23, 59, 0, 0),
                                     );
                                     break;
                                   case 'Last Year':
-                                    controller.selectedDateRangeForPdf.value = DateTimeRange(
-                                      start: DateTime(now.year - 1, now.month, now.day),
-                                      end: DateTime(now.year, now.month, now.day, 23, 59, 0, 0),
+                                    controller.selectedDateRangeForPdf.value =
+                                        DateTimeRange(
+                                      start: DateTime(
+                                          now.year - 1, now.month, now.day),
+                                      end: DateTime(now.year, now.month,
+                                          now.day, 23, 59, 0, 0),
                                     );
                                     break;
                                   case 'Custom':
@@ -157,40 +188,51 @@ class StatementView extends StatelessWidget {
                                     break;
                                   case 'All':
                                   default:
-                                    controller.selectedDateRangeForPdf.value = DateTimeRange(
+                                    controller.selectedDateRangeForPdf.value =
+                                        DateTimeRange(
                                       start: DateTime(now.year, 1, 1),
-                                      end: DateTime(now.year, now.month, now.day, 23, 59, 0, 0),
+                                      end: DateTime(now.year, now.month,
+                                          now.day, 23, 59, 0, 0),
                                     );
                                     break;
                                 }
 
-                                controller.isCustomVisible.value = statusType == 'Custom';
+                                controller.isCustomVisible.value =
+                                    statusType == 'Custom';
 
-                                final selectedRange = controller.selectedDateRangeForPdf.value;
+                                final selectedRange =
+                                    controller.selectedDateRangeForPdf.value;
                                 debugPrint("Selected Date Option: $statusType");
-                                debugPrint("Start: ${selectedRange.start.toIso8601String()}");
-                                debugPrint("End: ${selectedRange.end.toIso8601String()}");
+                                debugPrint(
+                                    "Start: ${selectedRange.start.toIso8601String()}");
+                                debugPrint(
+                                    "End: ${selectedRange.end.toIso8601String()}");
                               },
                               value: controller.selectedDateOption.value,
-                              items: controller.dateOption.map<DropdownMenuItem<String>>((String value) {
+                              items: controller.dateOption
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
                                 return DropdownMenuItem(
                                   value: value,
                                   child: Text(
                                     value,
                                     style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey800,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey25
+                                          : AppThemData.grey800,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                 );
                               }).toList(),
-                              decoration: Constant.defaultInputDecoration(context),
+                              decoration:
+                                  Constant.defaultInputDecoration(context),
                             );
                           }),
                           const SizedBox(height: 20),
-                          Obx( ()=>
-                             Visibility(
+                          Obx(
+                            () => Visibility(
                               visible: controller.isCustomVisible.value,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,7 +240,9 @@ class StatementView extends StatelessWidget {
                                   Text(
                                     'Select Star date to End Date'.tr,
                                     style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.grey950,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -206,32 +250,61 @@ class StatementView extends StatelessWidget {
                                   const SizedBox(height: 6),
                                   GestureDetector(
                                     onTap: () {
-                                      showDateRangePickerForPdf(context, controller);
+                                      showDateRangePickerForPdf(
+                                          context, controller);
                                     },
                                     child: Container(
-                                      width: MediaQuery.sizeOf(context).width * 0.9,
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.9,
                                       padding: const EdgeInsets.all(12),
                                       height: 56,
                                       margin: const EdgeInsets.only(top: 4),
                                       clipBehavior: Clip.antiAlias,
                                       decoration: ShapeDecoration(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey900 : AppThemData.grey50,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey900
+                                            : AppThemData.grey50,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(100),
+                                          borderRadius:
+                                              BorderRadius.circular(100),
                                         ),
                                       ),
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Obx(
                                             () => Text(
-                                              controller.selectedDateRangeForPdf.value.start == DateTime(DateTime.now().year, DateTime.january, 1) &&
-                                                      controller.selectedDateRangeForPdf.value.end == DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 0, 0)
+                                              controller.selectedDateRangeForPdf
+                                                              .value.start ==
+                                                          DateTime(
+                                                              DateTime.now()
+                                                                  .year,
+                                                              DateTime.january,
+                                                              1) &&
+                                                      controller
+                                                              .selectedDateRangeForPdf
+                                                              .value
+                                                              .end ==
+                                                          DateTime(
+                                                              DateTime.now()
+                                                                  .year,
+                                                              DateTime.now()
+                                                                  .month,
+                                                              DateTime.now()
+                                                                  .day,
+                                                              23,
+                                                              59,
+                                                              0,
+                                                              0)
                                                   ? "Select Date"
                                                   : "${DateFormat('dd/MM/yyyy').format(controller.selectedDateRangeForPdf.value.start)} to ${DateFormat('dd/MM/yyyy').format(controller.selectedDateRangeForPdf.value.end)}",
                                               style: GoogleFonts.inter(
-                                                color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.white
+                                                    : AppThemData.grey950,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -239,7 +312,9 @@ class StatementView extends StatelessWidget {
                                           ),
                                           Icon(
                                             Icons.calendar_month_outlined,
-                                            color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.grey25
+                                                : AppThemData.grey950,
                                             size: 24,
                                           )
                                         ],
@@ -258,21 +333,34 @@ class StatementView extends StatelessWidget {
                                 buttonColor: AppThemData.primary500,
                                 buttonTextColor: AppThemData.black,
                                 onTap: () {
+                                  if (controller.selectedDateOption.value ==
+                                      'Custom') {
+                                    final selected = controller
+                                        .selectedDateRangeForPdf.value;
+                                    final defaultStart = DateTime(
+                                        DateTime.now().year,
+                                        DateTime.january,
+                                        1);
+                                    final defaultEnd = DateTime(
+                                        DateTime.now().year,
+                                        DateTime.now().month,
+                                        DateTime.now().day,
+                                        23,
+                                        59,
+                                        0,
+                                        0);
 
-                                  if (controller.selectedDateOption.value == 'Custom') {
-                                    final selected = controller.selectedDateRangeForPdf.value;
-                                    final defaultStart = DateTime(DateTime.now().year, DateTime.january, 1);
-                                    final defaultEnd = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 0, 0);
-
-                                    final isDefaultRange = selected.start == defaultStart && selected.end == defaultEnd;
+                                    final isDefaultRange =
+                                        selected.start == defaultStart &&
+                                            selected.end == defaultEnd;
 
                                     if (isDefaultRange) {
-                                      ShowToastDialog.toast("Please select a valid custom date range.");
+                                      ShowToastDialog.toast(
+                                          "Please select a valid custom date range.");
                                       return;
                                     }
                                   }
                                   controller.dataGetForPdf();
-
                                 }),
                           ),
                         ],
@@ -286,12 +374,13 @@ class StatementView extends StatelessWidget {
         });
   }
 
-  Future<void> showDateRangePickerForPdf(BuildContext context, StatementController controller) async {
+  Future<void> showDateRangePickerForPdf(
+      BuildContext context, StatementController controller) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Select Ride Booking Date'),
+          title: const Text('Select Move Booking Date'),
           content: SizedBox(
             height: 300,
             width: 300,
@@ -299,10 +388,13 @@ class StatementView extends StatelessWidget {
               initialDisplayDate: DateTime.now(),
               maxDate: DateTime.now(),
               selectionMode: DateRangePickerSelectionMode.range,
-              onSelectionChanged: (DateRangePickerSelectionChangedArgs args) async {
+              onSelectionChanged:
+                  (DateRangePickerSelectionChangedArgs args) async {
                 if (args.value is PickerDateRange) {
-                  controller.startDateForPdf = (args.value as PickerDateRange).startDate;
-                  controller.endDateForPdf = (args.value as PickerDateRange).endDate;
+                  controller.startDateForPdf =
+                      (args.value as PickerDateRange).startDate;
+                  controller.endDateForPdf =
+                      (args.value as PickerDateRange).endDate;
                 }
               },
             ),
@@ -310,14 +402,27 @@ class StatementView extends StatelessWidget {
           actions: <Widget>[
             ElevatedButton(
                 onPressed: () {
-                  controller.selectedDateRangeForPdf.value = DateTimeRange(start: DateTime(DateTime.now().year, DateTime.january, 1), end: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 0, 0));
+                  controller.selectedDateRangeForPdf.value = DateTimeRange(
+                      start: DateTime(DateTime.now().year, DateTime.january, 1),
+                      end: DateTime(DateTime.now().year, DateTime.now().month,
+                          DateTime.now().day, 23, 59, 0, 0));
                   Navigator.of(context).pop();
                 },
                 child: const Text('clear')),
             TextButton(
               onPressed: () async {
-                if (controller.startDateForPdf != null && controller.endDateForPdf != null) {
-                  controller.selectedDateRangeForPdf.value = DateTimeRange(start: controller.startDateForPdf!, end: DateTime(controller.endDateForPdf!.year, controller.endDateForPdf!.month, controller.endDateForPdf!.day, 23, 59, 0, 0));
+                if (controller.startDateForPdf != null &&
+                    controller.endDateForPdf != null) {
+                  controller.selectedDateRangeForPdf.value = DateTimeRange(
+                      start: controller.startDateForPdf!,
+                      end: DateTime(
+                          controller.endDateForPdf!.year,
+                          controller.endDateForPdf!.month,
+                          controller.endDateForPdf!.day,
+                          23,
+                          59,
+                          0,
+                          0));
 
                   log('--------------------==================> ${controller.startDateForPdf} and end data ${controller.endDateForPdf}');
                 }

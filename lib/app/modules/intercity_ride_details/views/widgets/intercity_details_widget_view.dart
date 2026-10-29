@@ -19,7 +19,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-
 class InterCityDetailsView extends StatelessWidget {
   const InterCityDetailsView({super.key});
 
@@ -42,17 +41,22 @@ class InterCityDetailsView extends StatelessWidget {
                       child: Text(
                         'Ride Status'.tr,
                         style: GoogleFonts.inter(
-                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                     Text(
-                      BookingStatus.getBookingStatusTitle(controller.interCityModel.value.bookingStatus ?? ''),
+                      BookingStatus.getBookingStatusTitle(
+                          controller.interCityModel.value.bookingStatus ?? ''),
                       textAlign: TextAlign.right,
                       style: GoogleFonts.inter(
-                        color: BookingStatus.getBookingStatusTitleColor(controller.interCityModel.value.bookingStatus ?? ''),
+                        color: BookingStatus.getBookingStatusTitleColor(
+                            controller.interCityModel.value.bookingStatus ??
+                                ''),
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -61,14 +65,17 @@ class InterCityDetailsView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Visibility(
-                  visible: controller.interCityModel.value.bookingStatus == BookingStatus.bookingAccepted,
+                  visible: controller.interCityModel.value.bookingStatus ==
+                      BookingStatus.bookingAccepted,
                   child: Row(
                     children: [
                       Expanded(
                         child: Text(
                           'Your OTP for Ride'.tr,
                           style: GoogleFonts.inter(
-                            color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                            color: themeChange.isDarkTheme()
+                                ? AppThemData.grey25
+                                : AppThemData.grey950,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -86,14 +93,20 @@ class InterCityDetailsView extends StatelessWidget {
                     ],
                   ),
                 ),
-                TitleView(titleText: 'Cab Details'.tr, padding: const EdgeInsets.fromLTRB(0, 12, 0, 12)),
+                TitleView(
+                    titleText: 'Cab Details'.tr,
+                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 12)),
                 Container(
                   width: Responsive.width(100, context),
                   padding: const EdgeInsets.all(16),
                   margin: const EdgeInsets.only(bottom: 16),
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
+                      side: BorderSide(
+                          width: 1,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey800
+                              : AppThemData.grey100),
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
@@ -108,13 +121,18 @@ class InterCityDetailsView extends StatelessWidget {
                           height: 60,
                           width: 60,
                           child: CachedNetworkImage(
-                              imageUrl: controller.interCityModel.value.vehicleType == null ? Constant.profileConstant : controller.interCityModel.value.vehicleType!.image,
+                              imageUrl:
+                                  controller.interCityModel.value.vehicleType ==
+                                          null
+                                      ? Constant.profileConstant
+                                      : controller.interCityModel.value
+                                          .vehicleType!.image,
                               fit: BoxFit.fill,
                               placeholder: (context, url) => Constant.loader(),
                               errorWidget: (context, url, error) => Image.asset(
-                                Constant.userPlaceHolder,
-                                fit: BoxFit.cover,
-                              )),
+                                    Constant.userPlaceHolder,
+                                    fit: BoxFit.cover,
+                                  )),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -124,18 +142,30 @@ class InterCityDetailsView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                controller.interCityModel.value.vehicleType == null ? "" : controller.interCityModel.value.vehicleType!.title,
+                                controller.interCityModel.value.vehicleType ==
+                                        null
+                                    ? ""
+                                    : controller.interCityModel.value
+                                        .vehicleType!.title,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.grey25
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                (controller.interCityModel.value.paymentStatus ?? false) ? 'Payment is Completed'.tr : 'Payment is Pending'.tr,
+                                (controller.interCityModel.value
+                                            .paymentStatus ??
+                                        false)
+                                    ? 'Payment is Completed'.tr
+                                    : 'Payment is Pending'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.grey25
+                                      : AppThemData.grey950,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -150,31 +180,28 @@ class InterCityDetailsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              Constant.amountToShow(amount: Constant.calculateInterCityFinalAmount(controller.interCityModel.value).toStringAsFixed(2)),
+                              Constant.amountToShow(
+                                  amount:
+                                      Constant.calculateInterCityFinalAmount(
+                                              controller.interCityModel.value)
+                                          .toStringAsFixed(2)),
                               textAlign: TextAlign.right,
                               style: GoogleFonts.inter(
-                                color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey25
+                                    : AppThemData.grey950,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             const SizedBox(height: 2),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset("assets/icon/ic_multi_person.svg"),
-                                const SizedBox(width: 6),
-                                Text(
-                                  controller.interCityModel.value.persons.toString(),
-                                  style: GoogleFonts.inter(
-                                    color: AppThemData.primary500,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
+                            Text(
+                              'Dedicated moving vehicle'.tr,
+                              style: GoogleFonts.inter(
+                                color: AppThemData.primary500,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ],
                         ),
@@ -182,24 +209,34 @@ class InterCityDetailsView extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (controller.interCityModel.value.bookingStatus != BookingStatus.bookingPlaced) ...{
+                if (controller.interCityModel.value.bookingStatus !=
+                    BookingStatus.bookingPlaced) ...{
                   FutureBuilder<DriverUserModel?>(
-                      future: FireStoreUtils.getDriverUserProfile(controller.interCityModel.value.driverId ?? ''),
+                      future: FireStoreUtils.getDriverUserProfile(
+                          controller.interCityModel.value.driverId ?? ''),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return Container();
                         }
-                        DriverUserModel driverUserModel = snapshot.data ?? DriverUserModel();
+                        DriverUserModel driverUserModel =
+                            snapshot.data ?? DriverUserModel();
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            TitleView(titleText: 'Driver Details'.tr, padding: const EdgeInsets.fromLTRB(0, 0, 0, 12)),
+                            TitleView(
+                                titleText: 'Driver Details'.tr,
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 0, 12)),
                             Container(
                               width: Responsive.width(100, context),
                               padding: const EdgeInsets.all(16),
                               decoration: ShapeDecoration(
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(width: 1, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
+                                  side: BorderSide(
+                                      width: 1,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
@@ -213,15 +250,22 @@ class InterCityDetailsView extends StatelessWidget {
                                     margin: const EdgeInsets.only(right: 10),
                                     clipBehavior: Clip.antiAlias,
                                     decoration: ShapeDecoration(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.white,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey950
+                                          : AppThemData.white,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(200),
+                                        borderRadius:
+                                            BorderRadius.circular(200),
                                       ),
                                       image: DecorationImage(
-                                        image: NetworkImage(driverUserModel.profilePic != null
-                                            ? driverUserModel.profilePic!.isNotEmpty
-                                            ? driverUserModel.profilePic ?? Constant.profileConstant
-                                            : Constant.profileConstant
+                                        image: NetworkImage(driverUserModel
+                                                    .profilePic !=
+                                                null
+                                            ? driverUserModel
+                                                    .profilePic!.isNotEmpty
+                                                ? driverUserModel.profilePic ??
+                                                    Constant.profileConstant
+                                                : Constant.profileConstant
                                             : Constant.profileConstant),
                                         fit: BoxFit.fill,
                                       ),
@@ -229,26 +273,39 @@ class InterCityDetailsView extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
                                           driverUserModel.fullName ?? '',
                                           style: GoogleFonts.inter(
-                                            color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.grey25
+                                                : AppThemData.grey950,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                         Row(
                                           children: [
-                                            const Icon(Icons.star_rate_rounded, color: AppThemData.warning500),
+                                            const Icon(Icons.star_rate_rounded,
+                                                color: AppThemData.warning500),
                                             Text(
-                                              Constant.calculateReview(reviewCount: driverUserModel.reviewsCount, reviewSum: driverUserModel.reviewsSum).toString(),
+                                              Constant.calculateReview(
+                                                      reviewCount:
+                                                          driverUserModel
+                                                              .reviewsCount,
+                                                      reviewSum: driverUserModel
+                                                          .reviewsSum)
+                                                  .toString(),
                                               // driverUserModel.reviewsSum ?? '0.0',
                                               style: GoogleFonts.inter(
-                                                color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.white
+                                                    : AppThemData.black,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -262,17 +319,22 @@ class InterCityDetailsView extends StatelessWidget {
                                       onTap: () {
                                         Get.to(ChatScreenView(
                                           receiverId: driverUserModel.id ?? '',
-                                          bookingId: controller.interCityModel.value.id ?? '',
+                                          bookingId: controller
+                                                  .interCityModel.value.id ??
+                                              '',
                                           rideCollection: 'intercity_ride',
                                         ));
                                       },
-                                      child: SvgPicture.asset("assets/icon/ic_message.svg")),
+                                      child: SvgPicture.asset(
+                                          "assets/icon/ic_message.svg")),
                                   const SizedBox(width: 12),
                                   InkWell(
                                       onTap: () {
-                                        Constant().launchCall("${driverUserModel.countryCode}${driverUserModel.phoneNumber}");
+                                        Constant().launchCall(
+                                            "${driverUserModel.countryCode}${driverUserModel.phoneNumber}");
                                       },
-                                      child: SvgPicture.asset("assets/icon/ic_phone.svg"))
+                                      child: SvgPicture.asset(
+                                          "assets/icon/ic_phone.svg"))
                                 ],
                               ),
                             ),
@@ -284,16 +346,25 @@ class InterCityDetailsView extends StatelessWidget {
                       })
                 },
                 PickDropPointView(
-                  pickUpAddress: controller.interCityModel.value.pickUpLocationAddress ?? '',
-                  dropAddress: controller.interCityModel.value.dropLocationAddress ?? '',
+                  pickUpAddress:
+                      controller.interCityModel.value.pickUpLocationAddress ??
+                          '',
+                  dropAddress:
+                      controller.interCityModel.value.dropLocationAddress ?? '',
                 ),
-                TitleView(titleText: 'Ride Details'.tr, padding: const EdgeInsets.fromLTRB(0, 20, 0, 12)),
+                TitleView(
+                    titleText: 'Ride Details'.tr,
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 12)),
                 Container(
                   width: Responsive.width(100, context),
                   padding: const EdgeInsets.all(16),
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
+                      side: BorderSide(
+                          width: 1,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey800
+                              : AppThemData.grey100),
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
@@ -307,14 +378,20 @@ class InterCityDetailsView extends StatelessWidget {
                             "assets/icon/ic_calendar.svg",
                             width: 20,
                             height: 20,
-                            colorFilter: ColorFilter.mode(themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(
+                                themeChange.isDarkTheme()
+                                    ? AppThemData.grey25
+                                    : AppThemData.grey950,
+                                BlendMode.srcIn),
                           ),
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
                               'Date'.tr,
                               style: GoogleFonts.inter(
-                                color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey25
+                                    : AppThemData.grey950,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -322,10 +399,15 @@ class InterCityDetailsView extends StatelessWidget {
                           ),
                           Text(
                             // controller.interCityModel.value.bookingTime == null ? "" : controller.interCityModel.value.bookingTime!.toDate().dateMonthYear(),
-                            controller.interCityModel.value.bookingTime == null ? "" : Constant.formatDate(Constant.parseDate(controller.interCityModel.value.startDate)),
+                            controller.interCityModel.value.bookingTime == null
+                                ? ""
+                                : Constant.formatDate(Constant.parseDate(
+                                    controller.interCityModel.value.startDate)),
                             textAlign: TextAlign.right,
                             style: GoogleFonts.inter(
-                              color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey25
+                                  : AppThemData.grey950,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               height: 0.11,
@@ -342,24 +424,33 @@ class InterCityDetailsView extends StatelessWidget {
                             "assets/icon/ic_time.svg",
                             width: 20,
                             height: 20,
-                            colorFilter: ColorFilter.mode(themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(
+                                themeChange.isDarkTheme()
+                                    ? AppThemData.grey25
+                                    : AppThemData.grey950,
+                                BlendMode.srcIn),
                           ),
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
                               'Time'.tr,
                               style: GoogleFonts.inter(
-                                color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey25
+                                    : AppThemData.grey950,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
                           ),
                           Text(
-                            controller.interCityModel.value.rideStartTime.toString(),
+                            controller.interCityModel.value.rideStartTime
+                                .toString(),
                             textAlign: TextAlign.right,
                             style: GoogleFonts.inter(
-                              color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey25
+                                  : AppThemData.grey950,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               height: 0.11,
@@ -376,14 +467,20 @@ class InterCityDetailsView extends StatelessWidget {
                             "assets/icon/ic_distance.svg",
                             width: 20,
                             height: 20,
-                            colorFilter: ColorFilter.mode(themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(
+                                themeChange.isDarkTheme()
+                                    ? AppThemData.grey25
+                                    : AppThemData.grey950,
+                                BlendMode.srcIn),
                           ),
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
                               'Distance'.tr,
                               style: GoogleFonts.inter(
-                                color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey25
+                                    : AppThemData.grey950,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -392,7 +489,9 @@ class InterCityDetailsView extends StatelessWidget {
                           Text(
                             '${double.parse(controller.interCityModel.value.distance!.distance!).toStringAsFixed(2)} ${controller.interCityModel.value.distance!.distanceType!}',
                             style: GoogleFonts.inter(
-                              color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                              color: themeChange.isDarkTheme()
+                                  ? AppThemData.grey25
+                                  : AppThemData.grey950,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
@@ -403,35 +502,47 @@ class InterCityDetailsView extends StatelessWidget {
                   ),
                 ),
                 Visibility(
-                  visible: controller.interCityModel.value.isPersonalRide == false ? true : false,
+                  visible: false,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleView(titleText: 'Ride Sharing'.tr, padding: const EdgeInsets.fromLTRB(0, 20, 0, 12)),
+                      TitleView(
+                          titleText: 'Ride Sharing'.tr,
+                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 12)),
                       const SizedBox(height: 8),
                       Container(
                         width: Responsive.width(100, context),
                         padding: const EdgeInsets.all(16),
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
+                            side: BorderSide(
+                                width: 1,
+                                color: themeChange.isDarkTheme()
+                                    ? AppThemData.grey800
+                                    : AppThemData.grey100),
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                         child: ListView.builder(
-                            itemCount: controller.interCityModel.value.sharingPersonList!.length,
+                            itemCount: controller
+                                .interCityModel.value.sharingPersonList!.length,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context,index){
-                              PersonModel personModel = controller.interCityModel.value.sharingPersonList![index];
-                              return   Column(
+                            itemBuilder: (context, index) {
+                              PersonModel personModel = controller
+                                  .interCityModel
+                                  .value
+                                  .sharingPersonList![index];
+                              return Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     personModel.name.toString(),
                                     style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey25
+                                          : AppThemData.grey950,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -442,16 +553,20 @@ class InterCityDetailsView extends StatelessWidget {
                                   Text(
                                     personModel.mobileNumber.toString(),
                                     style: GoogleFonts.inter(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey25
+                                          : AppThemData.grey950,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  if (index != controller.interCityModel.value.sharingPersonList!.length - 1)
+                                  if (index !=
+                                      controller.interCityModel.value
+                                              .sharingPersonList!.length -
+                                          1)
                                     const Divider(),
                                 ],
                               );
-
                             }),
                       ),
 
@@ -497,65 +612,110 @@ class InterCityDetailsView extends StatelessWidget {
                       //     ],
                       //   ),
                       // ),
-
                     ],
                   ),
                 ),
-                TitleView(titleText: 'Price Details'.tr, padding: const EdgeInsets.fromLTRB(0, 20, 0, 0)),
+                TitleView(
+                    titleText: 'Price Details'.tr,
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0)),
                 Container(
                   width: Responsive.width(100, context),
                   padding: const EdgeInsets.all(20),
                   margin: const EdgeInsets.only(top: 12),
                   decoration: ShapeDecoration(
-                    color: themeChange.isDarkTheme() ? AppThemData.grey900 : AppThemData.grey50,
+                    color: themeChange.isDarkTheme()
+                        ? AppThemData.grey900
+                        : AppThemData.grey50,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: Obx(
-                        () => Column(
+                    () => Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         PriceRowView(
-                          price: Constant.amountToShow(amount: controller.interCityModel.value.subTotal.toString()),
+                          price: Constant.amountToShow(
+                              amount: controller.interCityModel.value.subTotal
+                                  .toString()),
                           title: "Amount".tr,
-                          priceColor: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
-                          titleColor: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                          priceColor: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
+                          titleColor: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
                         ),
                         const SizedBox(height: 16),
                         PriceRowView(
-                            price: Constant.amountToShow(amount: controller.interCityModel.value.discount ?? '0.0'),
+                            price: Constant.amountToShow(
+                                amount:
+                                    controller.interCityModel.value.discount ??
+                                        '0.0'),
                             title: "Discount".tr,
-                            priceColor: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
-                            titleColor: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950),
+                            priceColor: themeChange.isDarkTheme()
+                                ? AppThemData.grey25
+                                : AppThemData.grey950,
+                            titleColor: themeChange.isDarkTheme()
+                                ? AppThemData.grey25
+                                : AppThemData.grey950),
                         const SizedBox(height: 16),
                         ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: controller.interCityModel.value.taxList!.length,
+                          itemCount:
+                              controller.interCityModel.value.taxList!.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            TaxModel taxModel = controller.interCityModel.value.taxList![index];
+                            TaxModel taxModel =
+                                controller.interCityModel.value.taxList![index];
                             return Column(
                               children: [
                                 PriceRowView(
-                                    price: Constant.amountToShow(amount: Constant.calculateTax(amount:((double.parse(controller.interCityModel.value.subTotal ?? '0.0')) - (double.parse(controller.interCityModel.value.discount ?? '0.0'))).toString(), taxModel: taxModel).toString()),
-                                    title: "${taxModel.name!} (${taxModel.isFix == true ? Constant.amountToShow(amount: taxModel.value) : "${taxModel.value}%"})",
-                                    priceColor: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
-                                    titleColor: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950),
+                                    price: Constant.amountToShow(
+                                        amount: Constant.calculateTax(
+                                                amount: ((double.parse(controller
+                                                                .interCityModel
+                                                                .value
+                                                                .subTotal ??
+                                                            '0.0')) -
+                                                        (double.parse(controller
+                                                                .interCityModel
+                                                                .value
+                                                                .discount ??
+                                                            '0.0')))
+                                                    .toString(),
+                                                taxModel: taxModel)
+                                            .toString()),
+                                    title:
+                                        "${taxModel.name!} (${taxModel.isFix == true ? Constant.amountToShow(amount: taxModel.value) : "${taxModel.value}%"})",
+                                    priceColor: themeChange.isDarkTheme()
+                                        ? AppThemData.grey25
+                                        : AppThemData.grey950,
+                                    titleColor: themeChange.isDarkTheme()
+                                        ? AppThemData.grey25
+                                        : AppThemData.grey950),
                                 const SizedBox(height: 16),
                               ],
                             );
                           },
                         ),
                         const SizedBox(height: 8),
-                        Divider(color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
+                        Divider(
+                            color: themeChange.isDarkTheme()
+                                ? AppThemData.grey800
+                                : AppThemData.grey100),
                         const SizedBox(height: 12),
                         PriceRowView(
-                          price: Constant.amountToShow(amount: Constant.calculateInterCityFinalAmount(controller.interCityModel.value).toString()),
+                          price: Constant.amountToShow(
+                              amount: Constant.calculateInterCityFinalAmount(
+                                      controller.interCityModel.value)
+                                  .toString()),
                           title: "Total Amount".tr,
                           priceColor: AppThemData.primary500,
-                          titleColor: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                          titleColor: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
                         ),
                       ],
                     ),

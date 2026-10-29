@@ -586,8 +586,9 @@ class FireStoreUtils {
             await SendNotification.sendOneNotification(
                 type: "order",
                 token: driverUserModel.fcmToken.toString(),
-                title: 'New Ride Available'.tr,
-                body: 'A customer has placed an ride near your location.'.tr,
+                title: 'New Move Available'.tr,
+                body:
+                    'A customer needs a moving vehicle near your location.'.tr,
                 bookingId: bookingModel.id,
                 driverId: driverUserModel.id,
                 customerId: FireStoreUtils.getCurrentUid(),
@@ -673,7 +674,7 @@ class FireStoreUtils {
           BookingModel bookingModel = BookingModel.fromJson(data);
           if ((bookingModel.bookingStatus ?? '') ==
               BookingStatus.bookingOngoing) {
-            ShowToastDialog.showToast("Your ride started...");
+            ShowToastDialog.showToast("Your move has started...");
             // Get.offAll(const HomeView());
             Get.back();
             // Get.to(const HomeView());

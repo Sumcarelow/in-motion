@@ -1,17 +1,14 @@
 // ignore_for_file: depend_on_referenced_packages, deprecated_member_use
-import 'dart:typed_data';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:dio/dio.dart';
 import 'package:customer/theme/app_them_data.dart';
 import 'package:customer/utils/utils.dart';
-import 'package:customer/utils/fire_store_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -38,6 +35,7 @@ class PreBookingController extends GetxController {
   RxString distanceText = ''.obs;
   RxString durationText = ''.obs;
   RxDouble estimatedFare = 0.0.obs;
+  Rxn<DateTime> selectedPickupDateTime = Rxn<DateTime>();
 
   BitmapDescriptor? pickIcon;
   BitmapDescriptor? dropIcon;
@@ -66,7 +64,8 @@ class PreBookingController extends GetxController {
       isLoadingVehicles.value = true;
 
       // Use Constant if it's already loaded
-      if (Constant.vehicleTypeList != null && Constant.vehicleTypeList!.isNotEmpty) {
+      if (Constant.vehicleTypeList != null &&
+          Constant.vehicleTypeList!.isNotEmpty) {
         vehicleTypeList = Constant.vehicleTypeList!;
         if (kDebugMode) {
           print("Loaded vehicles: ${vehicleTypeList.length}");
@@ -90,25 +89,37 @@ class PreBookingController extends GetxController {
     }
   }
 
-
-
   Future<void> _initMap() async {
     currentPosition = await Utils.getCurrentLocation();
-    pickupLocation = LatLng(currentPosition!.latitude, currentPosition!.longitude);
+    pickupLocation =
+        LatLng(currentPosition!.latitude, currentPosition!.longitude);
     await _setCustomIcons();
-    addMarker(latitude: pickupLocation!.latitude, longitude: pickupLocation!.longitude, id: "pickup", descriptor: pickIcon!);
+    addMarker(
+        latitude: pickupLocation!.latitude,
+        longitude: pickupLocation!.longitude,
+        id: "pickup",
+        descriptor: pickIcon!);
     isLoading.value = false;
   }
 
   Future<void> _setCustomIcons() async {
-    final Uint8List pickBytes = await Constant().getBytesFromAsset('assets/icon/ic_pick_up_map.png', 100);
-    final Uint8List dropBytes = await Constant().getBytesFromAsset('assets/icon/ic_drop_in_map.png', 100);
+    final Uint8List pickBytes = await Constant()
+        .getBytesFromAsset('assets/icon/ic_pick_up_map.png', 100);
+    final Uint8List dropBytes = await Constant()
+        .getBytesFromAsset('assets/icon/ic_drop_in_map.png', 100);
     pickIcon = BitmapDescriptor.fromBytes(pickBytes);
     dropIcon = BitmapDescriptor.fromBytes(dropBytes);
   }
 
-  void addMarker({required double latitude, required double longitude, required String id, required BitmapDescriptor descriptor}) {
-    final marker = Marker(markerId: MarkerId(id), position: LatLng(latitude, longitude), icon: descriptor);
+  void addMarker(
+      {required double latitude,
+      required double longitude,
+      required String id,
+      required BitmapDescriptor descriptor}) {
+    final marker = Marker(
+        markerId: MarkerId(id),
+        position: LatLng(latitude, longitude),
+        icon: descriptor);
     markers[MarkerId(id)] = marker;
   }
 
@@ -116,13 +127,12 @@ class PreBookingController extends GetxController {
   RxString selectedVehicleType = ''.obs; // chosen vehicle ID or name
   RxString selectedVehicleName = ''.obs; // optional readable label
 
-
   /// Called after both pickup and drop-off are selected
   Future<void> calculateRoute() async {
     if (pickupLocation == null || dropoffLocation == null) return;
 
     try {
-      const apiKey = 'AIzaSyBYOAMfn9hEgiJiz2HJGQ5wnl3fIO8qg9o';
+      final apiKey = Constant.mapAPIKey;
       Dio dio = Dio();
       String url =
           'https://maps.googleapis.com/maps/api/directions/json?origin=${pickupLocation!.latitude},${pickupLocation!.longitude}&destination=${dropoffLocation!.latitude},${dropoffLocation!.longitude}&key=$apiKey';
@@ -136,9 +146,11 @@ class PreBookingController extends GetxController {
 
       final km = leg["distance"]["value"] / 1000;
       final mins = leg["duration"]["value"] / 60;
-      estimatedFare.value = baseFare + (km * perKmRate) + (mins * perMinuteRate);
+      estimatedFare.value =
+          baseFare + (km * perKmRate) + (mins * perMinuteRate);
 
-      final encodedPoints = response.data["routes"][0]["overview_polyline"]["points"];
+      final encodedPoints =
+          response.data["routes"][0]["overview_polyline"]["points"];
       _drawPolyline(encodedPoints);
 
       _fitToBounds();
@@ -146,12 +158,10 @@ class PreBookingController extends GetxController {
       // ✅ Move to Confirm bottom sheet
       popupIndex.value = 1;
       update();
-
     } catch (e) {
       Get.snackbar("Route Error", e.toString());
     }
   }
-
 
   void _drawPolyline(String encoded) {
     List<LatLng> polylineCoordinates = [];
@@ -191,16 +201,22 @@ class PreBookingController extends GetxController {
   }
 
   void _fitToBounds() {
-    if (mapController == null || pickupLocation == null || dropoffLocation == null) return;
+    if (mapController == null ||
+        pickupLocation == null ||
+        dropoffLocation == null) return;
 
-    final southwestLat =
-    pickupLocation!.latitude < dropoffLocation!.latitude ? pickupLocation!.latitude : dropoffLocation!.latitude;
-    final southwestLng =
-    pickupLocation!.longitude < dropoffLocation!.longitude ? pickupLocation!.longitude : dropoffLocation!.longitude;
-    final northeastLat =
-    pickupLocation!.latitude > dropoffLocation!.latitude ? pickupLocation!.latitude : dropoffLocation!.latitude;
-    final northeastLng =
-    pickupLocation!.longitude > dropoffLocation!.longitude ? pickupLocation!.longitude : dropoffLocation!.longitude;
+    final southwestLat = pickupLocation!.latitude < dropoffLocation!.latitude
+        ? pickupLocation!.latitude
+        : dropoffLocation!.latitude;
+    final southwestLng = pickupLocation!.longitude < dropoffLocation!.longitude
+        ? pickupLocation!.longitude
+        : dropoffLocation!.longitude;
+    final northeastLat = pickupLocation!.latitude > dropoffLocation!.latitude
+        ? pickupLocation!.latitude
+        : dropoffLocation!.latitude;
+    final northeastLng = pickupLocation!.longitude > dropoffLocation!.longitude
+        ? pickupLocation!.longitude
+        : dropoffLocation!.longitude;
 
     final bounds = LatLngBounds(
       southwest: LatLng(southwestLat, southwestLng),
@@ -211,9 +227,16 @@ class PreBookingController extends GetxController {
     mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 70));
   }
 
-
   Future<void> savePreBooking() async {
     if (pickupLocation == null || dropoffLocation == null) return;
+    if (selectedVehicleType.value.isEmpty ||
+        selectedPickupDateTime.value == null) {
+      Get.snackbar(
+        'Move details incomplete',
+        'Choose a moving vehicle and pickup time before confirming.',
+      );
+      return;
+    }
     isLoading.value = true;
     try {
       await _firestore.collection('pre_bookings').add({
@@ -227,10 +250,14 @@ class PreBookingController extends GetxController {
         'distance': distanceText.value,
         'duration': durationText.value,
         'fare': estimatedFare.value,
+        'serviceType': 'scheduled_move',
+        'vehicleTypeId': selectedVehicleType.value,
+        'vehicleName': selectedVehicleName.value,
+        'scheduledFor': Timestamp.fromDate(selectedPickupDateTime.value!),
         'status': 'pending',
         'createdAt': FieldValue.serverTimestamp(),
       });
-      popupIndex.value = 2;
+      popupIndex.value = 3;
     } finally {
       isLoading.value = false;
     }
@@ -239,13 +266,21 @@ class PreBookingController extends GetxController {
   void selectPickup(LatLng pos, String address) {
     pickupLocation = pos;
     pickupController.text = address;
-    addMarker(latitude: pos.latitude, longitude: pos.longitude, id: "pickup", descriptor: pickIcon!);
+    addMarker(
+        latitude: pos.latitude,
+        longitude: pos.longitude,
+        id: "pickup",
+        descriptor: pickIcon!);
   }
 
   void selectDropoff(LatLng pos, String address) {
     dropoffLocation = pos;
     dropoffController.text = address;
-    addMarker(latitude: pos.latitude, longitude: pos.longitude, id: "drop", descriptor: dropIcon!);
+    addMarker(
+        latitude: pos.latitude,
+        longitude: pos.longitude,
+        id: "drop",
+        descriptor: dropIcon!);
     calculateRoute();
   }
 
@@ -257,11 +292,12 @@ class PreBookingController extends GetxController {
     }
   }
 
-  void setLocation({required bool isPickup, required LatLng pos, required String address}) {
-    final markerId = isPickup ? const MarkerId('pickup') : const MarkerId('dropoff');
-    final color = isPickup
-        ? BitmapDescriptor.hueGreen
-        : BitmapDescriptor.hueRed;
+  void setLocation(
+      {required bool isPickup, required LatLng pos, required String address}) {
+    final markerId =
+        isPickup ? const MarkerId('pickup') : const MarkerId('dropoff');
+    final color =
+        isPickup ? BitmapDescriptor.hueGreen : BitmapDescriptor.hueRed;
 
     markers[markerId] = Marker(
       markerId: markerId,
@@ -284,5 +320,4 @@ class PreBookingController extends GetxController {
 
     mapController?.animateCamera(CameraUpdate.newLatLngZoom(pos, 14));
   }
-
 }

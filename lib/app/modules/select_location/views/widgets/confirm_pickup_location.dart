@@ -35,10 +35,14 @@ class ConfirmPickupBottomSheet extends StatelessWidget {
           return Container(
             height: Responsive.height(100, context),
             decoration: BoxDecoration(
-              color: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              color: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.white,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             ),
-            padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
+            padding:
+                const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
             child: SingleChildScrollView(
               controller: scrollController,
               child: Column(
@@ -51,16 +55,20 @@ class ConfirmPickupBottomSheet extends StatelessWidget {
                     height: 5,
                     margin: const EdgeInsets.only(bottom: 10),
                     decoration: ShapeDecoration(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey700 : AppThemData.grey200,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey700
+                          : AppThemData.grey200,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
                     ),
                   ),
                   Text(
-                    'Confirm the pick-up location'.tr,
+                    'Confirm the loading location'.tr,
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.white
+                          : AppThemData.grey950,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -79,9 +87,13 @@ class ConfirmPickupBottomSheet extends StatelessWidget {
                               SizedBox(
                                 width: Responsive.width(53, context),
                                 child: Text(
-                                  controller.bookingModel.value.pickUpLocationAddress ?? '',
+                                  controller.bookingModel.value
+                                          .pickUpLocationAddress ??
+                                      '',
                                   style: GoogleFonts.inter(
-                                    color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.white
+                                        : AppThemData.grey950,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -100,17 +112,32 @@ class ConfirmPickupBottomSheet extends StatelessWidget {
                                           apiKey: Constant.mapAPIKey,
                                           onPlacePicked: (result) async {
                                             Get.back();
-                                            await placemarkFromCoordinates(result.geometry!.location.lat, result.geometry!.location.lng)
+                                            await placemarkFromCoordinates(
+                                                    result
+                                                        .geometry!.location.lat,
+                                                    result
+                                                        .geometry!.location.lng)
                                                 .then((valuePlaceMaker) async {
-                                              Placemark placeMark = valuePlaceMaker[0];
-                                              controller.pickupLocationController.text =
+                                              Placemark placeMark =
+                                                  valuePlaceMaker[0];
+                                              controller
+                                                      .pickupLocationController
+                                                      .text =
                                                   "${placeMark.street},${placeMark.name}, ${placeMark.subLocality} ,${placeMark.locality}, ${placeMark.administrativeArea}, ${placeMark.postalCode}, ${placeMark.country}";
-                                              controller.bookingModel.value.pickUpLocationAddress = placeMark.name.toString();
-                                              controller.sourceLocation = LatLng(result.geometry!.location.lat, result.geometry!.location.lng);
+                                              controller.bookingModel.value
+                                                      .pickUpLocationAddress =
+                                                  placeMark.name.toString();
+                                              controller.sourceLocation =
+                                                  LatLng(
+                                                      result.geometry!.location
+                                                          .lat,
+                                                      result.geometry!.location
+                                                          .lng);
                                               controller.updateData();
                                             });
                                           },
-                                          initialPosition: const LatLng(-33.8567844, 151.213108),
+                                          initialPosition: const LatLng(
+                                              -33.8567844, 151.213108),
                                           useCurrentLocation: true,
                                           selectInitialPosition: true,
                                           usePinPointingSearch: true,
@@ -118,7 +145,8 @@ class ConfirmPickupBottomSheet extends StatelessWidget {
                                           initialMapType: MapType.terrain,
                                           zoomGesturesEnabled: true,
                                           zoomControlsEnabled: true,
-                                          resizeToAvoidBottomInset: false, // only works in page mode, less flickery, remove if wrong offsets
+                                          resizeToAvoidBottomInset:
+                                              false, // only works in page mode, less flickery, remove if wrong offsets
                                         ),
                                       ),
                                     );
@@ -151,25 +179,36 @@ class ConfirmPickupBottomSheet extends StatelessWidget {
                           const SizedBox(height: 20),
                           RoundShapeButton(
                               size: Size(Responsive.width(100, context), 45),
-                              title: "Confirm pick-up".tr,
+                              title: "Confirm moving vehicle".tr,
                               buttonColor: AppThemData.primary500,
                               buttonTextColor: AppThemData.black,
                               onTap: () async {
                                 ShowToastDialog.showLoader("Please wait...");
-                                controller.bookingModel.value.id = Constant.getUuid();
-                                controller.bookingModel.value.createAt = Timestamp.now();
-                                controller.bookingModel.value.updateAt = Timestamp.now();
-                                controller.bookingModel.value.bookingTime = Timestamp.now();
+                                controller.bookingModel.value.id =
+                                    Constant.getUuid();
+                                controller.bookingModel.value.createAt =
+                                    Timestamp.now();
+                                controller.bookingModel.value.updateAt =
+                                    Timestamp.now();
+                                controller.bookingModel.value.bookingTime =
+                                    Timestamp.now();
                                 // controller.bookingModel.value = BookingModel.fromJson(controller.bookingModel.value.toJson());
-                                log(controller.bookingModel.value.toJson().toString());
+                                log(controller.bookingModel.value
+                                    .toJson()
+                                    .toString());
 
-                                await FireStoreUtils.setBooking(controller.bookingModel.value).then((value) {
-                                  ShowToastDialog.showToast("Ride Placed successfully".tr);
+                                await FireStoreUtils.setBooking(
+                                        controller.bookingModel.value)
+                                    .then((value) {
+                                  ShowToastDialog.showToast(
+                                    "Move booked successfully".tr,
+                                  );
                                   ShowToastDialog.closeLoader();
                                   controller.popupIndex.value = 3;
                                 });
 
-                                FireStoreUtils().sendOrderData(controller.bookingModel.value);
+                                FireStoreUtils().sendOrderData(
+                                    controller.bookingModel.value);
                               }),
                         ]),
                   )

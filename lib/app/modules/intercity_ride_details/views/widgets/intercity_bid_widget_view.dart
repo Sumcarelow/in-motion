@@ -507,7 +507,7 @@ class InterCityBidView extends StatelessWidget {
                                                                                         "bookingId": controller.interCityModel.value.id
                                                                                       };
                                                                                       if (value == true) {
-                                                                                        SendNotification.sendOneNotification(type: "order", token: driverUserModel.fcmToken.toString(), title: 'Your Bid is close', customerId: FireStoreUtils.getCurrentUid(), senderId: FireStoreUtils.getCurrentUid(), bookingId: controller.interCityModel.value.id, driverId: driverUserModel.id, body: 'Your ride #${controller.interCityModel.value.id.toString().substring(0, 5)} bid has been close.', payload: playLoad);
+                                                                                        SendNotification.sendOneNotification(type: "order", token: driverUserModel.fcmToken.toString(), title: 'Moving bid closed', customerId: FireStoreUtils.getCurrentUid(), senderId: FireStoreUtils.getCurrentUid(), bookingId: controller.interCityModel.value.id, driverId: driverUserModel.id, body: 'Your move #${controller.interCityModel.value.id.toString().substring(0, 5)} bid was closed.', payload: playLoad);
                                                                                         ShowToastDialog.closeLoader();
                                                                                       }
 
@@ -585,7 +585,7 @@ class InterCityBidView extends StatelessWidget {
                                                                                       Map<String, dynamic> playLoad = <String, dynamic>{
                                                                                         "bookingId": controller.interCityModel.value.id
                                                                                       };
-                                                                                      SendNotification.sendOneNotification(type: "order", token: driverUserModel.fcmToken.toString(), title: 'Your Ride is Accepted', customerId: FireStoreUtils.getCurrentUid(), senderId: FireStoreUtils.getCurrentUid(), bookingId: controller.interCityModel.value.id, driverId: driverUserModel.id, body: 'Your ride #${controller.interCityModel.value.id.toString().substring(0, 5)} has been confirmed.', payload: playLoad);
+                                                                                      SendNotification.sendOneNotification(type: "order", token: driverUserModel.fcmToken.toString(), title: 'Your move is accepted', customerId: FireStoreUtils.getCurrentUid(), senderId: FireStoreUtils.getCurrentUid(), bookingId: controller.interCityModel.value.id, driverId: driverUserModel.id, body: 'Your move #${controller.interCityModel.value.id.toString().substring(0, 5)} has been confirmed.', payload: playLoad);
 
                                                                                       ShowToastDialog.closeLoader();
                                                                                       // controller.update();

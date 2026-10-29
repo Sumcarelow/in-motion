@@ -30,10 +30,14 @@ class SelectLocationBottomSheet extends StatelessWidget {
           return Container(
             height: Responsive.height(100, context),
             decoration: BoxDecoration(
-              color: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              color: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.white,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             ),
-            padding: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 20),
+            padding:
+                const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,16 +48,20 @@ class SelectLocationBottomSheet extends StatelessWidget {
                   height: 5,
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: ShapeDecoration(
-                    color: themeChange.isDarkTheme() ? AppThemData.grey700 : AppThemData.grey200,
+                    color: themeChange.isDarkTheme()
+                        ? AppThemData.grey700
+                        : AppThemData.grey200,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),
                   ),
                 ),
                 Text(
-                  'Select Location'.tr,
+                  'Set your moving route'.tr,
                   style: GoogleFonts.inter(
-                    color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                    color: themeChange.isDarkTheme()
+                        ? AppThemData.white
+                        : AppThemData.grey950,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -68,24 +76,33 @@ class SelectLocationBottomSheet extends StatelessWidget {
                   builder: TimelineTileBuilder.connected(
                     contentsAlign: ContentsAlign.basic,
                     indicatorBuilder: (context, index) {
-                      return index == 0 ? SvgPicture.asset("assets/icon/ic_pick_up.svg") : SvgPicture.asset("assets/icon/ic_drop_in.svg");
+                      return index == 0
+                          ? SvgPicture.asset("assets/icon/ic_pick_up.svg")
+                          : SvgPicture.asset("assets/icon/ic_drop_in.svg");
                     },
                     connectorBuilder: (context, index, connectorType) {
                       return DashedLineConnector(
-                        color: themeChange.isDarkTheme() ? AppThemData.grey600 : AppThemData.grey300,
+                        color: themeChange.isDarkTheme()
+                            ? AppThemData.grey600
+                            : AppThemData.grey300,
                       );
                     },
                     contentsBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GooglePlaceAutoCompleteTextField(
-                        textEditingController: index == 0 ? controller.pickupLocationController : controller.dropLocationController,
+                        textEditingController: index == 0
+                            ? controller.pickupLocationController
+                            : controller.dropLocationController,
                         googleAPIKey: Constant.mapAPIKey,
                         boxDecoration: BoxDecoration(
-                          color: themeChange.isDarkTheme() ? AppThemData.grey900 : AppThemData.grey50,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey900
+                              : AppThemData.grey50,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         inputDecoration: InputDecoration(
-                          hintText: index == 0 ? "Pick up Location".tr : "Destination Location".tr,
+                          hintText:
+                              index == 0 ? "Moving from".tr : "Moving to".tr,
                           border: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -93,13 +110,17 @@ class SelectLocationBottomSheet extends StatelessWidget {
                           focusedBorder: InputBorder.none,
                           focusedErrorBorder: InputBorder.none,
                           hintStyle: GoogleFonts.inter(
-                            color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                            color: themeChange.isDarkTheme()
+                                ? AppThemData.grey25
+                                : AppThemData.grey950,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         textStyle: GoogleFonts.inter(
-                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.grey25
+                              : AppThemData.grey950,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -116,32 +137,44 @@ class SelectLocationBottomSheet extends StatelessWidget {
                         },
                         debounceTime: 800,
                         isLatLngRequired: true,
-                        focusNode: index == 0 ? controller.pickUpFocusNode : controller.dropFocusNode,
+                        focusNode: index == 0
+                            ? controller.pickUpFocusNode
+                            : controller.dropFocusNode,
                         getPlaceDetailWithLatLng: (Prediction prediction) {
                           if (index == 0) {
-                            controller.sourceLocation = LatLng(double.parse(prediction.lat ?? '0.00'), double.parse(prediction.lng ?? '0.00'));
+                            controller.sourceLocation = LatLng(
+                                double.parse(prediction.lat ?? '0.00'),
+                                double.parse(prediction.lng ?? '0.00'));
                             controller.updateData();
                           } else {
-                            controller.destination = LatLng(double.parse(prediction.lat ?? '0.00'), double.parse(prediction.lng ?? '0.00'));
+                            controller.destination = LatLng(
+                                double.parse(prediction.lat ?? '0.00'),
+                                double.parse(prediction.lng ?? '0.00'));
                             controller.updateData();
                           }
                         },
                         itemClick: (postalCodeResponse) {
                           if (index == 0) {
-                            controller.pickupLocationController.text = postalCodeResponse.description ?? '';
+                            controller.pickupLocationController.text =
+                                postalCodeResponse.description ?? '';
                           } else {
-                            controller.dropLocationController.text = postalCodeResponse.description ?? '';
+                            controller.dropLocationController.text =
+                                postalCodeResponse.description ?? '';
                           }
                         },
                         itemBuilder: (context, index, Prediction prediction) {
                           return Container(
                             padding: const EdgeInsets.all(10),
-                            color: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+                            color: themeChange.isDarkTheme()
+                                ? AppThemData.black
+                                : AppThemData.white,
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.location_on,
-                                  color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.grey25
+                                      : AppThemData.grey950,
                                 ),
                                 const SizedBox(
                                   width: 7,
@@ -150,7 +183,9 @@ class SelectLocationBottomSheet extends StatelessWidget {
                                     child: Text(
                                   prediction.description ?? "",
                                   style: GoogleFonts.inter(
-                                    color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey25
+                                        : AppThemData.grey950,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),

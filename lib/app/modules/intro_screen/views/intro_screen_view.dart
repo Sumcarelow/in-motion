@@ -36,8 +36,10 @@ class IntroScreenView extends StatelessWidget {
                   visible: controller.currentPage.value != 0,
                   child: IconButton(
                       onPressed: () {
-                        controller.currentPage.value = controller.currentPage.value - 1;
-                        controller.pageController.jumpToPage(controller.currentPage.value);
+                        controller.currentPage.value =
+                            controller.currentPage.value - 1;
+                        controller.pageController
+                            .jumpToPage(controller.currentPage.value);
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios,
@@ -50,14 +52,18 @@ class IntroScreenView extends StatelessWidget {
                     visible: controller.currentPage.value != 2,
                     child: TextButton(
                         onPressed: () {
-                          Preferences.setBoolean(Preferences.isFinishOnBoardingKey, true);
+                          Preferences.setBoolean(
+                              Preferences.isFinishOnBoardingKey, true);
                           Get.offAllNamed(Routes.LOGIN);
                         },
                         child: Row(
                           children: [
                             Text(
                               "Skip".tr,
-                              style: GoogleFonts.inter(fontSize: 16.0, color: AppThemData.grey950, fontWeight: FontWeight.w500),
+                              style: GoogleFonts.inter(
+                                  fontSize: 16.0,
+                                  color: AppThemData.grey950,
+                                  fontWeight: FontWeight.w500),
                             ),
                             const Icon(
                               Icons.arrow_forward_ios_outlined,
@@ -82,19 +88,25 @@ class IntroScreenView extends StatelessWidget {
                       },
                       children: [
                         IntroScreenPage(
-                          title: "Welcome to In-Motione".tr,
-                          body: "Your reliable partner for swift and convenient rides. Experience hassle-free transportation at your fingertips.".tr,
-                          image: "assets/icon/intro_image_one.svg",
+                          title: "Move with In Motione".tr,
+                          body:
+                              "Book mini trucks and vans for home, office, furniture, appliance, and boxed-item moves."
+                                  .tr,
+                          icon: Icons.local_shipping_outlined,
                         ),
                         IntroScreenPage(
-                          title: " Fast and Reliable".tr,
-                          body: "In Motione ensures prompt and reliable rides, getting you to your destination with speed and efficiency.".tr,
-                          image: "assets/icon/intro_image_two.svg",
+                          title: "The right vehicle for every load".tr,
+                          body:
+                              "Choose a moving vehicle that fits your load, route, and schedule before you confirm."
+                                  .tr,
+                          icon: Icons.inventory_2_outlined,
                         ),
                         IntroScreenPage(
-                          title: "Seamless User Experience".tr,
-                          body: "Enjoy a user-friendly interface, easy bookings, and secure payments with In Motione. Your journey, your way.".tr,
-                          image: "assets/icon/intro_image_three.svg",
+                          title: "Track every move".tr,
+                          body:
+                              "Follow your driver, keep move details together, and pay securely from pickup to delivery."
+                                  .tr,
+                          icon: Icons.route_outlined,
                         ),
                       ],
                     ),
@@ -111,19 +123,23 @@ class IntroScreenView extends StatelessWidget {
                               : 1.0,
                       center: InkWell(
                         onTap: () {
-                          controller.currentPage.value = controller.currentPage.value + 1;
-                          controller.pageController.jumpToPage(controller.currentPage.value);
+                          controller.currentPage.value =
+                              controller.currentPage.value + 1;
+                          controller.pageController
+                              .jumpToPage(controller.currentPage.value);
                         },
                         child: Container(
                           width: 50,
                           height: 50,
-                          decoration: BoxDecoration(color: AppThemData.primary500, borderRadius: BorderRadius.circular(50)),
+                          decoration: BoxDecoration(
+                              color: AppThemData.primary500,
+                              borderRadius: BorderRadius.circular(50)),
                           child: const Icon(Icons.arrow_forward_rounded),
                         ),
                       ),
                       progressColor: AppThemData.primary500,
                       backgroundColor: AppThemData.grey50,
-                      ),
+                    ),
                   ),
                   Visibility(
                     visible: controller.currentPage.value == 2,
@@ -133,7 +149,8 @@ class IntroScreenView extends StatelessWidget {
                         buttonColor: AppThemData.primary500,
                         buttonTextColor: AppThemData.black,
                         onTap: () {
-                          Preferences.setBoolean(Preferences.isFinishOnBoardingKey, true);
+                          Preferences.setBoolean(
+                              Preferences.isFinishOnBoardingKey, true);
                           Get.offAllNamed(Routes.LOGIN);
                         }),
                   ),

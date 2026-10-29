@@ -42,13 +42,18 @@ class ReasonForCancelController extends GetxController {
   }
 
   sendCancelRideNotification() async {
-    DriverUserModel? receiverUserModel = await FireStoreUtils.getDriverUserProfile(bookingModel.value.driverId.toString());
-    Map<String, dynamic> playLoad = <String, dynamic>{"bookingId": bookingModel.value.id};
+    DriverUserModel? receiverUserModel =
+        await FireStoreUtils.getDriverUserProfile(
+            bookingModel.value.driverId.toString());
+    Map<String, dynamic> playLoad = <String, dynamic>{
+      "bookingId": bookingModel.value.id
+    };
     await SendNotification.sendOneNotification(
         type: "order",
         token: receiverUserModel!.fcmToken.toString(),
-        title: 'Ride Cancelled'.tr,
-        body: 'Ride #${bookingModel.value.id.toString().substring(0, 5)} is cancelled by Customer',
+        title: 'Move Cancelled'.tr,
+        body:
+            'Move #${bookingModel.value.id.toString().substring(0, 5)} was cancelled by the customer',
         bookingId: bookingModel.value.id,
         driverId: bookingModel.value.driverId.toString(),
         senderId: FireStoreUtils.getCurrentUid(),

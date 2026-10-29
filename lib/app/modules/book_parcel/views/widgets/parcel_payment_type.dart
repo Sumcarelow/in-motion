@@ -29,7 +29,9 @@ class ParcelPaymentDialogView extends StatelessWidget {
                   child: Text(
                     'Select Payment Methods',
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey25
+                          : AppThemData.grey950,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       height: 0.09,
@@ -37,14 +39,22 @@ class ParcelPaymentDialogView extends StatelessWidget {
                   ),
                 ),
                 centerTitle: true,
-                backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+                backgroundColor: themeChange.isDarkTheme()
+                    ? AppThemData.black
+                    : AppThemData.white,
               ),
-              backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.grey50,
+              backgroundColor: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.grey50,
               bottomNavigationBar: Padding(
-                padding: EdgeInsets.fromLTRB((Responsive.width(100, context) - 200) / 2, 0, (Responsive.width(100, context) - 200) / 2, 20),
+                padding: EdgeInsets.fromLTRB(
+                    (Responsive.width(100, context) - 200) / 2,
+                    0,
+                    (Responsive.width(100, context) - 200) / 2,
+                    20),
                 child: RoundShapeButton(
                     size: const Size(200, 45),
-                    title: "Ride Placed".tr,
+                    title: "Confirm Move".tr,
                     buttonColor: AppThemData.primary500,
                     buttonTextColor: AppThemData.black,
                     onTap: () {
@@ -79,15 +89,20 @@ class ParcelPaymentDialogView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Visibility(
-                              visible: Constant.paymentModel!.cash != null && Constant.paymentModel!.cash!.isActive == true,
+                              visible: Constant.paymentModel!.cash != null &&
+                                  Constant.paymentModel!.cash!.isActive == true,
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.cash!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant.paymentModel!.cash!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -99,9 +114,12 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.cash!.name ?? "",
+                                            Constant.paymentModel!.cash!.name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -109,28 +127,38 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.cash!.name.toString();
+                                        controller.selectedPaymentMethod.value =
+                                            Constant.paymentModel!.cash!.name
+                                                .toString();
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.wallet != null && Constant.paymentModel!.wallet!.isActive == true,
+                              visible: Constant.paymentModel!.wallet != null &&
+                                  Constant.paymentModel!.wallet!.isActive ==
+                                      true,
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.wallet!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant.paymentModel!.wallet!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -139,13 +167,19 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                             "assets/icon/ic_wallet.svg",
                                             height: 24,
                                             width: 24,
-                                            color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.white
+                                                : AppThemData.black,
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.wallet!.name ?? "",
+                                            Constant.paymentModel!.wallet!
+                                                    .name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -153,29 +187,41 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.wallet!.name.toString();
-                                        controller.parcelModel.value.paymentType = Constant.paymentModel!.wallet!.name;
+                                        controller.selectedPaymentMethod.value =
+                                            Constant.paymentModel!.wallet!.name
+                                                .toString();
+                                        controller
+                                                .parcelModel.value.paymentType =
+                                            Constant.paymentModel!.wallet!.name;
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.paypal != null && Constant.paymentModel!.paypal!.isActive == true,
+                              visible: Constant.paymentModel!.paypal != null &&
+                                  Constant.paymentModel!.paypal!.isActive ==
+                                      true,
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.paypal!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant.paymentModel!.paypal!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -187,9 +233,13 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.paypal!.name ?? "",
+                                            Constant.paymentModel!.paypal!
+                                                    .name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -197,29 +247,41 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.paypal!.name.toString();
-                                        controller.parcelModel.value.paymentType = Constant.paymentModel!.paypal!.name;
+                                        controller.selectedPaymentMethod.value =
+                                            Constant.paymentModel!.paypal!.name
+                                                .toString();
+                                        controller
+                                                .parcelModel.value.paymentType =
+                                            Constant.paymentModel!.paypal!.name;
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.strip != null && Constant.paymentModel!.strip!.isActive == true,
+                              visible: Constant.paymentModel!.strip != null &&
+                                  Constant.paymentModel!.strip!.isActive ==
+                                      true,
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.strip!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant.paymentModel!.strip!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -231,9 +293,13 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.strip!.name ?? "",
+                                            Constant.paymentModel!.strip!
+                                                    .name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -241,29 +307,43 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.strip!.name.toString();
-                                        controller.parcelModel.value.paymentType = Constant.paymentModel!.strip!.name;
+                                        controller.selectedPaymentMethod.value =
+                                            Constant.paymentModel!.strip!.name
+                                                .toString();
+                                        controller
+                                                .parcelModel.value.paymentType =
+                                            Constant.paymentModel!.strip!.name;
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.razorpay != null && Constant.paymentModel!.razorpay!.isActive == true,
+                              visible: Constant.paymentModel!.razorpay !=
+                                      null &&
+                                  Constant.paymentModel!.razorpay!.isActive ==
+                                      true,
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.razorpay!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant
+                                          .paymentModel!.razorpay!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -275,9 +355,13 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.razorpay!.name ?? "",
+                                            Constant.paymentModel!.razorpay!
+                                                    .name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -285,29 +369,45 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.razorpay!.name.toString();
-                                        controller.parcelModel.value.paymentType = Constant.paymentModel!.razorpay!.name;
+                                        controller.selectedPaymentMethod.value =
+                                            Constant
+                                                .paymentModel!.razorpay!.name
+                                                .toString();
+                                        controller
+                                                .parcelModel.value.paymentType =
+                                            Constant
+                                                .paymentModel!.razorpay!.name;
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.payStack != null && Constant.paymentModel!.payStack!.isActive == true,
+                              visible: Constant.paymentModel!.payStack !=
+                                      null &&
+                                  Constant.paymentModel!.payStack!.isActive ==
+                                      true,
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.payStack!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant
+                                          .paymentModel!.payStack!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -319,9 +419,13 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.payStack!.name ?? "",
+                                            Constant.paymentModel!.payStack!
+                                                    .name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -329,29 +433,46 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.payStack!.name.toString();
-                                        controller.parcelModel.value.paymentType = Constant.paymentModel!.payStack!.name;
+                                        controller.selectedPaymentMethod.value =
+                                            Constant
+                                                .paymentModel!.payStack!.name
+                                                .toString();
+                                        controller
+                                                .parcelModel.value.paymentType =
+                                            Constant
+                                                .paymentModel!.payStack!.name;
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.mercadoPago != null && Constant.paymentModel!.mercadoPago!.isActive == true,
+                              visible:
+                                  Constant.paymentModel!.mercadoPago != null &&
+                                      Constant.paymentModel!.mercadoPago!
+                                              .isActive ==
+                                          true,
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.mercadoPago!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant
+                                          .paymentModel!.mercadoPago!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -363,9 +484,13 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.mercadoPago!.name ?? "",
+                                            Constant.paymentModel!.mercadoPago!
+                                                    .name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -373,14 +498,22 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.mercadoPago!.name.toString();
-                                        controller.parcelModel.value.paymentType = Constant.paymentModel!.mercadoPago!.name;
+                                        controller.selectedPaymentMethod.value =
+                                            Constant
+                                                .paymentModel!.mercadoPago!.name
+                                                .toString();
+                                        controller
+                                                .parcelModel.value.paymentType =
+                                            Constant.paymentModel!.mercadoPago!
+                                                .name;
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],
@@ -391,11 +524,16 @@ class ParcelPaymentDialogView extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.payFast!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant
+                                          .paymentModel!.payFast!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -407,9 +545,13 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.payFast!.name ?? "",
+                                            Constant.paymentModel!.payFast!
+                                                    .name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -417,29 +559,45 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.payFast!.name.toString();
-                                        controller.parcelModel.value.paymentType = Constant.paymentModel!.payFast!.name;
+                                        controller.selectedPaymentMethod.value =
+                                            Constant.paymentModel!.payFast!.name
+                                                .toString();
+                                        controller
+                                                .parcelModel.value.paymentType =
+                                            Constant
+                                                .paymentModel!.payFast!.name;
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],
                               ),
                             ),
                             Visibility(
-                              visible: Constant.paymentModel!.flutterWave != null && Constant.paymentModel!.flutterWave!.isActive == true,
+                              visible:
+                                  Constant.paymentModel!.flutterWave != null &&
+                                      Constant.paymentModel!.flutterWave!
+                                              .isActive ==
+                                          true,
                               child: Column(
                                 children: [
                                   Container(
-                                    transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -10.0, 0.0),
                                     child: RadioListTile(
-                                      value: Constant.paymentModel!.flutterWave!.name.toString(),
-                                      groupValue: controller.selectedPaymentMethod.value,
-                                      controlAffinity: ListTileControlAffinity.trailing,
+                                      value: Constant
+                                          .paymentModel!.flutterWave!.name
+                                          .toString(),
+                                      groupValue: controller
+                                          .selectedPaymentMethod.value,
+                                      controlAffinity:
+                                          ListTileControlAffinity.trailing,
                                       contentPadding: EdgeInsets.zero,
                                       activeColor: AppThemData.primary500,
                                       title: Row(
@@ -451,9 +609,13 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                           ),
                                           const SizedBox(width: 12),
                                           Text(
-                                            Constant.paymentModel!.flutterWave!.name ?? "",
+                                            Constant.paymentModel!.flutterWave!
+                                                    .name ??
+                                                "",
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.black,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -461,14 +623,22 @@ class ParcelPaymentDialogView extends StatelessWidget {
                                         ],
                                       ),
                                       onChanged: (value) {
-                                        controller.selectedPaymentMethod.value = Constant.paymentModel!.flutterWave!.name.toString();
-                                        controller.parcelModel.value.paymentType = Constant.paymentModel!.flutterWave!.name;
+                                        controller.selectedPaymentMethod.value =
+                                            Constant
+                                                .paymentModel!.flutterWave!.name
+                                                .toString();
+                                        controller
+                                                .parcelModel.value.paymentType =
+                                            Constant.paymentModel!.flutterWave!
+                                                .name;
                                       },
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.only(left: 40, right: 10),
-                                    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 40, right: 10),
+                                    transform: Matrix4.translationValues(
+                                        0.0, -20.0, 0.0),
                                     child: const Divider(),
                                   ),
                                 ],

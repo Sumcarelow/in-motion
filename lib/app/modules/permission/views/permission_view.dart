@@ -34,7 +34,9 @@ class PermissionView extends StatelessWidget {
                   '${'Welcome to'.tr}${Constant.appName}',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
-                    color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                    color: themeChange.isDarkTheme()
+                        ? AppThemData.grey25
+                        : AppThemData.grey950,
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
                   ),
@@ -42,10 +44,13 @@ class PermissionView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(40, 8, 40, 40),
                   child: Text(
-                    'Enable location access to enjoy seamless ride experiences and reliable transportation services wherever you go.'.tr,
+                    'Enable location access to match your pickup with nearby mini trucks and vans.'
+                        .tr,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
-                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                      color: themeChange.isDarkTheme()
+                          ? AppThemData.grey25
+                          : AppThemData.grey950,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),

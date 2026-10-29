@@ -6,7 +6,6 @@ import 'package:customer/app/modules/reason_for_intercity_cancel/views/intercity
 import 'package:customer/app/modules/start_intercity/views/start_intercity_view.dart';
 import 'package:customer/constant/booking_status.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:customer/constant/constant.dart';
 import 'package:customer/constant_widgets/no_rides_view.dart';
@@ -32,7 +31,9 @@ class InterCityRidesView extends StatelessWidget {
         builder: (controller) {
           return SafeArea(
             child: Scaffold(
-              backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+              backgroundColor: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.white,
               // appBar: AppBarWithBorder(
               //   title: "My Rides".tr,
               //   bgColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
@@ -55,15 +56,17 @@ class InterCityRidesView extends StatelessWidget {
                                   : themeChange.isDarkTheme()
                                       ? AppThemData.black
                                       : AppThemData.white,
-                              buttonTextColor: controller.selectedType.value == 0
-                                  ? AppThemData.black
-                                  : themeChange.isDarkTheme()
-                                      ? AppThemData.white
-                                      : AppThemData.black,
+                              buttonTextColor:
+                                  controller.selectedType.value == 0
+                                      ? AppThemData.black
+                                      : themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
                               onTap: () {
                                 controller.selectedType.value = 0;
                               },
-                              size: Size((Responsive.width(90, context) / 3), 38),
+                              size:
+                                  Size((Responsive.width(90, context) / 3), 38),
                               textSize: 12,
                             ),
                             RoundShapeButton(
@@ -73,11 +76,17 @@ class InterCityRidesView extends StatelessWidget {
                                   : themeChange.isDarkTheme()
                                       ? AppThemData.black
                                       : AppThemData.white,
-                              buttonTextColor: controller.selectedType.value == 1 ? AppThemData.black : (themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black),
+                              buttonTextColor:
+                                  controller.selectedType.value == 1
+                                      ? AppThemData.black
+                                      : (themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black),
                               onTap: () {
                                 controller.selectedType.value = 1;
                               },
-                              size: Size((Responsive.width(90, context) / 3), 38),
+                              size:
+                                  Size((Responsive.width(90, context) / 3), 38),
                               textSize: 12,
                             ),
                             RoundShapeButton(
@@ -87,15 +96,17 @@ class InterCityRidesView extends StatelessWidget {
                                   : themeChange.isDarkTheme()
                                       ? AppThemData.black
                                       : AppThemData.white,
-                              buttonTextColor: controller.selectedType.value == 2
-                                  ? AppThemData.black
-                                  : themeChange.isDarkTheme()
-                                      ? AppThemData.white
-                                      : AppThemData.black,
+                              buttonTextColor:
+                                  controller.selectedType.value == 2
+                                      ? AppThemData.black
+                                      : themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
                               onTap: () {
                                 controller.selectedType.value = 2;
                               },
-                              size: Size((Responsive.width(100, context) / 3), 38),
+                              size: Size(
+                                  (Responsive.width(100, context) / 3), 38),
                               textSize: 12,
                             ),
                             RoundShapeButton(
@@ -105,15 +116,17 @@ class InterCityRidesView extends StatelessWidget {
                                   : themeChange.isDarkTheme()
                                       ? AppThemData.black
                                       : AppThemData.white,
-                              buttonTextColor: controller.selectedType.value == 3
-                                  ? AppThemData.black
-                                  : themeChange.isDarkTheme()
-                                      ? AppThemData.white
-                                      : AppThemData.black,
+                              buttonTextColor:
+                                  controller.selectedType.value == 3
+                                      ? AppThemData.black
+                                      : themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
                               onTap: () {
                                 controller.selectedType.value = 3;
                               },
-                              size: Size((Responsive.width(90, context) / 3), 38),
+                              size:
+                                  Size((Responsive.width(90, context) / 3), 38),
                               textSize: 12,
                             ),
                           ],
@@ -125,13 +138,29 @@ class InterCityRidesView extends StatelessWidget {
                   RefreshIndicator(
                     onRefresh: () async {
                       if (controller.selectedType.value == 0) {
-                        await controller.getData(isActiveDataFetch: true, isOngoingDataFetch: false, isCompletedDataFetch: false, isRejectedDataFetch: false);
+                        await controller.getData(
+                            isActiveDataFetch: true,
+                            isOngoingDataFetch: false,
+                            isCompletedDataFetch: false,
+                            isRejectedDataFetch: false);
                       } else if (controller.selectedType.value == 1) {
-                        await controller.getData(isActiveDataFetch: false, isOngoingDataFetch: true, isCompletedDataFetch: false, isRejectedDataFetch: false);
+                        await controller.getData(
+                            isActiveDataFetch: false,
+                            isOngoingDataFetch: true,
+                            isCompletedDataFetch: false,
+                            isRejectedDataFetch: false);
                       } else if (controller.selectedType.value == 2) {
-                        await controller.getData(isActiveDataFetch: false, isOngoingDataFetch: false, isCompletedDataFetch: true, isRejectedDataFetch: false);
+                        await controller.getData(
+                            isActiveDataFetch: false,
+                            isOngoingDataFetch: false,
+                            isCompletedDataFetch: true,
+                            isRejectedDataFetch: false);
                       } else {
-                        await controller.getData(isActiveDataFetch: false, isOngoingDataFetch: false, isCompletedDataFetch: false, isRejectedDataFetch: true);
+                        await controller.getData(
+                            isActiveDataFetch: false,
+                            isOngoingDataFetch: false,
+                            isCompletedDataFetch: false,
+                            isRejectedDataFetch: true);
                       }
                     },
                     child: SizedBox(
@@ -155,7 +184,9 @@ class InterCityRidesView extends StatelessWidget {
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   RxBool isOpen = false.obs;
-                                  IntercityModel interCityModel = controller.selectedType.value == 0
+                                  IntercityModel interCityModel = controller
+                                              .selectedType.value ==
+                                          0
                                       ? controller.activeRides[index]
                                       : controller.selectedType.value == 1
                                           ? controller.ongoingRides[index]
@@ -169,27 +200,46 @@ class InterCityRidesView extends StatelessWidget {
                                     child: Container(
                                       width: Responsive.width(100, context),
                                       padding: const EdgeInsets.all(16),
-                                      margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                                      margin: const EdgeInsets.only(
+                                          top: 16, left: 16, right: 16),
                                       decoration: ShapeDecoration(
                                         shape: RoundedRectangleBorder(
-                                          side: BorderSide(width: 1, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
-                                          borderRadius: BorderRadius.circular(12),
+                                          side: BorderSide(
+                                              width: 1,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.grey800
+                                                  : AppThemData.grey100),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
                                       ),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                interCityModel.bookingTime == null ? "" : interCityModel.bookingTime!.toDate().dateMonthYear(),
+                                                interCityModel.bookingTime ==
+                                                        null
+                                                    ? ""
+                                                    : interCityModel
+                                                        .bookingTime!
+                                                        .toDate()
+                                                        .dateMonthYear(),
                                                 style: GoogleFonts.inter(
-                                                  color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                  color:
+                                                      themeChange.isDarkTheme()
+                                                          ? AppThemData.grey400
+                                                          : AppThemData.grey500,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -201,8 +251,12 @@ class InterCityRidesView extends StatelessWidget {
                                                   shape: RoundedRectangleBorder(
                                                     side: BorderSide(
                                                       width: 1,
-                                                      strokeAlign: BorderSide.strokeAlignCenter,
-                                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                                      strokeAlign: BorderSide
+                                                          .strokeAlignCenter,
+                                                      color: themeChange
+                                                              .isDarkTheme()
+                                                          ? AppThemData.grey800
+                                                          : AppThemData.grey100,
                                                     ),
                                                   ),
                                                 ),
@@ -210,9 +264,18 @@ class InterCityRidesView extends StatelessWidget {
                                               const SizedBox(width: 8),
                                               Expanded(
                                                 child: Text(
-                                                  interCityModel.bookingTime == null ? "" : interCityModel.bookingTime!.toDate().time(),
+                                                  interCityModel.bookingTime ==
+                                                          null
+                                                      ? ""
+                                                      : interCityModel
+                                                          .bookingTime!
+                                                          .toDate()
+                                                          .time(),
                                                   style: GoogleFonts.inter(
-                                                    color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey400
+                                                        : AppThemData.grey500,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -221,50 +284,95 @@ class InterCityRidesView extends StatelessWidget {
                                               const SizedBox(width: 8),
                                               GestureDetector(
                                                 onTap: () {
-                                                  InterCityRideDetailsController detailsController = Get.put(InterCityRideDetailsController());
-                                                  detailsController.bookingId.value = interCityModel.id ?? '';
-                                                  detailsController.interCityModel.value = interCityModel;
-                                                  Get.to(const InterCityRideDetailsView());
+                                                  InterCityRideDetailsController
+                                                      detailsController =
+                                                      Get.put(
+                                                          InterCityRideDetailsController());
+                                                  detailsController
+                                                          .bookingId.value =
+                                                      interCityModel.id ?? '';
+                                                  detailsController
+                                                      .interCityModel
+                                                      .value = interCityModel;
+                                                  Get.to(
+                                                      const InterCityRideDetailsView());
                                                 },
                                                 child: Icon(
-                                                  Icons.keyboard_arrow_right_sharp,
-                                                  color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                  Icons
+                                                      .keyboard_arrow_right_sharp,
+                                                  color:
+                                                      themeChange.isDarkTheme()
+                                                          ? AppThemData.grey400
+                                                          : AppThemData.grey500,
                                                 ),
                                               )
                                             ],
                                           ),
                                           const SizedBox(height: 12),
                                           Container(
-                                            padding: const EdgeInsets.only(bottom: 0),
+                                            padding: const EdgeInsets.only(
+                                                bottom: 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 ClipRRect(
-                                                  borderRadius: BorderRadius.circular(2000),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          2000),
                                                   child: CachedNetworkImage(
                                                     height: 60,
                                                     width: 60,
-                                                    imageUrl: (Constant.userModel?.profilePic != null && Constant.userModel!.profilePic!.isNotEmpty) ? Constant.userModel!.profilePic! : Constant.profileConstant,
+                                                    imageUrl: (Constant
+                                                                    .userModel
+                                                                    ?.profilePic !=
+                                                                null &&
+                                                            Constant
+                                                                .userModel!
+                                                                .profilePic!
+                                                                .isNotEmpty)
+                                                        ? Constant.userModel!
+                                                            .profilePic!
+                                                        : Constant
+                                                            .profileConstant,
                                                     fit: BoxFit.cover,
-                                                    placeholder: (context, url) => Constant.loader(),
-                                                    errorWidget: (context, url, error) => Image.asset(Constant.userPlaceHolder),
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Constant.loader(),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        Image.asset(Constant
+                                                            .userPlaceHolder),
                                                   ),
                                                 ),
                                                 const SizedBox(width: 12),
                                                 Expanded(
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'ID: #${interCityModel.id!.substring(0, 5)}',
-                                                        style: GoogleFonts.inter(
-                                                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          color: themeChange
+                                                                  .isDarkTheme()
+                                                              ? AppThemData
+                                                                  .grey25
+                                                              : AppThemData
+                                                                  .grey950,
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
                                                       const SizedBox(height: 2),
@@ -273,10 +381,17 @@ class InterCityRidesView extends StatelessWidget {
                                                         // visible: true,
                                                         child: Text(
                                                           'OTP: ${interCityModel.otp}',
-                                                          style: GoogleFonts.inter(
-                                                            color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            color: themeChange
+                                                                    .isDarkTheme()
+                                                                ? AppThemData
+                                                                    .grey25
+                                                                : AppThemData
+                                                                    .grey950,
                                                             fontSize: 14,
-                                                            fontWeight: FontWeight.w400,
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ),
@@ -293,37 +408,45 @@ class InterCityRidesView extends StatelessWidget {
                                                 ),
                                                 const SizedBox(width: 16),
                                                 Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
                                                   children: [
                                                     Text(
-                                                      Constant.amountToShow(amount: Constant.calculateInterCityFinalAmount(interCityModel).toStringAsFixed(2)),
+                                                      Constant.amountToShow(
+                                                          amount: Constant
+                                                                  .calculateInterCityFinalAmount(
+                                                                      interCityModel)
+                                                              .toStringAsFixed(
+                                                                  2)),
                                                       // amount: Constant.calculateInterCityFinalAmount(bookingModel).toStringAsFixed(2)),
-                                                      textAlign: TextAlign.right,
+                                                      textAlign:
+                                                          TextAlign.right,
                                                       style: GoogleFonts.inter(
-                                                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                        color: themeChange
+                                                                .isDarkTheme()
+                                                            ? AppThemData.grey25
+                                                            : AppThemData
+                                                                .grey950,
                                                         fontSize: 16,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                       ),
                                                     ),
                                                     const SizedBox(height: 2),
-                                                    Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: [
-                                                        SvgPicture.asset("assets/icon/ic_multi_person.svg"),
-                                                        const SizedBox(width: 6),
-                                                        Text(
-                                                          '${interCityModel.persons}',
-                                                          style: GoogleFonts.inter(
-                                                            color: AppThemData.primary500,
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                    Text(
+                                                      'Dedicated moving vehicle'
+                                                          .tr,
+                                                      style: GoogleFonts.inter(
+                                                        color: AppThemData
+                                                            .primary500,
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -336,99 +459,221 @@ class InterCityRidesView extends StatelessWidget {
                                               child: Column(
                                                 children: [
                                                   const SizedBox(height: 12),
-                                                  PickDropPointView(pickUpAddress: interCityModel.pickUpLocationAddress ?? '', dropAddress: interCityModel.dropLocationAddress ?? ''),
+                                                  PickDropPointView(
+                                                      pickUpAddress: interCityModel
+                                                              .pickUpLocationAddress ??
+                                                          '',
+                                                      dropAddress: interCityModel
+                                                              .dropLocationAddress ??
+                                                          ''),
                                                   const SizedBox(height: 16),
 
                                                   // interCityModel.bookingStatus == BookingStatus.bookingPlaced
                                                   //     ?
-                                                  if(interCityModel.bookingStatus == BookingStatus.bookingPlaced)...{
-                                                    if(interCityModel.isPersonalRide == true)...{
-                                                      Constant.isInterCityBid == false   ?
-                                                      RoundShapeButton(
-                                                        title: "Cancel Ride".tr,
-                                                        buttonColor: AppThemData.danger_500p,
-                                                        buttonTextColor: AppThemData.white,
-                                                        onTap: () {
-                                                          Get.to(const InterCityReasonForCancelView(), arguments: {"interCityModel": interCityModel});
-                                                        },
-                                                        size: Size(Responsive.width(100, context), 52),
-                                                      )
-
+                                                  if (interCityModel
+                                                          .bookingStatus ==
+                                                      BookingStatus
+                                                          .bookingPlaced) ...{
+                                                    if (interCityModel
+                                                            .isPersonalRide ==
+                                                        true) ...{
+                                                      Constant.isInterCityBid ==
+                                                              false
+                                                          ? RoundShapeButton(
+                                                              title:
+                                                                  "Cancel Ride"
+                                                                      .tr,
+                                                              buttonColor:
+                                                                  AppThemData
+                                                                      .danger_500p,
+                                                              buttonTextColor:
+                                                                  AppThemData
+                                                                      .white,
+                                                              onTap: () {
+                                                                Get.to(
+                                                                    const InterCityReasonForCancelView(),
+                                                                    arguments: {
+                                                                      "interCityModel":
+                                                                          interCityModel
+                                                                    });
+                                                              },
+                                                              size: Size(
+                                                                  Responsive.width(
+                                                                      100,
+                                                                      context),
+                                                                  52),
+                                                            )
                                                           : Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Expanded(
-                                                            child: RoundShapeButton(
-                                                              title: "Cancel Ride".tr,
-                                                              buttonColor: AppThemData.danger_500p,
-                                                              buttonTextColor: AppThemData.white,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Expanded(
+                                                                  child:
+                                                                      RoundShapeButton(
+                                                                    title:
+                                                                        "Cancel Ride"
+                                                                            .tr,
+                                                                    buttonColor:
+                                                                        AppThemData
+                                                                            .danger_500p,
+                                                                    buttonTextColor:
+                                                                        AppThemData
+                                                                            .white,
+                                                                    onTap: () {
+                                                                      Get.to(
+                                                                          const InterCityReasonForCancelView(),
+                                                                          arguments: {
+                                                                            "interCityModel":
+                                                                                interCityModel
+                                                                          });
+                                                                    },
+                                                                    size: const Size(
+                                                                        double
+                                                                            .infinity,
+                                                                        48),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 8),
+                                                                Expanded(
+                                                                  child:
+                                                                      RoundShapeButton(
+                                                                    title:
+                                                                        "View Bid"
+                                                                            .tr,
+                                                                    buttonColor:
+                                                                        AppThemData
+                                                                            .primary500,
+                                                                    buttonTextColor:
+                                                                        AppThemData
+                                                                            .black,
+                                                                    onTap: () {
+                                                                      InterCityRideDetailsController
+                                                                          detailsController =
+                                                                          Get.put(
+                                                                              InterCityRideDetailsController());
+                                                                      detailsController
+                                                                          .bookingId
+                                                                          .value = interCityModel
+                                                                              .id ??
+                                                                          '';
+                                                                      detailsController
+                                                                          .interCityModel
+                                                                          .value = interCityModel;
+                                                                      Get.to(
+                                                                          const InterCityRideDetailsView());
+                                                                    },
+                                                                    size: const Size(
+                                                                        double
+                                                                            .infinity,
+                                                                        48),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                    } else ...{
+                                                      Constant.isInterCitySharingBid ==
+                                                              false
+                                                          ? RoundShapeButton(
+                                                              title:
+                                                                  "Cancel Ride"
+                                                                      .tr,
+                                                              buttonColor:
+                                                                  AppThemData
+                                                                      .danger_500p,
+                                                              buttonTextColor:
+                                                                  AppThemData
+                                                                      .white,
                                                               onTap: () {
-                                                                Get.to(const InterCityReasonForCancelView(), arguments: {"interCityModel": interCityModel});
+                                                                Get.to(
+                                                                    const InterCityReasonForCancelView(),
+                                                                    arguments: {
+                                                                      "interCityModel":
+                                                                          interCityModel
+                                                                    });
                                                               },
-                                                              size: const Size(double.infinity, 48),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(width: 8),
-                                                          Expanded(
-                                                            child: RoundShapeButton(
-                                                              title: "View Bid".tr,
-                                                              buttonColor: AppThemData.primary500,
-                                                              buttonTextColor: AppThemData.black,
-                                                              onTap: () {
-                                                                InterCityRideDetailsController detailsController = Get.put(InterCityRideDetailsController());
-                                                                detailsController.bookingId.value = interCityModel.id ?? '';
-                                                                detailsController.interCityModel.value = interCityModel;
-                                                                Get.to(const InterCityRideDetailsView());
-                                                              },
-                                                              size: const Size(double.infinity, 48),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    } else...{
-                                                      Constant.isInterCitySharingBid == false   ?
-                                                      RoundShapeButton(
-                                                        title: "Cancel Ride".tr,
-                                                        buttonColor: AppThemData.danger_500p,
-                                                        buttonTextColor: AppThemData.white,
-                                                        onTap: () {
-                                                          Get.to(const InterCityReasonForCancelView(), arguments: {"interCityModel": interCityModel});
-                                                        },
-                                                        size: Size(Responsive.width(100, context), 52),
-                                                      )
+                                                              size: Size(
+                                                                  Responsive.width(
+                                                                      100,
+                                                                      context),
+                                                                  52),
+                                                            )
                                                           : Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Expanded(
-                                                            child: RoundShapeButton(
-                                                              title: "Cancel Ride".tr,
-                                                              buttonColor: AppThemData.danger_500p,
-                                                              buttonTextColor: AppThemData.white,
-                                                              onTap: () {
-                                                                Get.to(const InterCityReasonForCancelView(), arguments: {"interCityModel": interCityModel});
-                                                              },
-                                                              size: const Size(double.infinity, 48),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(width: 8),
-                                                          Expanded(
-                                                            child: RoundShapeButton(
-                                                              title: "View Bid".tr,
-                                                              buttonColor: AppThemData.primary500,
-                                                              buttonTextColor: AppThemData.black,
-                                                              onTap: () {
-                                                                InterCityRideDetailsController detailsController = Get.put(InterCityRideDetailsController());
-                                                                detailsController.bookingId.value = interCityModel.id ?? '';
-                                                                detailsController.interCityModel.value = interCityModel;
-                                                                Get.to(const InterCityRideDetailsView());
-                                                              },
-                                                              size: const Size(double.infinity, 48),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Expanded(
+                                                                  child:
+                                                                      RoundShapeButton(
+                                                                    title:
+                                                                        "Cancel Ride"
+                                                                            .tr,
+                                                                    buttonColor:
+                                                                        AppThemData
+                                                                            .danger_500p,
+                                                                    buttonTextColor:
+                                                                        AppThemData
+                                                                            .white,
+                                                                    onTap: () {
+                                                                      Get.to(
+                                                                          const InterCityReasonForCancelView(),
+                                                                          arguments: {
+                                                                            "interCityModel":
+                                                                                interCityModel
+                                                                          });
+                                                                    },
+                                                                    size: const Size(
+                                                                        double
+                                                                            .infinity,
+                                                                        48),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 8),
+                                                                Expanded(
+                                                                  child:
+                                                                      RoundShapeButton(
+                                                                    title:
+                                                                        "View Bid"
+                                                                            .tr,
+                                                                    buttonColor:
+                                                                        AppThemData
+                                                                            .primary500,
+                                                                    buttonTextColor:
+                                                                        AppThemData
+                                                                            .black,
+                                                                    onTap: () {
+                                                                      InterCityRideDetailsController
+                                                                          detailsController =
+                                                                          Get.put(
+                                                                              InterCityRideDetailsController());
+                                                                      detailsController
+                                                                          .bookingId
+                                                                          .value = interCityModel
+                                                                              .id ??
+                                                                          '';
+                                                                      detailsController
+                                                                          .interCityModel
+                                                                          .value = interCityModel;
+                                                                      Get.to(
+                                                                          const InterCityRideDetailsView());
+                                                                    },
+                                                                    size: const Size(
+                                                                        double
+                                                                            .infinity,
+                                                                        48),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
                                                     },
                                                   },
 
@@ -475,17 +720,32 @@ class InterCityRidesView extends StatelessWidget {
                                                   //           ),
                                                   //         ],
                                                   //       )
-                                                       interCityModel.bookingStatus == BookingStatus.bookingAccepted
-                                                          ? RoundShapeButton(
-                                                              title: "Cancel Ride".tr,
-                                                              buttonColor: AppThemData.danger_500p,
-                                                              buttonTextColor: AppThemData.white,
-                                                              onTap: () {
-                                                                Get.to(const InterCityReasonForCancelView(), arguments: {"interCityModel": interCityModel});
-                                                              },
-                                                              size: Size(Responsive.width(100, context), 52),
-                                                            )
-                                                          : SizedBox()
+                                                  interCityModel
+                                                              .bookingStatus ==
+                                                          BookingStatus
+                                                              .bookingAccepted
+                                                      ? RoundShapeButton(
+                                                          title:
+                                                              "Cancel Ride".tr,
+                                                          buttonColor:
+                                                              AppThemData
+                                                                  .danger_500p,
+                                                          buttonTextColor:
+                                                              AppThemData.white,
+                                                          onTap: () {
+                                                            Get.to(
+                                                                const InterCityReasonForCancelView(),
+                                                                arguments: {
+                                                                  "interCityModel":
+                                                                      interCityModel
+                                                                });
+                                                          },
+                                                          size: Size(
+                                                              Responsive.width(
+                                                                  100, context),
+                                                              52),
+                                                        )
+                                                      : SizedBox()
                                                 ],
                                               ),
                                             ),

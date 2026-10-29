@@ -31,11 +31,15 @@ class BookParcelView extends StatelessWidget {
           return SafeArea(
             child: Scaffold(
               appBar: AppBar(
-                title: const Text(''),
+                title: Text('Small-Load Move'.tr),
                 centerTitle: true,
-                backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+                backgroundColor: themeChange.isDarkTheme()
+                    ? AppThemData.black
+                    : AppThemData.white,
               ),
-              backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.grey50,
+              backgroundColor: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.grey50,
               body: Obx(
                 () => controller.isLoading.value == true
                     ? Constant.loader()
@@ -47,9 +51,11 @@ class BookParcelView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Select Location'.tr,
+                                'Moving route'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -64,24 +70,39 @@ class BookParcelView extends StatelessWidget {
                                 builder: TimelineTileBuilder.connected(
                                   contentsAlign: ContentsAlign.basic,
                                   indicatorBuilder: (context, index) {
-                                    return index == 0 ? SvgPicture.asset("assets/icon/ic_pick_up.svg") : SvgPicture.asset("assets/icon/ic_drop_in.svg");
+                                    return index == 0
+                                        ? SvgPicture.asset(
+                                            "assets/icon/ic_pick_up.svg")
+                                        : SvgPicture.asset(
+                                            "assets/icon/ic_drop_in.svg");
                                   },
-                                  connectorBuilder: (context, index, connectorType) {
+                                  connectorBuilder:
+                                      (context, index, connectorType) {
                                     return DashedLineConnector(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey600 : AppThemData.grey300,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey600
+                                          : AppThemData.grey300,
                                     );
                                   },
                                   contentsBuilder: (context, index) => Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: GooglePlaceAutoCompleteTextFieldOnlyCity(
-                                      textEditingController: index == 0 ? controller.pickupLocationController : controller.dropLocationController,
+                                    child:
+                                        GooglePlaceAutoCompleteTextFieldOnlyCity(
+                                      textEditingController: index == 0
+                                          ? controller.pickupLocationController
+                                          : controller.dropLocationController,
                                       googleAPIKey: Constant.mapAPIKey,
                                       boxDecoration: BoxDecoration(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
-                                        borderRadius: BorderRadius.circular(100),
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey950
+                                            : AppThemData.grey25,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
                                       ),
                                       inputDecoration: InputDecoration(
-                                        hintText: index == 0 ? "Pick up Location".tr : "Destination Location".tr,
+                                        hintText: index == 0
+                                            ? "Moving from".tr
+                                            : "Moving to".tr,
                                         border: InputBorder.none,
                                         disabledBorder: InputBorder.none,
                                         enabledBorder: InputBorder.none,
@@ -89,13 +110,17 @@ class BookParcelView extends StatelessWidget {
                                         focusedBorder: InputBorder.none,
                                         focusedErrorBorder: InputBorder.none,
                                         hintStyle: GoogleFonts.inter(
-                                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey25
+                                              : AppThemData.grey950,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                       textStyle: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey25
+                                            : AppThemData.grey950,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -114,34 +139,58 @@ class BookParcelView extends StatelessWidget {
                                       },
                                       debounceTime: 800,
                                       isLatLngRequired: true,
-                                      focusNode: index == 0 ? controller.pickUpFocusNode : controller.dropFocusNode,
-                                      getPlaceDetailWithLatLng: (Prediction prediction) {
+                                      focusNode: index == 0
+                                          ? controller.pickUpFocusNode
+                                          : controller.dropFocusNode,
+                                      getPlaceDetailWithLatLng:
+                                          (Prediction prediction) {
                                         if (index == 0) {
-                                          controller.sourceLocation = LatLng(double.parse(prediction.lat ?? '0.00'), double.parse(prediction.lng ?? '0.00'));
-                                          controller.pikUpAddress.value = prediction.description!;
+                                          controller.sourceLocation = LatLng(
+                                              double.parse(
+                                                  prediction.lat ?? '0.00'),
+                                              double.parse(
+                                                  prediction.lng ?? '0.00'));
+                                          controller.pikUpAddress.value =
+                                              prediction.description!;
                                           controller.updateData();
                                         } else {
-                                          controller.destination = LatLng(double.parse(prediction.lat ?? '0.00'), double.parse(prediction.lng ?? '0.00'));
-                                          controller.dropAddress.value = prediction.description!;
+                                          controller.destination = LatLng(
+                                              double.parse(
+                                                  prediction.lat ?? '0.00'),
+                                              double.parse(
+                                                  prediction.lng ?? '0.00'));
+                                          controller.dropAddress.value =
+                                              prediction.description!;
                                           controller.updateData();
                                         }
                                       },
                                       itemClick: (postalCodeResponse) {
                                         if (index == 0) {
-                                          controller.pickupLocationController.text = postalCodeResponse.description ?? '';
+                                          controller.pickupLocationController
+                                                  .text =
+                                              postalCodeResponse.description ??
+                                                  '';
                                         } else {
-                                          controller.dropLocationController.text = postalCodeResponse.description ?? '';
+                                          controller
+                                                  .dropLocationController.text =
+                                              postalCodeResponse.description ??
+                                                  '';
                                         }
                                       },
-                                      itemBuilder: (context, index, Prediction prediction) {
+                                      itemBuilder: (context, index,
+                                          Prediction prediction) {
                                         return Container(
                                           padding: const EdgeInsets.all(10),
-                                          color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25,
                                           child: Row(
                                             children: [
                                               Icon(
                                                 Icons.location_on,
-                                                color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.grey25
+                                                    : AppThemData.grey950,
                                               ),
                                               const SizedBox(
                                                 width: 7,
@@ -150,7 +199,10 @@ class BookParcelView extends StatelessWidget {
                                                   child: Text(
                                                 prediction.description ?? "",
                                                 style: GoogleFonts.inter(
-                                                  color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                  color:
+                                                      themeChange.isDarkTheme()
+                                                          ? AppThemData.grey25
+                                                          : AppThemData.grey950,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w500,
                                                 ),
@@ -170,42 +222,103 @@ class BookParcelView extends StatelessWidget {
                               const SizedBox(height: 20),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     flex: 2,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Weight'.tr,
+                                          'Approx. weight'.tr,
                                           style: GoogleFonts.inter(
-                                            color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.white
+                                                : AppThemData.grey950,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                         const SizedBox(height: 4),
                                         TextField(
-                                          controller: controller.weightController.value,
+                                          controller:
+                                              controller.weightController.value,
                                           keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
-                                            disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide:BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide:BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
+                                            disabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
+                                            errorBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0),
+                                                    borderSide: BorderSide(
+                                                        color: themeChange
+                                                                .isDarkTheme()
+                                                            ? AppThemData
+                                                                .grey950
+                                                            : AppThemData
+                                                                .grey25)),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
                                             filled: true,
                                             // hintStyle: TextStyle(color: Colors.grey[800]),
                                             hintStyle: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.grey950,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
                                             hintText: "Enter Weight".tr,
-                                            fillColor: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                            fillColor: themeChange.isDarkTheme()
+                                                ? AppThemData.grey950
+                                                : AppThemData.grey25,
                                           ),
                                         )
                                       ],
@@ -215,35 +328,95 @@ class BookParcelView extends StatelessWidget {
                                   Expanded(
                                     flex: 2,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Dimension'.tr,
+                                          'Load size'.tr,
                                           style: GoogleFonts.inter(
-                                            color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.white
+                                                : AppThemData.grey950,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                         const SizedBox(height: 4),
                                         TextField(
-                                          controller: controller.dimensionController.value,
+                                          controller: controller
+                                              .dimensionController.value,
                                           decoration: InputDecoration(
-                                            disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(100.0), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
+                                            disabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
+                                            enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
+                                            errorBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0),
+                                                    borderSide: BorderSide(
+                                                        color: themeChange
+                                                                .isDarkTheme()
+                                                            ? AppThemData
+                                                                .grey950
+                                                            : AppThemData
+                                                                .grey25)),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                borderSide: BorderSide(
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey950
+                                                        : AppThemData.grey25)),
                                             filled: true,
                                             hintStyle: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.grey950,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
                                             hintText: "Enter Dimension".tr,
-                                            fillColor: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                            fillColor: themeChange.isDarkTheme()
+                                                ? AppThemData.grey950
+                                                : AppThemData.grey25,
                                           ),
                                         )
                                       ],
@@ -255,7 +428,9 @@ class BookParcelView extends StatelessWidget {
                               Text(
                                 'Select Date'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -263,15 +438,18 @@ class BookParcelView extends StatelessWidget {
                               const SizedBox(height: 4),
                               InkWell(
                                 onTap: () async {
-                                  final DateTime? selectedDate = await showDatePicker(
+                                  final DateTime? selectedDate =
+                                      await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now(),
-                                    lastDate: DateTime.now().add(const Duration(days: 1000)),
+                                    lastDate: DateTime.now()
+                                        .add(const Duration(days: 1000)),
                                   );
 
                                   if (selectedDate != null) {
-                                    controller.selectedDate.value = selectedDate;
+                                    controller.selectedDate.value =
+                                        selectedDate;
                                   }
                                 },
                                 child: Container(
@@ -279,20 +457,29 @@ class BookParcelView extends StatelessWidget {
                                   margin: const EdgeInsets.only(top: 4),
                                   clipBehavior: Clip.antiAlias,
                                   decoration: ShapeDecoration(
-                                    color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey950
+                                        : AppThemData.grey25,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(100),
                                     ),
                                   ),
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Obx(
                                         () => Text(
-                                          controller.selectedDate.value == null ? "Select Date".tr : controller.selectedDate.value!.dateMonthYear(),
+                                          controller.selectedDate.value == null
+                                              ? "Select Date".tr
+                                              : controller.selectedDate.value!
+                                                  .dateMonthYear(),
                                           style: GoogleFonts.inter(
-                                            color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.white
+                                                : AppThemData.grey950,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -311,7 +498,9 @@ class BookParcelView extends StatelessWidget {
                               Text(
                                 'Select Time'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -321,20 +510,32 @@ class BookParcelView extends StatelessWidget {
                                 onTap: () => controller.pickTime(context),
                                 child: Obx(() => Container(
                                       width: MediaQuery.of(context).size.width,
-                                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 15, horizontal: 20),
                                       decoration: BoxDecoration(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
-                                        borderRadius: BorderRadius.circular(100),
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey950
+                                            : AppThemData.grey25,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
                                       ),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
-                                          Icon(Icons.watch_later_outlined, color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950),
-                                          SizedBox(width: 10), // Spacing between icon and text
+                                          Icon(Icons.watch_later_outlined,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.grey950),
+                                          SizedBox(
+                                              width:
+                                                  10), // Spacing between icon and text
                                           Text(
                                             controller.selectedTime.value,
                                             style: GoogleFonts.inter(
-                                              color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.white
+                                                  : AppThemData.grey950,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -347,7 +548,9 @@ class BookParcelView extends StatelessWidget {
                               Text(
                                 'Set Price'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -357,7 +560,9 @@ class BookParcelView extends StatelessWidget {
                                 controller: controller.addPriceController.value,
                                 decoration: InputDecoration(
                                   hintText: "Add your price".tr,
-                                  fillColor: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                  fillColor: themeChange.isDarkTheme()
+                                      ? AppThemData.grey950
+                                      : AppThemData.grey25,
                                   focusColor: Colors.white,
                                   filled: true,
                                   suffixIcon: Padding(
@@ -366,46 +571,84 @@ class BookParcelView extends StatelessWidget {
                                       "assets/icon/ic_currency_usd.svg",
                                     ),
                                   ),
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide:BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
-                                  focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide(color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25)),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  disabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      borderSide: BorderSide(
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.grey950
+                                              : AppThemData.grey25)),
                                   hintStyle: GoogleFonts.inter(
-                                    color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey25
+                                        : AppThemData.grey950,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Visibility(
-                                visible: controller.isEstimatePriceVisible.value,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: themeChange.isDarkTheme() ? AppThemData.secondary900 : AppThemData.secondary100
-                                  ),
-                                  child: Text(
-                                    'Recommended Price For this Ride ${Constant.amountToShow(amount: double.parse(controller.estimatePrice.value.toString()).toString())}',
-                                    style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                        color: AppThemData.secondary500,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                  visible:
+                                      controller.isEstimatePriceVisible.value,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 4),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.secondary900
+                                            : AppThemData.secondary100),
+                                    child: Text(
+                                      '${'Recommended move price'.tr}: ${Constant.amountToShow(amount: double.parse(controller.estimatePrice.value.toString()).toString())}',
+                                      style: GoogleFonts.inter(
+                                        textStyle: TextStyle(
+                                          color: AppThemData.secondary500,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                )
-                              ),
+                                  )),
                               // Text(
                               //   'ESTIMATE PRICE WOULD BE A \$20',
                               //   style: GoogleFonts.inter(
@@ -416,68 +659,79 @@ class BookParcelView extends StatelessWidget {
                               // ),
                               const SizedBox(height: 20),
                               Text(
-                                'Select Vehicle'.tr,
+                                'Select a moving vehicle'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              Container(
-                                height: 58.0,
-                                width: Responsive.width(100, context),
-                                margin: const EdgeInsets.only(top: 6, bottom: 0, left: 0),
-                                // padding: EdgeInsets.only(left:- 20,right: - 20),
-                                decoration: BoxDecoration(
-                                  // border: Border.all(
-                                  //   color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
-                                  // ),
-                                  color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
-                                  borderRadius: BorderRadius.circular(2000.0),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: Obx(
-                                    () => DropdownButton<VehicleTypeModel>(
-                                      style: GoogleFonts.inter(
-                                        fontSize: 16,
-                                        color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
-                                      ),
-                                      hint: Text(
-                                        "Select Vehicle Type".tr,
+                              if (controller.vehicleTypeList.isEmpty)
+                                Container(
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.only(top: 6),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey950
+                                        : AppThemData.grey25,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(
+                                    'No moving vehicles are available right now.'
+                                        .tr,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              else
+                                Container(
+                                  height: 58.0,
+                                  width: Responsive.width(100, context),
+                                  margin: const EdgeInsets.only(
+                                      top: 6, bottom: 0, left: 0),
+                                  // padding: EdgeInsets.only(left:- 20,right: - 20),
+                                  decoration: BoxDecoration(
+                                    // border: Border.all(
+                                    //   color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                    // ),
+                                    color: themeChange.isDarkTheme()
+                                        ? AppThemData.grey950
+                                        : AppThemData.grey25,
+                                    borderRadius: BorderRadius.circular(2000.0),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: Obx(
+                                      () => DropdownButton<VehicleTypeModel>(
                                         style: GoogleFonts.inter(
-                                          color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
                                           fontSize: 16,
+                                          color: themeChange.isDarkTheme()
+                                              ? AppThemData.white
+                                              : AppThemData.grey950,
                                         ),
-                                      ),
-                                      itemHeight: 70,
-                                      dropdownColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
-                                      padding: const EdgeInsets.only(right: 12),
-                                      selectedItemBuilder: (context) {
-                                        return controller.vehicleTypeList.map((VehicleTypeModel value) {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(left: 12, right: 12),
-                                            child: Row(
-                                              children: [
-                                                Image.network(
-                                                  value.image,
-                                                  height: 42,
-                                                  width: 42,
-                                                ),
-                                                const SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Text(value.title),
-                                              ],
-                                            ),
-                                          );
-                                        }).toList();
-                                      },
-                                      items: controller.vehicleTypeList.map<DropdownMenuItem<VehicleTypeModel>>((VehicleTypeModel value) {
-                                        return DropdownMenuItem(
-                                          value: value,
-                                          child: Column(
-                                            children: [
-                                              Row(
+                                        hint: Text(
+                                          "Select Vehicle Type".tr,
+                                          style: GoogleFonts.inter(
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.white
+                                                : AppThemData.grey950,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        itemHeight: 70,
+                                        dropdownColor: themeChange.isDarkTheme()
+                                            ? AppThemData.black
+                                            : AppThemData.white,
+                                        padding:
+                                            const EdgeInsets.only(right: 12),
+                                        selectedItemBuilder: (context) {
+                                          return controller.vehicleTypeList
+                                              .map((VehicleTypeModel value) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 12, right: 12),
+                                              child: Row(
                                                 children: [
                                                   Image.network(
                                                     value.image,
@@ -490,34 +744,71 @@ class BookParcelView extends StatelessWidget {
                                                   Text(value.title),
                                                 ],
                                               ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              Visibility(visible: controller.vehicleTypeList.indexOf(value) != (controller.vehicleTypeList.length - 1), child: const Divider())
-                                            ],
-                                          ),
-                                        );
-                                      }).toList(),
-                                      borderRadius: BorderRadius.circular(12),
-                                      isExpanded: false,
-                                      isDense: false,
-                                      onChanged:
-                                          // isUploaded
-                                          //     ? null
-                                          //     :
-                                          (VehicleTypeModel? newSelectedBank) {
-                                        controller.vehicleTypeModel.value = newSelectedBank!;
-                                      },
-                                      value: controller.vehicleTypeModel.value,
+                                            );
+                                          }).toList();
+                                        },
+                                        items: controller.vehicleTypeList.map<
+                                                DropdownMenuItem<
+                                                    VehicleTypeModel>>(
+                                            (VehicleTypeModel value) {
+                                          return DropdownMenuItem(
+                                            value: value,
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Image.network(
+                                                      value.image,
+                                                      height: 42,
+                                                      width: 42,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(value.title),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Visibility(
+                                                    visible: controller
+                                                            .vehicleTypeList
+                                                            .indexOf(value) !=
+                                                        (controller
+                                                                .vehicleTypeList
+                                                                .length -
+                                                            1),
+                                                    child: const Divider())
+                                              ],
+                                            ),
+                                          );
+                                        }).toList(),
+                                        borderRadius: BorderRadius.circular(12),
+                                        isExpanded: false,
+                                        isDense: false,
+                                        onChanged:
+                                            // isUploaded
+                                            //     ? null
+                                            //     :
+                                            (VehicleTypeModel?
+                                                newSelectedBank) {
+                                          controller.vehicleTypeModel.value =
+                                              newSelectedBank!;
+                                        },
+                                        value:
+                                            controller.vehicleTypeModel.value,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
                               const SizedBox(height: 20),
                               Text(
-                                'Upload Image'.tr,
+                                'Add a load photo'.tr,
                                 style: GoogleFonts.inter(
-                                  color: themeChange.isDarkTheme() ? AppThemData.white : AppThemData.grey950,
+                                  color: themeChange.isDarkTheme()
+                                      ? AppThemData.white
+                                      : AppThemData.grey950,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -526,7 +817,8 @@ class BookParcelView extends StatelessWidget {
                               Obx(
                                 () => InkWell(
                                   onTap: () {
-                                    if (controller.selectedImage.value == null) {
+                                    if (controller.selectedImage.value ==
+                                        null) {
                                       buildBottomSheet(context, controller);
                                     }
                                   },
@@ -536,12 +828,17 @@ class BookParcelView extends StatelessWidget {
                                     padding: const EdgeInsets.all(16),
                                     clipBehavior: Clip.antiAlias,
                                     decoration: ShapeDecoration(
-                                      color: themeChange.isDarkTheme() ? AppThemData.grey950 : AppThemData.grey25,
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey950
+                                          : AppThemData.grey25,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                     ),
-                                    child: controller.selectedImage.value == null ? buildUploadView() : buildImagePreview(controller),
+                                    child:
+                                        controller.selectedImage.value == null
+                                            ? buildUploadView()
+                                            : buildImagePreview(controller),
                                   ),
                                 ),
                               ),
@@ -549,25 +846,59 @@ class BookParcelView extends StatelessWidget {
                               Center(
                                 child: RoundShapeButton(
                                     size: const Size(200, 45),
-                                    title: "Next".tr,
+                                    title: "Review Move".tr,
                                     buttonColor: AppThemData.primary500,
                                     buttonTextColor: AppThemData.black,
                                     onTap: () {
-                                      if (controller.dropLocationController.value.text.isEmpty || controller.dropLocationController.value.text == '') {
-                                        return ShowToastDialog.toast('Please Enter Destination Location'.tr);
-                                      } else if (controller.weightController.value.text.isEmpty || controller.weightController.value.text == '') {
-                                        return ShowToastDialog.toast('Please Enter Your Weight'.tr);
-                                      } else if (controller.dimensionController.value.text.isEmpty || controller.dimensionController.value.text == '') {
-                                        return ShowToastDialog.toast('Please Enter Your Dimension'.tr);
-                                      } else if (controller.addPriceController.value.text.isEmpty || controller.addPriceController.value.text == '') {
+                                      if (controller.dropLocationController
+                                              .value.text.isEmpty ||
+                                          controller.dropLocationController
+                                                  .value.text ==
+                                              '') {
+                                        return ShowToastDialog.toast(
+                                            'Please Enter Destination Location'
+                                                .tr);
+                                      } else if (controller.weightController
+                                              .value.text.isEmpty ||
+                                          controller.weightController.value
+                                                  .text ==
+                                              '') {
+                                        return ShowToastDialog.toast(
+                                            'Please Enter Your Weight'.tr);
+                                      } else if (controller.dimensionController
+                                              .value.text.isEmpty ||
+                                          controller.dimensionController.value
+                                                  .text ==
+                                              '') {
+                                        return ShowToastDialog.toast(
+                                            'Please Enter Your Dimension'.tr);
+                                      } else if (controller.addPriceController
+                                              .value.text.isEmpty ||
+                                          controller.addPriceController.value
+                                                  .text ==
+                                              '') {
                                         // return ShowToastDialog.toast('Please Enter Your Price');
-                                        controller.addPriceController.value.text = controller.estimatePrice.value.toString();
-                                      } else if (controller.selectedImage.value == null) {
-                                        return ShowToastDialog.toast('Please Add Parcel Image'.tr);
-                                      }  else if (controller.selectedTime.value == 'Select Time') {
-                                        return ShowToastDialog.toast('Please Select Ride Time'.tr);
-                                      }
-                                      else {
+                                        controller
+                                                .addPriceController.value.text =
+                                            controller.estimatePrice.value
+                                                .toString();
+                                      } else if (controller
+                                              .selectedImage.value ==
+                                          null) {
+                                        return ShowToastDialog.toast(
+                                            'Please Add Parcel Image'.tr);
+                                      } else if (controller
+                                              .selectedTime.value ==
+                                          'Select Time') {
+                                        return ShowToastDialog.toast(
+                                            'Please Select Ride Time'.tr);
+                                      } else if (controller
+                                          .vehicleTypeList.isEmpty) {
+                                        return ShowToastDialog.toast(
+                                          'No moving vehicles are available right now.'
+                                              .tr,
+                                        );
+                                      } else {
                                         // controller.saveParcelData();
                                         showModalBottomSheet(
                                           context: context,
@@ -575,7 +906,11 @@ class BookParcelView extends StatelessWidget {
                                           useSafeArea: true,
                                           isDismissible: true,
                                           enableDrag: true,
-                                          constraints: BoxConstraints(maxHeight: Responsive.height(90, context), maxWidth: Responsive.width(100, context)),
+                                          constraints: BoxConstraints(
+                                              maxHeight: Responsive.height(
+                                                  90, context),
+                                              maxWidth: Responsive.width(
+                                                  100, context)),
                                           builder: (BuildContext context) {
                                             return const ParcelPaymentDialogView();
                                           },
@@ -751,7 +1086,8 @@ class BookParcelView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () => controller.pickFile(source: ImageSource.camera),
+                                onPressed: () => controller.pickFile(
+                                    source: ImageSource.camera),
                                 icon: const Icon(
                                   Icons.camera_alt,
                                   size: 32,
@@ -773,7 +1109,8 @@ class BookParcelView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
-                                onPressed: () => controller.pickFile(source: ImageSource.gallery),
+                                onPressed: () => controller.pickFile(
+                                    source: ImageSource.gallery),
                                 icon: const Icon(
                                   Icons.photo_library_sharp,
                                   size: 32,

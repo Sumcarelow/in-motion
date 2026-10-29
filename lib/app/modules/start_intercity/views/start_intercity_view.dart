@@ -41,15 +41,18 @@ class StartIntercityView extends GetView<StartIntercityController> {
               width: 120,
               height: 120,
               margin: const EdgeInsets.only(top: 82, bottom: 24),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/icon/gif_intercity_path.gif"),
-                  fit: BoxFit.fill,
-                ),
+              decoration: BoxDecoration(
+                color: AppThemData.white.withValues(alpha: 0.75),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.local_shipping_outlined,
+                size: 64,
+                color: AppThemData.black,
               ),
             ),
             Text(
-              'My Taxi Intercity'.tr,
+              'Long-Distance Move'.tr,
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 color: AppThemData.grey950,
@@ -73,7 +76,7 @@ class StartIntercityView extends GetView<StartIntercityController> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'For long distance trip between select cities'.tr,
+                      'Dedicated mini trucks and vans between cities'.tr,
                       style: GoogleFonts.inter(
                         color: AppThemData.grey950,
                         fontSize: 16,
@@ -99,7 +102,7 @@ class StartIntercityView extends GetView<StartIntercityController> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Convenient and affordable rides'.tr,
+                      'Choose the right vehicle for your load'.tr,
                       style: GoogleFonts.inter(
                         color: AppThemData.grey950,
                         fontSize: 16,
@@ -120,12 +123,13 @@ class StartIntercityView extends GetView<StartIntercityController> {
                   SizedBox(
                     width: 24,
                     height: 24,
-                    child: SvgPicture.asset("assets/icon/ic_intercity_three.svg"),
+                    child:
+                        SvgPicture.asset("assets/icon/ic_intercity_three.svg"),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Priority chat support post trip'.tr,
+                      'Track and contact your driver during the move'.tr,
                       style: GoogleFonts.inter(
                         color: AppThemData.grey950,
                         fontSize: 16,

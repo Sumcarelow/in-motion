@@ -27,10 +27,14 @@ class ReviewScreenView extends GetView<ReviewScreenController> {
         init: ReviewScreenController(),
         builder: (controller) {
           return Scaffold(
-            backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+            backgroundColor: themeChange.isDarkTheme()
+                ? AppThemData.black
+                : AppThemData.white,
             appBar: AppBarWithBorder(
               title: "Rate Us".tr,
-              bgColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+              bgColor: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.white,
             ),
             body: (controller.isLoading.value)
                 ? Constant.loader()
@@ -48,9 +52,15 @@ class ReviewScreenView extends GetView<ReviewScreenController> {
                                 height: 60,
                                 width: 60,
                                 fit: BoxFit.cover,
-                                imageUrl: controller.driverModel.value.profilePic == null || controller.driverModel.value.profilePic == ""
+                                imageUrl: controller
+                                                .driverModel.value.profilePic ==
+                                            null ||
+                                        controller
+                                                .driverModel.value.profilePic ==
+                                            ""
                                     ? Constant.profileConstant
-                                    : controller.driverModel.value.profilePic.toString(),
+                                    : controller.driverModel.value.profilePic
+                                        .toString(),
                               ),
                             ),
                             const SizedBox(
@@ -75,7 +85,9 @@ class ReviewScreenView extends GetView<ReviewScreenController> {
                                   width: 10,
                                 ),
                                 Text(
-                                  controller.driverModel.value.driverVehicleDetails!.vehicleNumber.toString(),
+                                  controller.driverModel.value
+                                      .driverVehicleDetails!.vehicleNumber
+                                      .toString(),
                                   style: GoogleFonts.inter(
                                     color: AppThemData.black,
                                     fontSize: 14,
@@ -89,7 +101,11 @@ class ReviewScreenView extends GetView<ReviewScreenController> {
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100, width: 1),
+                                  border: Border.all(
+                                      color: themeChange.isDarkTheme()
+                                          ? AppThemData.grey800
+                                          : AppThemData.grey100,
+                                      width: 1),
                                   borderRadius: BorderRadius.circular(12)),
                               child: Padding(
                                 padding: const EdgeInsets.all(16),
@@ -100,32 +116,41 @@ class ReviewScreenView extends GetView<ReviewScreenController> {
                                     Text(
                                       "Rate Your Experience".tr,
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey50 : AppThemData.grey950,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey50
+                                            : AppThemData.grey950,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                     Text(
-                                      "Help us improve by sharing your feedback! Your input helps us improve our service for all passengers.".tr,
+                                      "Help us improve moving services for every customer by sharing your feedback."
+                                          .tr,
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.inter(
-                                        color: themeChange.isDarkTheme() ? AppThemData.grey50 : AppThemData.grey950,
+                                        color: themeChange.isDarkTheme()
+                                            ? AppThemData.grey50
+                                            : AppThemData.grey950,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                     Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.only(top: 15, bottom: 20),
+                                        padding: const EdgeInsets.only(
+                                            top: 15, bottom: 20),
                                         child: RatingBar.builder(
                                           glow: true,
-                                          initialRating: controller.rating.value,
+                                          initialRating:
+                                              controller.rating.value,
                                           minRating: 0,
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
                                           itemCount: 5,
                                           itemSize: 32,
-                                          itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                                          itemPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 2.0),
                                           itemBuilder: (context, _) => Icon(
                                             Icons.star,
                                             color: AppThemData.primary500,
@@ -138,26 +163,43 @@ class ReviewScreenView extends GetView<ReviewScreenController> {
                                     ),
                                     Obx(
                                       () => TextFormField(
-                                        controller: controller.commentController.value,
+                                        controller:
+                                            controller.commentController.value,
                                         textAlign: TextAlign.start,
                                         minLines: 3,
                                         maxLines: 5,
                                         decoration: InputDecoration(
                                             filled: true,
                                             hintText: 'Add Comment...'.tr,
-                                            fillColor: themeChange.isDarkTheme() ? AppThemData.grey900 : AppThemData.grey50,
+                                            fillColor: themeChange.isDarkTheme()
+                                                ? AppThemData.grey900
+                                                : AppThemData.grey50,
                                             enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(10.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
                                                 borderSide: BorderSide(
-                                                    color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100, width: 1)),
+                                                    color: themeChange.isDarkTheme()
+                                                        ? AppThemData.grey800
+                                                        : AppThemData.grey100,
+                                                    width: 1)),
                                             focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(10.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
                                                 borderSide: BorderSide(
-                                                    color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100, width: 1)),
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey800
+                                                        : AppThemData.grey100,
+                                                    width: 1)),
                                             border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(10.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
                                                 borderSide: BorderSide(
-                                                    color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100, width: 1))),
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey800
+                                                        : AppThemData.grey100,
+                                                    width: 1))),
                                       ),
                                     ),
                                   ],
@@ -174,33 +216,64 @@ class ReviewScreenView extends GetView<ReviewScreenController> {
                                 buttonTextColor: AppThemData.black,
                                 onTap: () async {
                                   ShowToastDialog.showLoader("Please wait".tr);
-                                  await FireStoreUtils.getDriverUserProfile(controller.bookingModel.value.driverId.toString()).then((value) async {
+                                  await FireStoreUtils.getDriverUserProfile(
+                                          controller.bookingModel.value.driverId
+                                              .toString())
+                                      .then((value) async {
                                     if (value != null) {
                                       DriverUserModel driverModel = value;
-                                      if (controller.reviewModel.value.id != null) {
-                                        driverModel.reviewsSum = (double.parse(driverModel.reviewsSum.toString()) -
-                                                double.parse(controller.reviewModel.value.rating.toString()))
+                                      if (controller.reviewModel.value.id !=
+                                          null) {
+                                        driverModel.reviewsSum = (double.parse(
+                                                    driverModel.reviewsSum
+                                                        .toString()) -
+                                                double.parse(controller
+                                                    .reviewModel.value.rating
+                                                    .toString()))
                                             .toString();
-                                        driverModel.reviewsCount = (double.parse(driverModel.reviewsCount.toString()) - 1).toString();
+                                        driverModel.reviewsCount =
+                                            (double.parse(driverModel
+                                                        .reviewsCount
+                                                        .toString()) -
+                                                    1)
+                                                .toString();
                                       }
-                                      driverModel.reviewsSum =
-                                          (double.parse(driverModel.reviewsSum.toString()) + double.parse(controller.rating.value.toString()))
-                                              .toString();
-                                      driverModel.reviewsCount = (double.parse(driverModel.reviewsCount.toString()) + 1).toString();
-                                      await FireStoreUtils.updateDriverUser(driverModel);
+                                      driverModel.reviewsSum = (double.parse(
+                                                  driverModel.reviewsSum
+                                                      .toString()) +
+                                              double.parse(controller
+                                                  .rating.value
+                                                  .toString()))
+                                          .toString();
+                                      driverModel.reviewsCount = (double.parse(
+                                                  driverModel.reviewsCount
+                                                      .toString()) +
+                                              1)
+                                          .toString();
+                                      await FireStoreUtils.updateDriverUser(
+                                          driverModel);
                                     }
                                   });
-                                  controller.reviewModel.value.id = controller.bookingId.value;
-                                  controller.reviewModel.value.rating = controller.rating.value.toString();
-                                  controller.reviewModel.value.customerId = FireStoreUtils.getCurrentUid();
-                                  controller.reviewModel.value.driverId = controller.driverId.value;
-                                  controller.reviewModel.value.comment = controller.commentController.value.text;
-                                  controller.reviewModel.value.date = Timestamp.now();
+                                  controller.reviewModel.value.id =
+                                      controller.bookingId.value;
+                                  controller.reviewModel.value.rating =
+                                      controller.rating.value.toString();
+                                  controller.reviewModel.value.customerId =
+                                      FireStoreUtils.getCurrentUid();
+                                  controller.reviewModel.value.driverId =
+                                      controller.driverId.value;
+                                  controller.reviewModel.value.comment =
+                                      controller.commentController.value.text;
+                                  controller.reviewModel.value.date =
+                                      Timestamp.now();
 
-                                  await FireStoreUtils.setReview(controller.reviewModel.value).then((value) {
+                                  await FireStoreUtils.setReview(
+                                          controller.reviewModel.value)
+                                      .then((value) {
                                     if (value != null && value == true) {
                                       ShowToastDialog.closeLoader();
-                                      ShowToastDialog.showToast("Review submit successfully".tr);
+                                      ShowToastDialog.showToast(
+                                          "Review submit successfully".tr);
                                       Get.back();
                                     }
                                   });

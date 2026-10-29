@@ -3,7 +3,6 @@ import 'package:customer/app/modules/cab_ride_details/controllers/cab_ride_detai
 import 'package:customer/app/modules/cab_ride_details/views/cab_ride_details_view.dart';
 import 'package:customer/app/modules/select_location/views/select_location_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:customer/app/models/booking_model.dart';
 import 'package:customer/constant/constant.dart';
@@ -28,7 +27,9 @@ class CabRideView extends StatelessWidget {
         init: CabRideController(),
         builder: (controller) {
           return Scaffold(
-            backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+            backgroundColor: themeChange.isDarkTheme()
+                ? AppThemData.black
+                : AppThemData.white,
             // appBar: AppBarWithBorder(
             //   title: "My Rides".tr,
             //   bgColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
@@ -68,7 +69,11 @@ class CabRideView extends StatelessWidget {
                               : themeChange.isDarkTheme()
                                   ? AppThemData.black
                                   : AppThemData.white,
-                          buttonTextColor: controller.selectedType.value == 1 ? AppThemData.black : (themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black),
+                          buttonTextColor: controller.selectedType.value == 1
+                              ? AppThemData.black
+                              : (themeChange.isDarkTheme()
+                                  ? AppThemData.white
+                                  : AppThemData.black),
                           onTap: () {
                             controller.selectedType.value = 1;
                           },
@@ -101,11 +106,20 @@ class CabRideView extends StatelessWidget {
                 RefreshIndicator(
                   onRefresh: () async {
                     if (controller.selectedType.value == 0) {
-                      await controller.getData(isOngoingDataFetch: true, isCompletedDataFetch: false, isRejectedDataFetch: false);
+                      await controller.getData(
+                          isOngoingDataFetch: true,
+                          isCompletedDataFetch: false,
+                          isRejectedDataFetch: false);
                     } else if (controller.selectedType.value == 1) {
-                      await controller.getData(isOngoingDataFetch: false, isCompletedDataFetch: true, isRejectedDataFetch: false);
+                      await controller.getData(
+                          isOngoingDataFetch: false,
+                          isCompletedDataFetch: true,
+                          isRejectedDataFetch: false);
                     } else {
-                      await controller.getData(isOngoingDataFetch: false, isCompletedDataFetch: false, isRejectedDataFetch: true);
+                      await controller.getData(
+                          isOngoingDataFetch: false,
+                          isCompletedDataFetch: false,
+                          isRejectedDataFetch: true);
                     }
                   },
                   child: SizedBox(
@@ -125,16 +139,20 @@ class CabRideView extends StatelessWidget {
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 RxBool isOpen = false.obs;
-                                BookingModel bookingModel = controller.selectedType.value == 0
-                                    ? controller.ongoingRides[index]
-                                    : controller.selectedType.value == 1
-                                        ? controller.completedRides[index]
-                                        : controller.rejectedRides[index];
+                                BookingModel bookingModel =
+                                    controller.selectedType.value == 0
+                                        ? controller.ongoingRides[index]
+                                        : controller.selectedType.value == 1
+                                            ? controller.completedRides[index]
+                                            : controller.rejectedRides[index];
                                 return InkWell(
                                   onTap: () {
-                                    CabRideDetailsController detailsController = Get.put(CabRideDetailsController());
-                                    detailsController.bookingId.value = bookingModel.id ?? '';
-                                    detailsController.bookingModel.value = bookingModel;
+                                    CabRideDetailsController detailsController =
+                                        Get.put(CabRideDetailsController());
+                                    detailsController.bookingId.value =
+                                        bookingModel.id ?? '';
+                                    detailsController.bookingModel.value =
+                                        bookingModel;
                                     Get.to(const CabRideDetailsView());
                                   },
                                   child: Container(
@@ -143,14 +161,20 @@ class CabRideView extends StatelessWidget {
                                     margin: const EdgeInsets.all(16),
                                     decoration: ShapeDecoration(
                                       shape: RoundedRectangleBorder(
-                                        side: BorderSide(width: 1, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
+                                        side: BorderSide(
+                                            width: 1,
+                                            color: themeChange.isDarkTheme()
+                                                ? AppThemData.grey800
+                                                : AppThemData.grey100),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                     ),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         InkWell(
                                           onTap: () {
@@ -158,13 +182,22 @@ class CabRideView extends StatelessWidget {
                                           },
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                bookingModel.bookingTime == null ? "" : bookingModel.bookingTime!.toDate().dateMonthYear(),
+                                                bookingModel.bookingTime == null
+                                                    ? ""
+                                                    : bookingModel.bookingTime!
+                                                        .toDate()
+                                                        .dateMonthYear(),
                                                 style: GoogleFonts.inter(
-                                                  color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                  color:
+                                                      themeChange.isDarkTheme()
+                                                          ? AppThemData.grey400
+                                                          : AppThemData.grey500,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -176,8 +209,12 @@ class CabRideView extends StatelessWidget {
                                                   shape: RoundedRectangleBorder(
                                                     side: BorderSide(
                                                       width: 1,
-                                                      strokeAlign: BorderSide.strokeAlignCenter,
-                                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                                      strokeAlign: BorderSide
+                                                          .strokeAlignCenter,
+                                                      color: themeChange
+                                                              .isDarkTheme()
+                                                          ? AppThemData.grey800
+                                                          : AppThemData.grey100,
                                                     ),
                                                   ),
                                                 ),
@@ -185,9 +222,18 @@ class CabRideView extends StatelessWidget {
                                               const SizedBox(width: 8),
                                               Expanded(
                                                 child: Text(
-                                                  bookingModel.bookingTime == null ? "" : bookingModel.bookingTime!.toDate().time(),
+                                                  bookingModel.bookingTime ==
+                                                          null
+                                                      ? ""
+                                                      : bookingModel
+                                                          .bookingTime!
+                                                          .toDate()
+                                                          .time(),
                                                   style: GoogleFonts.inter(
-                                                    color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey400
+                                                        : AppThemData.grey500,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -195,52 +241,91 @@ class CabRideView extends StatelessWidget {
                                               ),
                                               const SizedBox(width: 8),
                                               Icon(
-                                                Icons.keyboard_arrow_right_sharp,
-                                                color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                Icons
+                                                    .keyboard_arrow_right_sharp,
+                                                color: themeChange.isDarkTheme()
+                                                    ? AppThemData.grey400
+                                                    : AppThemData.grey500,
                                               )
                                             ],
                                           ),
                                         ),
                                         const SizedBox(height: 12),
                                         Container(
-                                          padding: const EdgeInsets.only(bottom: 12),
+                                          padding:
+                                              const EdgeInsets.only(bottom: 12),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               SizedBox(
                                                 height: 60,
                                                 width: 60,
                                                 child: CachedNetworkImage(
-                                                  imageUrl: bookingModel.vehicleType == null ? Constant.profileConstant : bookingModel.vehicleType!.image,
+                                                  imageUrl: bookingModel
+                                                              .vehicleType ==
+                                                          null
+                                                      ? Constant.profileConstant
+                                                      : bookingModel
+                                                          .vehicleType!.image,
                                                   fit: BoxFit.cover,
-                                                  placeholder: (context, url) => Constant.loader(),
-                                                  errorWidget: (context, url, error) => Image.asset(Constant.userPlaceHolder),
+                                                  placeholder: (context, url) =>
+                                                      Constant.loader(),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Image.asset(Constant
+                                                              .userPlaceHolder),
                                                 ),
                                               ),
                                               const SizedBox(width: 12),
                                               Expanded(
                                                 child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      bookingModel.vehicleType == null ? "" : bookingModel.vehicleType!.title,
+                                                      bookingModel.vehicleType ==
+                                                              null
+                                                          ? ""
+                                                          : bookingModel
+                                                              .vehicleType!
+                                                              .title,
                                                       style: GoogleFonts.inter(
-                                                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                        color: themeChange
+                                                                .isDarkTheme()
+                                                            ? AppThemData.grey25
+                                                            : AppThemData
+                                                                .grey950,
                                                         fontSize: 16,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                       ),
                                                     ),
                                                     const SizedBox(height: 2),
                                                     Text(
-                                                      (bookingModel.paymentStatus ?? false) ? 'Payment is Completed'.tr : 'Payment is Pending'.tr,
+                                                      (bookingModel
+                                                                  .paymentStatus ??
+                                                              false)
+                                                          ? 'Payment is Completed'
+                                                              .tr
+                                                          : 'Payment is Pending'
+                                                              .tr,
                                                       style: GoogleFonts.inter(
-                                                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                        color: themeChange
+                                                                .isDarkTheme()
+                                                            ? AppThemData.grey25
+                                                            : AppThemData
+                                                                .grey950,
                                                         fontSize: 14,
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
                                                     ),
                                                   ],
@@ -249,35 +334,39 @@ class CabRideView extends StatelessWidget {
                                               const SizedBox(width: 16),
                                               Column(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
                                                 children: [
                                                   Text(
-                                                    Constant.amountToShow(amount: Constant.calculateFinalAmount(bookingModel).toStringAsFixed(2)),
+                                                    Constant.amountToShow(
+                                                        amount: Constant
+                                                                .calculateFinalAmount(
+                                                                    bookingModel)
+                                                            .toStringAsFixed(
+                                                                2)),
                                                     textAlign: TextAlign.right,
                                                     style: GoogleFonts.inter(
-                                                      color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                      color: themeChange
+                                                              .isDarkTheme()
+                                                          ? AppThemData.grey25
+                                                          : AppThemData.grey950,
                                                       fontSize: 16,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                   const SizedBox(height: 2),
-                                                  Row(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      SvgPicture.asset("assets/icon/ic_multi_person.svg"),
-                                                      const SizedBox(width: 6),
-                                                      Text(
-                                                        bookingModel.vehicleType == null ? "" : bookingModel.vehicleType!.persons,
-                                                        style: GoogleFonts.inter(
-                                                          color: AppThemData.primary500,
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                    ],
+                                                  Text(
+                                                    'Moving vehicle'.tr,
+                                                    style: GoogleFonts.inter(
+                                                      color: AppThemData
+                                                          .primary500,
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -286,7 +375,13 @@ class CabRideView extends StatelessWidget {
                                         ),
                                         Obx(() => Visibility(
                                               visible: isOpen.value,
-                                              child: PickDropPointView(pickUpAddress: bookingModel.pickUpLocationAddress ?? '', dropAddress: bookingModel.dropLocationAddress ?? ''),
+                                              child: PickDropPointView(
+                                                  pickUpAddress: bookingModel
+                                                          .pickUpLocationAddress ??
+                                                      '',
+                                                  dropAddress: bookingModel
+                                                          .dropLocationAddress ??
+                                                      ''),
                                             )),
                                       ],
                                     ),
@@ -297,7 +392,7 @@ class CabRideView extends StatelessWidget {
                           : ListView(children: [
                               NoRidesView(
                                 themeChange: themeChange,
-                                onTap: (){
+                                onTap: () {
                                   Get.to(const SelectLocationView());
                                 },
                               )
