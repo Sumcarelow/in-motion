@@ -135,36 +135,35 @@ class InterCityRidesView extends StatelessWidget {
                     ),
                   ),
                   const Divider(),
-                  RefreshIndicator(
-                    onRefresh: () async {
-                      if (controller.selectedType.value == 0) {
-                        await controller.getData(
-                            isActiveDataFetch: true,
-                            isOngoingDataFetch: false,
-                            isCompletedDataFetch: false,
-                            isRejectedDataFetch: false);
-                      } else if (controller.selectedType.value == 1) {
-                        await controller.getData(
-                            isActiveDataFetch: false,
-                            isOngoingDataFetch: true,
-                            isCompletedDataFetch: false,
-                            isRejectedDataFetch: false);
-                      } else if (controller.selectedType.value == 2) {
-                        await controller.getData(
-                            isActiveDataFetch: false,
-                            isOngoingDataFetch: false,
-                            isCompletedDataFetch: true,
-                            isRejectedDataFetch: false);
-                      } else {
-                        await controller.getData(
-                            isActiveDataFetch: false,
-                            isOngoingDataFetch: false,
-                            isCompletedDataFetch: false,
-                            isRejectedDataFetch: true);
-                      }
-                    },
-                    child: SizedBox(
-                      height: Responsive.height(75, context),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        if (controller.selectedType.value == 0) {
+                          await controller.getData(
+                              isActiveDataFetch: true,
+                              isOngoingDataFetch: false,
+                              isCompletedDataFetch: false,
+                              isRejectedDataFetch: false);
+                        } else if (controller.selectedType.value == 1) {
+                          await controller.getData(
+                              isActiveDataFetch: false,
+                              isOngoingDataFetch: true,
+                              isCompletedDataFetch: false,
+                              isRejectedDataFetch: false);
+                        } else if (controller.selectedType.value == 2) {
+                          await controller.getData(
+                              isActiveDataFetch: false,
+                              isOngoingDataFetch: false,
+                              isCompletedDataFetch: true,
+                              isRejectedDataFetch: false);
+                        } else {
+                          await controller.getData(
+                              isActiveDataFetch: false,
+                              isOngoingDataFetch: false,
+                              isCompletedDataFetch: false,
+                              isRejectedDataFetch: true);
+                        }
+                      },
                       child: Obx(
                         () => (controller.selectedType.value == 0
                                 ? controller.activeRides.isNotEmpty
@@ -766,7 +765,7 @@ class InterCityRidesView extends StatelessWidget {
                               ]),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

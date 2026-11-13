@@ -40,7 +40,7 @@ class DrawerView extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     children: <Widget>[
                       Container(
-                        color: AppThemData.primary500,
+                        color: AppThemData.grey900,
                         padding: const EdgeInsets.only(
                             top: 30, bottom: 30, left: 16, right: 24),
                         child: InkWell(
@@ -65,9 +65,13 @@ class DrawerView extends StatelessWidget {
                                   margin: const EdgeInsets.only(right: 10),
                                   clipBehavior: Clip.antiAlias,
                                   decoration: ShapeDecoration(
-                                    color: Colors.white,
+                                    color: AppThemData.grey800,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(200),
+                                      side: BorderSide(
+                                        color: AppThemData.primary500,
+                                        width: 2,
+                                      ),
                                     ),
                                     image: DecorationImage(
                                       image: NetworkImage(
@@ -86,7 +90,7 @@ class DrawerView extends StatelessWidget {
                                       Text(
                                         controller.name.value,
                                         style: GoogleFonts.inter(
-                                          color: AppThemData.black,
+                                          color: AppThemData.white,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -94,7 +98,7 @@ class DrawerView extends StatelessWidget {
                                       Text(
                                         controller.phoneNumber.value,
                                         style: GoogleFonts.inter(
-                                          color: AppThemData.black,
+                                          color: Colors.white60,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -103,7 +107,12 @@ class DrawerView extends StatelessWidget {
                                   ),
                                 ),
                                 SvgPicture.asset(
-                                    "assets/icon/ic_drawer_edit.svg")
+                                  "assets/icon/ic_drawer_edit.svg",
+                                  colorFilter: ColorFilter.mode(
+                                    AppThemData.primary500,
+                                    BlendMode.srcIn,
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -122,13 +131,11 @@ class DrawerView extends StatelessWidget {
                         ),
                       ),
                       ListTile(
-                        leading: SvgPicture.asset(
-                          "assets/icon/ic_my_rides.svg",
-                          colorFilter: ColorFilter.mode(
-                              themeChange.isDarkTheme()
-                                  ? AppThemData.white
-                                  : AppThemData.black,
-                              BlendMode.srcIn),
+                        leading: Icon(
+                          Icons.home_outlined,
+                          color: themeChange.isDarkTheme()
+                              ? AppThemData.white
+                              : AppThemData.black,
                         ),
                         trailing: const Icon(Icons.keyboard_arrow_right_rounded,
                             size: 30),
@@ -161,11 +168,9 @@ class DrawerView extends StatelessWidget {
                             : themeChange.isDarkTheme()
                                 ? AppThemData.white
                                 : AppThemData.black,
-                        // icon: Icons.category_outlined,
-                        icon: SvgPicture.asset(
-                          "assets/icon/my_ride.svg",
-                          width: 20, // Set appropriate width & height
-                          height: 17,
+                        icon: Icon(
+                          Icons.local_shipping_outlined,
+                          size: 22,
                           color: (controller.drawerIndex.value == 1 ||
                                   controller.drawerIndex.value == 7 ||
                                   controller.drawerIndex.value == 8 ||

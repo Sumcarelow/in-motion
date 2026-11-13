@@ -103,27 +103,26 @@ class CabRideView extends StatelessWidget {
                   ),
                 ),
                 const Divider(),
-                RefreshIndicator(
-                  onRefresh: () async {
-                    if (controller.selectedType.value == 0) {
-                      await controller.getData(
-                          isOngoingDataFetch: true,
-                          isCompletedDataFetch: false,
-                          isRejectedDataFetch: false);
-                    } else if (controller.selectedType.value == 1) {
-                      await controller.getData(
-                          isOngoingDataFetch: false,
-                          isCompletedDataFetch: true,
-                          isRejectedDataFetch: false);
-                    } else {
-                      await controller.getData(
-                          isOngoingDataFetch: false,
-                          isCompletedDataFetch: false,
-                          isRejectedDataFetch: true);
-                    }
-                  },
-                  child: SizedBox(
-                    height: Responsive.height(75, context),
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      if (controller.selectedType.value == 0) {
+                        await controller.getData(
+                            isOngoingDataFetch: true,
+                            isCompletedDataFetch: false,
+                            isRejectedDataFetch: false);
+                      } else if (controller.selectedType.value == 1) {
+                        await controller.getData(
+                            isOngoingDataFetch: false,
+                            isCompletedDataFetch: true,
+                            isRejectedDataFetch: false);
+                      } else {
+                        await controller.getData(
+                            isOngoingDataFetch: false,
+                            isCompletedDataFetch: false,
+                            isRejectedDataFetch: true);
+                      }
+                    },
                     child: Obx(
                       () => (controller.selectedType.value == 0
                               ? controller.ongoingRides.isNotEmpty
@@ -399,7 +398,7 @@ class CabRideView extends StatelessWidget {
                             ]),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           );

@@ -21,17 +21,10 @@ class IntroScreenView extends StatelessWidget {
         builder: (controller) {
           return Obx(
             () => Scaffold(
-              backgroundColor: controller.currentPage.value == 0
-                  ? const Color(0xFFFFFFE7)
-                  : controller.currentPage.value == 1
-                      ? const Color(0xFFEDFAFF)
-                      : const Color(0xFFFFF3F1),
+              backgroundColor: const Color(0xFF101214),
               appBar: AppBar(
-                backgroundColor: controller.currentPage.value == 0
-                    ? const Color(0xFFFFFFE7)
-                    : controller.currentPage.value == 1
-                        ? const Color(0xFFEDFAFF)
-                        : const Color(0xFFFFF3F1),
+                forceMaterialTransparency: true,
+                backgroundColor: Colors.transparent,
                 leading: Visibility(
                   visible: controller.currentPage.value != 0,
                   child: IconButton(
@@ -44,7 +37,7 @@ class IntroScreenView extends StatelessWidget {
                       icon: const Icon(
                         Icons.arrow_back_ios,
                         size: 15,
-                        color: AppThemData.black,
+                        color: Colors.white70,
                       )),
                 ),
                 actions: [
@@ -62,13 +55,13 @@ class IntroScreenView extends StatelessWidget {
                               "Skip".tr,
                               style: GoogleFonts.inter(
                                   fontSize: 16.0,
-                                  color: AppThemData.grey950,
+                                  color: Colors.white70,
                                   fontWeight: FontWeight.w500),
                             ),
-                            const Icon(
+                            Icon(
                               Icons.arrow_forward_ios_outlined,
                               size: 15,
-                              color: AppThemData.black,
+                              color: AppThemData.primary500,
                             )
                           ],
                         )),
@@ -92,21 +85,27 @@ class IntroScreenView extends StatelessWidget {
                           body:
                               "Book mini trucks and vans for home, office, furniture, appliance, and boxed-item moves."
                                   .tr,
-                          icon: Icons.local_shipping_outlined,
+                          primaryIcon: Icons.local_shipping_rounded,
+                          secondaryIcon: Icons.airport_shuttle_rounded,
+                          badge: 'VANS + MINI TRUCKS',
                         ),
                         IntroScreenPage(
                           title: "The right vehicle for every load".tr,
                           body:
                               "Choose a moving vehicle that fits your load, route, and schedule before you confirm."
                                   .tr,
-                          icon: Icons.inventory_2_outlined,
+                          primaryIcon: Icons.inventory_2_rounded,
+                          secondaryIcon: Icons.straighten_rounded,
+                          badge: 'RIGHT SIZE FOR YOUR LOAD',
                         ),
                         IntroScreenPage(
                           title: "Track every move".tr,
                           body:
                               "Follow your driver, keep move details together, and pay securely from pickup to delivery."
                                   .tr,
-                          icon: Icons.route_outlined,
+                          primaryIcon: Icons.route_rounded,
+                          secondaryIcon: Icons.location_on_rounded,
+                          badge: 'TRACK EVERY MOVE',
                         ),
                       ],
                     ),
@@ -138,7 +137,7 @@ class IntroScreenView extends StatelessWidget {
                         ),
                       ),
                       progressColor: AppThemData.primary500,
-                      backgroundColor: AppThemData.grey50,
+                      backgroundColor: const Color(0xFF292D30),
                     ),
                   ),
                   Visibility(

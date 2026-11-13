@@ -32,7 +32,9 @@ class ParcelRidesView extends StatelessWidget {
         builder: (controller) {
           return SafeArea(
             child: Scaffold(
-              backgroundColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
+              backgroundColor: themeChange.isDarkTheme()
+                  ? AppThemData.black
+                  : AppThemData.white,
               // appBar: AppBarWithBorder(
               //   title: "My Rides".tr,
               //   bgColor: themeChange.isDarkTheme() ? AppThemData.black : AppThemData.white,
@@ -55,15 +57,17 @@ class ParcelRidesView extends StatelessWidget {
                                   : themeChange.isDarkTheme()
                                       ? AppThemData.black
                                       : AppThemData.white,
-                              buttonTextColor: controller.selectedType.value == 0
-                                  ? AppThemData.black
-                                  : themeChange.isDarkTheme()
-                                      ? AppThemData.white
-                                      : AppThemData.black,
+                              buttonTextColor:
+                                  controller.selectedType.value == 0
+                                      ? AppThemData.black
+                                      : themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
                               onTap: () {
                                 controller.selectedType.value = 0;
                               },
-                              size: Size((Responsive.width(90, context) / 3), 38),
+                              size:
+                                  Size((Responsive.width(90, context) / 3), 38),
                               textSize: 12,
                             ),
                             RoundShapeButton(
@@ -73,11 +77,17 @@ class ParcelRidesView extends StatelessWidget {
                                   : themeChange.isDarkTheme()
                                       ? AppThemData.black
                                       : AppThemData.white,
-                              buttonTextColor: controller.selectedType.value == 1 ? AppThemData.black : (themeChange.isDarkTheme() ? AppThemData.white : AppThemData.black),
+                              buttonTextColor:
+                                  controller.selectedType.value == 1
+                                      ? AppThemData.black
+                                      : (themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black),
                               onTap: () {
                                 controller.selectedType.value = 1;
                               },
-                              size: Size((Responsive.width(90, context) / 3), 38),
+                              size:
+                                  Size((Responsive.width(90, context) / 3), 38),
                               textSize: 12,
                             ),
                             RoundShapeButton(
@@ -87,15 +97,17 @@ class ParcelRidesView extends StatelessWidget {
                                   : themeChange.isDarkTheme()
                                       ? AppThemData.black
                                       : AppThemData.white,
-                              buttonTextColor: controller.selectedType.value == 2
-                                  ? AppThemData.black
-                                  : themeChange.isDarkTheme()
-                                      ? AppThemData.white
-                                      : AppThemData.black,
+                              buttonTextColor:
+                                  controller.selectedType.value == 2
+                                      ? AppThemData.black
+                                      : themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
                               onTap: () {
                                 controller.selectedType.value = 2;
                               },
-                              size: Size((Responsive.width(100, context) / 3), 38),
+                              size: Size(
+                                  (Responsive.width(100, context) / 3), 38),
                               textSize: 12,
                             ),
                             RoundShapeButton(
@@ -105,15 +117,17 @@ class ParcelRidesView extends StatelessWidget {
                                   : themeChange.isDarkTheme()
                                       ? AppThemData.black
                                       : AppThemData.white,
-                              buttonTextColor: controller.selectedType.value == 3
-                                  ? AppThemData.black
-                                  : themeChange.isDarkTheme()
-                                      ? AppThemData.white
-                                      : AppThemData.black,
+                              buttonTextColor:
+                                  controller.selectedType.value == 3
+                                      ? AppThemData.black
+                                      : themeChange.isDarkTheme()
+                                          ? AppThemData.white
+                                          : AppThemData.black,
                               onTap: () {
                                 controller.selectedType.value = 3;
                               },
-                              size: Size((Responsive.width(90, context) / 3), 38),
+                              size:
+                                  Size((Responsive.width(90, context) / 3), 38),
                               textSize: 12,
                             ),
                           ],
@@ -122,20 +136,35 @@ class ParcelRidesView extends StatelessWidget {
                     ),
                   ),
                   const Divider(),
-                  RefreshIndicator(
-                    onRefresh: () async {
-                      if (controller.selectedType.value == 0) {
-                        await controller.getData(isActiveDataFetch: true, isOngoingDataFetch: false, isCompletedDataFetch: false, isRejectedDataFetch: false);
-                      } else if (controller.selectedType.value == 1) {
-                        await controller.getData(isActiveDataFetch: false, isOngoingDataFetch: true, isCompletedDataFetch: false, isRejectedDataFetch: false);
-                      } else if (controller.selectedType.value == 2) {
-                        await controller.getData(isActiveDataFetch: false, isOngoingDataFetch: false, isCompletedDataFetch: true, isRejectedDataFetch: false);
-                      } else {
-                        await controller.getData(isActiveDataFetch: false, isOngoingDataFetch: false, isCompletedDataFetch: false, isRejectedDataFetch: true);
-                      }
-                    },
-                    child: SizedBox(
-                      height: Responsive.height(75, context),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        if (controller.selectedType.value == 0) {
+                          await controller.getData(
+                              isActiveDataFetch: true,
+                              isOngoingDataFetch: false,
+                              isCompletedDataFetch: false,
+                              isRejectedDataFetch: false);
+                        } else if (controller.selectedType.value == 1) {
+                          await controller.getData(
+                              isActiveDataFetch: false,
+                              isOngoingDataFetch: true,
+                              isCompletedDataFetch: false,
+                              isRejectedDataFetch: false);
+                        } else if (controller.selectedType.value == 2) {
+                          await controller.getData(
+                              isActiveDataFetch: false,
+                              isOngoingDataFetch: false,
+                              isCompletedDataFetch: true,
+                              isRejectedDataFetch: false);
+                        } else {
+                          await controller.getData(
+                              isActiveDataFetch: false,
+                              isOngoingDataFetch: false,
+                              isCompletedDataFetch: false,
+                              isRejectedDataFetch: true);
+                        }
+                      },
                       child: Obx(
                         () => (controller.selectedType.value == 0
                                 ? controller.activeRides.isNotEmpty
@@ -155,7 +184,9 @@ class ParcelRidesView extends StatelessWidget {
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   RxBool isOpen = false.obs;
-                                  ParcelModel parcelModel = controller.selectedType.value == 0
+                                  ParcelModel parcelModel = controller
+                                              .selectedType.value ==
+                                          0
                                       ? controller.activeRides[index]
                                       : controller.selectedType.value == 1
                                           ? controller.ongoingRides[index]
@@ -169,27 +200,44 @@ class ParcelRidesView extends StatelessWidget {
                                     child: Container(
                                       width: Responsive.width(100, context),
                                       padding: const EdgeInsets.all(16),
-                                      margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                                      margin: const EdgeInsets.only(
+                                          top: 16, left: 16, right: 16),
                                       decoration: ShapeDecoration(
                                         shape: RoundedRectangleBorder(
-                                          side: BorderSide(width: 1, color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100),
-                                          borderRadius: BorderRadius.circular(12),
+                                          side: BorderSide(
+                                              width: 1,
+                                              color: themeChange.isDarkTheme()
+                                                  ? AppThemData.grey800
+                                                  : AppThemData.grey100),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
                                       ),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                parcelModel.bookingTime == null ? "" : parcelModel.bookingTime!.toDate().dateMonthYear(),
+                                                parcelModel.bookingTime == null
+                                                    ? ""
+                                                    : parcelModel.bookingTime!
+                                                        .toDate()
+                                                        .dateMonthYear(),
                                                 style: GoogleFonts.inter(
-                                                  color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                  color:
+                                                      themeChange.isDarkTheme()
+                                                          ? AppThemData.grey400
+                                                          : AppThemData.grey500,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w400,
                                                 ),
@@ -201,8 +249,12 @@ class ParcelRidesView extends StatelessWidget {
                                                   shape: RoundedRectangleBorder(
                                                     side: BorderSide(
                                                       width: 1,
-                                                      strokeAlign: BorderSide.strokeAlignCenter,
-                                                      color: themeChange.isDarkTheme() ? AppThemData.grey800 : AppThemData.grey100,
+                                                      strokeAlign: BorderSide
+                                                          .strokeAlignCenter,
+                                                      color: themeChange
+                                                              .isDarkTheme()
+                                                          ? AppThemData.grey800
+                                                          : AppThemData.grey100,
                                                     ),
                                                   ),
                                                 ),
@@ -210,9 +262,17 @@ class ParcelRidesView extends StatelessWidget {
                                               const SizedBox(width: 8),
                                               Expanded(
                                                 child: Text(
-                                                  parcelModel.bookingTime == null ? "" : parcelModel.bookingTime!.toDate().time(),
+                                                  parcelModel.bookingTime ==
+                                                          null
+                                                      ? ""
+                                                      : parcelModel.bookingTime!
+                                                          .toDate()
+                                                          .time(),
                                                   style: GoogleFonts.inter(
-                                                    color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                    color: themeChange
+                                                            .isDarkTheme()
+                                                        ? AppThemData.grey400
+                                                        : AppThemData.grey500,
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -225,50 +285,94 @@ class ParcelRidesView extends StatelessWidget {
                                                   // detailsController.bookingId.value = interCityModel.id ?? '';
                                                   // detailsController.interCityModel.value = interCityModel;
                                                   // Get.to(const InterCityRideDetailsView());
-                                                  ParcelRideDetailsController detailsController = Get.put(ParcelRideDetailsController());
-                                                  detailsController.bookingId.value = parcelModel.id ?? '';
-                                                  detailsController.parcelModel.value = parcelModel;
-                                                  Get.to(const ParcelRideDetailsView());
+                                                  ParcelRideDetailsController
+                                                      detailsController =
+                                                      Get.put(
+                                                          ParcelRideDetailsController());
+                                                  detailsController
+                                                          .bookingId.value =
+                                                      parcelModel.id ?? '';
+                                                  detailsController.parcelModel
+                                                      .value = parcelModel;
+                                                  Get.to(
+                                                      const ParcelRideDetailsView());
                                                 },
                                                 child: Icon(
-                                                  Icons.keyboard_arrow_right_sharp,
-                                                  color: themeChange.isDarkTheme() ? AppThemData.grey400 : AppThemData.grey500,
+                                                  Icons
+                                                      .keyboard_arrow_right_sharp,
+                                                  color:
+                                                      themeChange.isDarkTheme()
+                                                          ? AppThemData.grey400
+                                                          : AppThemData.grey500,
                                                 ),
                                               )
                                             ],
                                           ),
                                           const SizedBox(height: 12),
                                           Container(
-                                            padding: const EdgeInsets.only(bottom: 0),
+                                            padding: const EdgeInsets.only(
+                                                bottom: 0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 ClipRRect(
-                                                  borderRadius: BorderRadius.circular(2000),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          2000),
                                                   child: CachedNetworkImage(
                                                     height: 60,
                                                     width: 60,
-                                                    imageUrl: (Constant.userModel?.profilePic != null && Constant.userModel!.profilePic!.isNotEmpty) ? Constant.userModel!.profilePic! : Constant.profileConstant,
+                                                    imageUrl: (Constant
+                                                                    .userModel
+                                                                    ?.profilePic !=
+                                                                null &&
+                                                            Constant
+                                                                .userModel!
+                                                                .profilePic!
+                                                                .isNotEmpty)
+                                                        ? Constant.userModel!
+                                                            .profilePic!
+                                                        : Constant
+                                                            .profileConstant,
                                                     fit: BoxFit.cover,
-                                                    placeholder: (context, url) => Constant.loader(),
-                                                    errorWidget: (context, url, error) => Image.asset(Constant.userPlaceHolder),
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Constant.loader(),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        Image.asset(Constant
+                                                            .userPlaceHolder),
                                                   ),
                                                 ),
                                                 const SizedBox(width: 12),
                                                 Expanded(
                                                   child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         'ID: #${parcelModel.id!.substring(0, 5)}',
-                                                        style: GoogleFonts.inter(
-                                                          color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                        style:
+                                                            GoogleFonts.inter(
+                                                          color: themeChange
+                                                                  .isDarkTheme()
+                                                              ? AppThemData
+                                                                  .grey25
+                                                              : AppThemData
+                                                                  .grey950,
                                                           fontSize: 16,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
                                                       const SizedBox(height: 2),
@@ -277,10 +381,17 @@ class ParcelRidesView extends StatelessWidget {
                                                         // visible: true,
                                                         child: Text(
                                                           'OTP: ${parcelModel.otp}',
-                                                          style: GoogleFonts.inter(
-                                                            color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            color: themeChange
+                                                                    .isDarkTheme()
+                                                                ? AppThemData
+                                                                    .grey25
+                                                                : AppThemData
+                                                                    .grey950,
                                                             fontSize: 14,
-                                                            fontWeight: FontWeight.w400,
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ),
@@ -297,34 +408,57 @@ class ParcelRidesView extends StatelessWidget {
                                                 ),
                                                 const SizedBox(width: 16),
                                                 Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
                                                   children: [
                                                     Text(
-                                                      Constant.amountToShow(amount: Constant.calculateParcelFinalAmount(parcelModel).toString()),
+                                                      Constant.amountToShow(
+                                                          amount: Constant
+                                                                  .calculateParcelFinalAmount(
+                                                                      parcelModel)
+                                                              .toString()),
                                                       // amount: Constant.calculateInterCityFinalAmount(bookingModel).toStringAsFixed(2)),
-                                                      textAlign: TextAlign.right,
+                                                      textAlign:
+                                                          TextAlign.right,
                                                       style: GoogleFonts.inter(
-                                                        color: themeChange.isDarkTheme() ? AppThemData.grey25 : AppThemData.grey950,
+                                                        color: themeChange
+                                                                .isDarkTheme()
+                                                            ? AppThemData.grey25
+                                                            : AppThemData
+                                                                .grey950,
                                                         fontSize: 16,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                       ),
                                                     ),
                                                     const SizedBox(height: 2),
                                                     Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
-                                                        SvgPicture.asset("assets/icon/ic_weight.svg"),
-                                                        const SizedBox(width: 6),
+                                                        SvgPicture.asset(
+                                                            "assets/icon/ic_weight.svg"),
+                                                        const SizedBox(
+                                                            width: 6),
                                                         Text(
                                                           '${parcelModel.weight}',
-                                                          style: GoogleFonts.inter(
-                                                            color: AppThemData.primary500,
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                            color: AppThemData
+                                                                .primary500,
                                                             fontSize: 16,
-                                                            fontWeight: FontWeight.w400,
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ],
@@ -340,59 +474,142 @@ class ParcelRidesView extends StatelessWidget {
                                               child: Column(
                                                 children: [
                                                   const SizedBox(height: 12),
-                                                  PickDropPointView(pickUpAddress: parcelModel.pickUpLocationAddress ?? '', dropAddress: parcelModel.dropLocationAddress ?? ''),
+                                                  PickDropPointView(
+                                                      pickUpAddress: parcelModel
+                                                              .pickUpLocationAddress ??
+                                                          '',
+                                                      dropAddress: parcelModel
+                                                              .dropLocationAddress ??
+                                                          ''),
                                                   const SizedBox(height: 16),
-                                                  parcelModel.bookingStatus == BookingStatus.bookingPlaced
-                                                      ?   Constant.isParcelBid == false   ?
-                                                  RoundShapeButton(
-                                                    title: "Cancel Ride".tr,
-                                                    buttonColor: AppThemData.danger_500p,
-                                                    buttonTextColor: AppThemData.white,
-                                                    onTap: () {
-                                                      Get.to(const ParcelReasonForCancelView(), arguments: {"parcelModel": parcelModel});
-                                                    },
-                                                    size: Size(Responsive.width(100, context), 52),
-                                                  )  : Row(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Expanded(
-                                                              child: RoundShapeButton(
-                                                                title: "Cancel Ride".tr,
-                                                                buttonColor: AppThemData.danger_500p,
-                                                                buttonTextColor: AppThemData.white,
-                                                                onTap: () {
-                                                                  Get.to(const ParcelReasonForCancelView(), arguments: {"parcelModel": parcelModel});
-                                                                },
-                                                                size: const Size(double.infinity, 48),
-                                                              ),
-                                                            ),
-                                                            const SizedBox(width: 8),
-                                                            Expanded(
-                                                              child: RoundShapeButton(
-                                                                title: "View Bid".tr,
-                                                                buttonColor: AppThemData.primary500,
-                                                                buttonTextColor: AppThemData.black,
-                                                                onTap: () {
-                                                                  ParcelRideDetailsController detailsController = Get.put(ParcelRideDetailsController());
-                                                                  detailsController.bookingId.value = parcelModel.id ?? '';
-                                                                  detailsController.parcelModel.value = parcelModel;
-                                                                  Get.to(const ParcelRideDetailsView());
-                                                                },
-                                                                size: const Size(double.infinity, 48),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      : parcelModel.bookingStatus == BookingStatus.bookingAccepted
+                                                  parcelModel.bookingStatus ==
+                                                          BookingStatus
+                                                              .bookingPlaced
+                                                      ? Constant.isParcelBid ==
+                                                              false
                                                           ? RoundShapeButton(
-                                                              title: "Cancel Ride".tr,
-                                                              buttonColor: AppThemData.danger_500p,
-                                                              buttonTextColor: AppThemData.white,
+                                                              title:
+                                                                  "Cancel Ride"
+                                                                      .tr,
+                                                              buttonColor:
+                                                                  AppThemData
+                                                                      .danger_500p,
+                                                              buttonTextColor:
+                                                                  AppThemData
+                                                                      .white,
                                                               onTap: () {
-                                                                Get.to(const ParcelReasonForCancelView(), arguments: {"parcelModel": parcelModel});
+                                                                Get.to(
+                                                                    const ParcelReasonForCancelView(),
+                                                                    arguments: {
+                                                                      "parcelModel":
+                                                                          parcelModel
+                                                                    });
                                                               },
-                                                              size: Size(Responsive.width(100, context), 52),
+                                                              size: Size(
+                                                                  Responsive.width(
+                                                                      100,
+                                                                      context),
+                                                                  52),
+                                                            )
+                                                          : Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Expanded(
+                                                                  child:
+                                                                      RoundShapeButton(
+                                                                    title:
+                                                                        "Cancel Ride"
+                                                                            .tr,
+                                                                    buttonColor:
+                                                                        AppThemData
+                                                                            .danger_500p,
+                                                                    buttonTextColor:
+                                                                        AppThemData
+                                                                            .white,
+                                                                    onTap: () {
+                                                                      Get.to(
+                                                                          const ParcelReasonForCancelView(),
+                                                                          arguments: {
+                                                                            "parcelModel":
+                                                                                parcelModel
+                                                                          });
+                                                                    },
+                                                                    size: const Size(
+                                                                        double
+                                                                            .infinity,
+                                                                        48),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 8),
+                                                                Expanded(
+                                                                  child:
+                                                                      RoundShapeButton(
+                                                                    title:
+                                                                        "View Bid"
+                                                                            .tr,
+                                                                    buttonColor:
+                                                                        AppThemData
+                                                                            .primary500,
+                                                                    buttonTextColor:
+                                                                        AppThemData
+                                                                            .black,
+                                                                    onTap: () {
+                                                                      ParcelRideDetailsController
+                                                                          detailsController =
+                                                                          Get.put(
+                                                                              ParcelRideDetailsController());
+                                                                      detailsController
+                                                                          .bookingId
+                                                                          .value = parcelModel
+                                                                              .id ??
+                                                                          '';
+                                                                      detailsController
+                                                                          .parcelModel
+                                                                          .value = parcelModel;
+                                                                      Get.to(
+                                                                          const ParcelRideDetailsView());
+                                                                    },
+                                                                    size: const Size(
+                                                                        double
+                                                                            .infinity,
+                                                                        48),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                      : parcelModel
+                                                                  .bookingStatus ==
+                                                              BookingStatus
+                                                                  .bookingAccepted
+                                                          ? RoundShapeButton(
+                                                              title:
+                                                                  "Cancel Ride"
+                                                                      .tr,
+                                                              buttonColor:
+                                                                  AppThemData
+                                                                      .danger_500p,
+                                                              buttonTextColor:
+                                                                  AppThemData
+                                                                      .white,
+                                                              onTap: () {
+                                                                Get.to(
+                                                                    const ParcelReasonForCancelView(),
+                                                                    arguments: {
+                                                                      "parcelModel":
+                                                                          parcelModel
+                                                                    });
+                                                              },
+                                                              size: Size(
+                                                                  Responsive.width(
+                                                                      100,
+                                                                      context),
+                                                                  52),
                                                             )
                                                           : SizedBox()
                                                 ],
@@ -415,7 +632,7 @@ class ParcelRidesView extends StatelessWidget {
                               ]),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

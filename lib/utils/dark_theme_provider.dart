@@ -15,15 +15,12 @@ class DarkThemeProvider with ChangeNotifier {
   }
 
   bool isDarkTheme() {
-    return darkTheme == 0
-        ? true
-        : darkTheme == 1
-            ? false
-            : DarkThemeProvider().getSystemThem();
+    return true;
   }
 
   bool getSystemThem() {
-    var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    var brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
     return brightness == Brightness.dark;
   }
 }

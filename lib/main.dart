@@ -103,13 +103,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             child: GetMaterialApp(
                 title: MovingExperience.brandName,
                 debugShowCheckedModeBanner: false,
-                theme: Styles.themeData(
-                    themeChangeProvider.darkTheme == 0
-                        ? true
-                        : themeChangeProvider.darkTheme == 1
-                            ? false
-                            : themeChangeProvider.getSystemThem(),
-                    context),
+                theme: Styles.themeData(true, context),
                 localizationsDelegates: const [
                   CountryLocalizations.delegate,
                 ],
