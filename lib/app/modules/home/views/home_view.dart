@@ -31,10 +31,27 @@ import 'package:customer/utils/fire_store_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../pre_booking/views/pre_booking_view.dart';
 import '../controllers/home_controller.dart';
+
+const String _homeDarkMapStyle = '''
+[
+  {"elementType":"geometry","stylers":[{"color":"#1d2023"}]},
+  {"elementType":"labels.text.fill","stylers":[{"color":"#8d9399"}]},
+  {"elementType":"labels.text.stroke","stylers":[{"color":"#1d2023"}]},
+  {"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#3a3f44"}]},
+  {"featureType":"poi","elementType":"labels","stylers":[{"visibility":"off"}]},
+  {"featureType":"road","elementType":"geometry","stylers":[{"color":"#2d3236"}]},
+  {"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#17191b"}]},
+  {"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#3a3328"}]},
+  {"featureType":"transit","stylers":[{"visibility":"off"}]},
+  {"featureType":"water","elementType":"geometry","stylers":[{"color":"#111416"}]},
+  {"featureType":"water","elementType":"labels.text.fill","stylers":[{"color":"#5f686f"}]}
+]
+''';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -238,6 +255,7 @@ class HomeScreenView extends StatelessWidget {
                         clipBehavior: Clip.none,
                         children: [
                           _MovingMapHero(
+                            controller: controller,
                             onDestinationTap: () =>
                                 Get.to(const SelectLocationView()),
                           ),
@@ -646,8 +664,12 @@ class HomeScreenView extends StatelessWidget {
 }
 
 class _MovingMapHero extends StatelessWidget {
-  const _MovingMapHero({required this.onDestinationTap});
+  const _MovingMapHero({
+    required this.controller,
+    required this.onDestinationTap,
+  });
 
+  final HomeController controller;
   final VoidCallback onDestinationTap;
 
   @override
@@ -669,8 +691,50 @@ class _MovingMapHero extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          const Positioned.fill(
-            child: CustomPaint(painter: _MovingMapPainter()),
+          Positioned.fill(
+            child: Obx(() {
+              final currentLocation = controller.currentMapLocation.value;
+              final fallbackLocation = LatLng(
+                Constant.currentLocation?.latitude ?? -26.2041,
+                Constant.currentLocation?.longitude ?? 28.0473,
+              );
+              final mapCenter = currentLocation ?? fallbackLocation;
+
+              return GoogleMap(
+                key: const ValueKey<String>('live-home-map'),
+                initialCameraPosition: CameraPosition(
+                  target: mapCenter,
+                  zoom: 14.5,
+                ),
+                markers: controller.nearbyDriverMarkers.values.toSet(),
+                circles: currentLocation == null
+                    ? const <Circle>{}
+                    : <Circle>{
+                        Circle(
+                          circleId: const CircleId('customer-location'),
+                          center: currentLocation,
+                          radius: 24,
+                          fillColor:
+                              InMotioneBackground.lime.withValues(alpha: 0.30),
+                          strokeColor: InMotioneBackground.lime,
+                          strokeWidth: 3,
+                        ),
+                      },
+                myLocationEnabled: controller.hasLocationPermission.value,
+                myLocationButtonEnabled: false,
+                compassEnabled: false,
+                mapToolbarEnabled: false,
+                zoomControlsEnabled: false,
+                rotateGesturesEnabled: false,
+                tiltGesturesEnabled: false,
+                scrollGesturesEnabled: false,
+                zoomGesturesEnabled: false,
+                onMapCreated: (mapController) {
+                  controller.onHomeMapCreated(mapController);
+                  mapController.setMapStyle(_homeDarkMapStyle);
+                },
+              );
+            }),
           ),
           Positioned(
             left: 14,
@@ -759,36 +823,17 @@ class _MovingMapHero extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 7),
-                  Text(
-                    'Moving vehicles nearby'.tr,
-                    style: GoogleFonts.inter(
-                      color: Colors.white70,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
+                  Obx(
+                    () => Text(
+                      controller.nearbyDriverStatus.value.tr,
+                      style: GoogleFonts.inter(
+                        color: Colors.white70,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
-              ),
-            ),
-          ),
-          Positioned(
-            right: 56,
-            top: 135,
-            child: Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: AppThemData.primary500,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
-                boxShadow: const <BoxShadow>[
-                  BoxShadow(color: Colors.black45, blurRadius: 12),
-                ],
-              ),
-              child: const Icon(
-                Icons.local_shipping_rounded,
-                color: Color(0xFF17191B),
-                size: 22,
               ),
             ),
           ),
@@ -800,7 +845,7 @@ class _MovingMapHero extends StatelessWidget {
               shape: const CircleBorder(),
               elevation: 6,
               child: InkWell(
-                onTap: onDestinationTap,
+                onTap: controller.centerHomeMap,
                 customBorder: const CircleBorder(),
                 child: const SizedBox(
                   width: 44,
@@ -1120,104 +1165,6 @@ class _MoveModeOption extends StatelessWidget {
       ),
     );
   }
-}
-
-class _MovingMapPainter extends CustomPainter {
-  const _MovingMapPainter();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final minorRoad = Paint()
-      ..color = Colors.white.withValues(alpha: 0.055)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 12
-      ..strokeCap = StrokeCap.round;
-
-    final roadEdge = Paint()
-      ..color = Colors.white.withValues(alpha: 0.09)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 34
-      ..strokeCap = StrokeCap.round;
-
-    final roadCore = Paint()
-      ..color = const Color(0xFF202427)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 28
-      ..strokeCap = StrokeCap.round;
-
-    final route = Paint()
-      ..color = AppThemData.primary500
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round;
-
-    final minorOne = Path()
-      ..moveTo(-20, size.height * 0.58)
-      ..quadraticBezierTo(
-        size.width * 0.22,
-        size.height * 0.35,
-        size.width * 0.48,
-        size.height * 0.54,
-      )
-      ..quadraticBezierTo(
-        size.width * 0.72,
-        size.height * 0.74,
-        size.width + 24,
-        size.height * 0.46,
-      );
-    canvas.drawPath(minorOne, minorRoad);
-
-    final minorTwo = Path()
-      ..moveTo(size.width * 0.18, size.height + 16)
-      ..quadraticBezierTo(
-        size.width * 0.3,
-        size.height * 0.62,
-        size.width * 0.2,
-        -12,
-      );
-    canvas.drawPath(minorTwo, minorRoad);
-
-    final mainRoad = Path()
-      ..moveTo(size.width * 0.7, -18)
-      ..quadraticBezierTo(
-        size.width * 0.54,
-        size.height * 0.4,
-        size.width * 0.8,
-        size.height + 24,
-      );
-    canvas.drawPath(mainRoad, roadEdge);
-    canvas.drawPath(mainRoad, roadCore);
-
-    final activeRoute = Path()
-      ..moveTo(size.width * 0.18, size.height * 0.72)
-      ..quadraticBezierTo(
-        size.width * 0.42,
-        size.height * 0.55,
-        size.width * 0.58,
-        size.height * 0.62,
-      )
-      ..quadraticBezierTo(
-        size.width * 0.7,
-        size.height * 0.68,
-        size.width * 0.79,
-        size.height * 0.5,
-      );
-    canvas.drawPath(activeRoute, route);
-
-    canvas.drawCircle(
-      Offset(size.width * 0.18, size.height * 0.72),
-      7,
-      Paint()..color = InMotioneBackground.lime,
-    );
-    canvas.drawCircle(
-      Offset(size.width * 0.79, size.height * 0.5),
-      8,
-      Paint()..color = AppThemData.primary500,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class MovingServiceCard extends StatelessWidget {
